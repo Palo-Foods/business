@@ -33,13 +33,13 @@ export const removeFromArray = async (collection, condition, set, filter) => {
 
 export const updateOneEntry = async (req, res, collection, set, filter) => {
   const { method, match } = verifyUser(req);
-  const businessId = req.query;
+  const id = req.query;
 
   try {
     if (method === "PUT" && match) {
       const response = await updateOne(
         collection,
-        { _id: ObjectId(businessId) },
+        { _id: ObjectId(id) },
         set,
         filter
       );
@@ -50,7 +50,7 @@ export const updateOneEntry = async (req, res, collection, set, filter) => {
           .json({ status: 200, statusText: `Data updated in ${collection}` });
     } else if (method === "DELETE") {
       //delete shop
-      const response = await deleteOne("activities", businessId);
+      const response = await deleteOne("activities", id);
       response &&
         res
           .status(200)

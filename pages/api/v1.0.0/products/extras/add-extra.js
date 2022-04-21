@@ -1,5 +1,5 @@
 import { ObjectId } from "mongodb";
-import { addToArray } from "../crud/update";
+import { addToArray } from "../../crud/update";
 
 export default async function handler(req, res) {
   const { method, body, match } = verifyUser(req);

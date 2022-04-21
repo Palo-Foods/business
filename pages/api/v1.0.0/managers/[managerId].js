@@ -1,3 +1,4 @@
+import { authenticate } from "../authentication";
 import { updateOneEntry } from "../crud/update";
 
 export default authenticate(async (req, res) => {
