@@ -7,7 +7,7 @@ import TextInput from "../../components/ui/TextInput";
 import { useStates } from "../../hooks/useStates";
 import DashboardLayout from "../../components/layouts/DashboardLayout";
 import { useSelector } from "react-redux";
-import { selectBusiness, selectManager } from "../../slices/navSlice";
+import { selectManager } from "../../slices/navSlice";
 import { useAuth } from "../../hooks/auth/useAuth";
 import Spinner from "../../components/ui/Spinner";
 import Alert from "../../components/ui/Alert";

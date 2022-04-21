@@ -1,5 +1,4 @@
 import React from "react";
-import "dotenv/config";
 import { GooglePlacesAutocomplete } from "react-native-google-places-autocomplete";
 
 const GooglePlacesInput = () => {
