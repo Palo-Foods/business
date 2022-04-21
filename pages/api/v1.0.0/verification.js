@@ -7,7 +7,7 @@ export const verifyUser = async (req) => {
   //1. check for method
   const method = req?.method;
 
-  const { employeeId, companyId } = req?.query;
+  const { adminId } = req?.query;
   //get req body data
   const body = JSON.parse(req?.body);
 
@@ -20,13 +20,11 @@ export const verifyUser = async (req) => {
 
   const condition = { email: body?.email };
 
-  const employee = await find("employees", condition);
+  const admin = await find("admins", condition);
 
-  const company = await find("company", condition);
-
-  const decoded = decode(employee?.apiKey || company?.apiKey);
+  const decoded = decode(admin?.apiKey);
 
   const match = compare(apiKey, decoded);
 
-  return { method, body, id, role, match, employeeId, companyId };
+  return { method, body, id, role, match, adminId };
 };

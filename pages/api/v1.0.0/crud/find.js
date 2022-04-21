@@ -1,6 +1,15 @@
 import { connectToDatabase } from "../../../../lib/mongodb";
 import { verifyUser } from "../verification";
 
+export const find = async (collection, condition, projection) => {
+  const { db } = await connectToDatabase();
+  const response = await db
+    .collection(collection)
+    .findOne(condition, projection);
+
+  return response;
+};
+
 export const findOne = async (req, res, collection, condition, projection) => {
   const { db } = await connectToDatabase();
   const { method, match } = verifyUser(req);
