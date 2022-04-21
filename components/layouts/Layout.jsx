@@ -1,5 +1,4 @@
-import React from "react";
-import "dotenv/config";
+import React from "react"
 import Script from "next/script";
 import Head from "next/head";
 
