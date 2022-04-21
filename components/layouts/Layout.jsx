@@ -19,12 +19,12 @@ function Layout(props) {
           crossOrigin="true"
         />
       </Head>
-      <Script
+     {/*  <Script
         async
         defer
         src={`https://maps.googleapis.com/maps/api/js?key=${process.env.GOOGLE_MAPS_API_KEY}`}
         type="text/javascript"
-      />
+      /> */}
       <Script src="https://use.fontawesome.com/2a1054e16f.js" />
       <Script src="/bootstrap.bundle.min.js" />
       {props.children}
