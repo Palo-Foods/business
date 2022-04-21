@@ -1,0 +1,139 @@
+body {
+  font-family: $font-main !important;
+  background-color: #ededed !important;
+  font-weight: 400 !important;
+  font-size: 0.9rem !important;
+}
+
+input {
+  background-color: #ededed;
+}
+
+.list-group-item .active {
+  // background-color: $primary;
+  color: #fff;
+}
+
+.btn-primary {
+  color: #fff !important;
+}
+
+.btn-secondary {
+  color: #fff !important;
+}
+
+.btn-danger {
+  color: #fff !important;
+}
+
+.card-img-top {
+  object-fit: contain !important;
+}
+
+.badge {
+  color: #000 !important;
+  font-size: medium !important;
+  text-decoration: none !important;
+}
+
+.badge:hover {
+  //background-color: $primary !important;
+  color: #fff !important;
+}
+
+.badge.active {
+  // background-color: $primary !important;
+  color: #fff !important;
+}
+
+#dashboardList .list-item {
+  text-decoration: none !important;
+  color: #000 !important;
+}
+
+#dashboardList .list-item .active {
+  text-decoration: none !important;
+  //background-color: $primary !important;
+  box-shadow: 0 0.5rem 1rem rgb(0 0 0 / 15%) !important;
+  color: #fff !important;
+  border-radius: $border-radius;
+}
+
+.modal-close-icon {
+  margin: -20px !important;
+  margin-top: -85px !important;
+}
+
+@media (max-width: 767px) {
+  .w-75 {
+    width: 100% !important;
+  }
+  .track-icon {
+    font-size: 20px !important;
+  }
+  .signup-aside{
+    display: none !important
+  }
+}
+@media (min-width: 560px) {
+  .sticky-sidebar {
+    position: fixed;
+    top: 0rem;
+    display: block !important;
+    height: calc(100vh - 1rem) !important;
+  }}
+@media (min-width: 768px) {
+  .sticky-sidebar {
+    position: fixed;
+    top: 0rem;
+    display: block !important;
+    height: calc(100vh - 1rem) !important;
+  }
+
+  #cartItemsContainer {
+    height: 290;
+  }
+
+  .track-icon {
+    font-size: 30px !important;
+  }
+
+  .w-md-75 {
+    width: 75%;
+  }
+}
+
+.PhoneInputInput {
+  display: block;
+  width: 100%;
+  font-weight: 400;
+  line-height: 1.5;
+  color: #212529;
+  background-color: #fff;
+  background-clip: padding-box;
+  border: 1px solid #ced4da;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  transition: border-color 0.15s ease-in-out, 
+  box-shadow 0.15s ease-in-out;
+
+  min-height: calc(1.5em + 1rem + 2px);
+  padding: 0.5rem 1rem;
+  font-size: 1.25rem;
+  border-radius: 0.3rem;
+}
+
+input[type="search"] {
+  border: 0 !important;
+}
+
+@media (max-width: 1500px) {
+  #asideScroll {
+    height: auto;
+  }
+}
+
+.bg-light-blue {
+  background-color: #f0f8ffb3;
+}
