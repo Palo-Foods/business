@@ -6,6 +6,7 @@ export const createJwt = (payload) => {
     id: payload._id,
     role: payload.role,
     apiKey: payload.apiKey,
+    email: payload.email,
   };
 
   const jwt = sign({ data: claims }, secret_key, {

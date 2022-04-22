@@ -29,7 +29,10 @@ export const useFetch = (url) => {
 
   //fetch items
   useEffect(() => {
-    fetchItems();
+    async function getData() {
+      await fetchItems();
+    }
+    getData();
   }, []);
 
   return { loading, error, items };

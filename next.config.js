@@ -1,8 +1,8 @@
 module.exports = {
   env: {
     MONGODB_URI:
-      "mongodb+srv://commerce:xzBHkrW76HBAcSvA@cluster0.htjll.mongodb.net/simpleHr?retryWrites=true&w=majority",
-    MONGODB_DB: "simpleHr",
+      "mongodb+srv://admin-palo:Vzt4Qhup4clMn5AY@cluster-palo-foods.j3b6f.mongodb.net/palofoods?retryWrites=true&w=majority",
+    MONGODB_DB: "palofoods",
 
     NEXT_SECRET: "683caef9-86dd-4d69-bf0f-d152f0049d94",
 

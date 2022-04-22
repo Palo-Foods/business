@@ -1,13 +1,20 @@
 import { connectToDatabase } from "../../../../lib/mongodb";
 import { verifyUser } from "../verification";
 
+export const insert = async (collection, data) => {
+  const { db } = await connectToDatabase();
+  const response = await db.collection(collection).insertOne(data);
+
+  return response;
+};
+
 export const insertOne = async (req, res, collection, condition, set) => {
   const { db } = await connectToDatabase();
 
   const { method, match } = verifyUser(req);
   try {
     if (method !== "POST" && match) {
-      res.json({
+      res.status(404).json({
         status: 404,
         statusText: "Invalid method",
       });

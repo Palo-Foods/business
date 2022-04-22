@@ -5,13 +5,14 @@ import Spinner from "../../components/ui/Spinner";
 import { useFetch } from "../../hooks/crud/useFetch";
 import { useDispatch } from "react-redux";
 import { setOrder } from "../../slices/navSlice";
+import { useStates } from "../../hooks/useStates";
 
 function OrdersPage() {
   const url = "/api/v1.0.0/orders";
   const { items, error, loading } = useFetch(url);
+  const { router } = useStates();
   const dispatch = useDispatch();
 
-  const router = useRouter();
   console.log(router);
 
   const handleNavigation = (product) => {

@@ -4,27 +4,39 @@ import { find } from "./crud/find";
 import { secret_key } from "../../../lib/secret";
 
 export const verifyUser = async (req) => {
-  //1. check for method
+  const { authorization } = req?.headers;
+
   const method = req?.method;
 
-  const { adminId } = req?.query;
-  //get req body data
-  const body = JSON.parse(req?.body);
+  const businessId = req?.query;
 
-  // get api key
-  const { authorization } = req?.headers;
-  const auth = authorization?.substring(7);
+  const managerId = req?.query;
+
+  const auth = await authorization?.substring(7);
 
   const { data } = verify(auth, secret_key);
-  const { apiKey, id, role } = data;
 
-  const condition = { email: body?.email };
+  const { id, apiKey, email } = data;
+  //console.log(id, apiKey, email);
+  //if admin doesn't get resolved, the id wont be passed, fix the apiKey issue
+  const admin = await find(
+    "admins",
+    { email: email },
+    { projection: { apiKey: 1 } }
+  );
+  console.log("admin", admin);
 
-  const admin = await find("admins", condition);
-
-  const decoded = decode(admin?.apiKey);
+  const decoded = decode(admin.apiKey);
+  console.log("decoded", decoded);
 
   const match = compare(apiKey, decoded);
+  console.log("match", match);
 
-  return { method, body, id, role, match, adminId };
+  let body;
+  if (req.body) {
+    //get req body data
+    body = JSON.parse(req?.body);
+  }
+
+  return { method, body, match, id, apiKey, businessId, managerId };
 };

@@ -8,13 +8,14 @@ import { MdAdd, MdDelete, MdModeEditOutline } from "react-icons/md";
 import { useDispatch } from "react-redux";
 import { setProduct } from "../../slices/navSlice";
 import DeleteModal from "../../components/modals/DeleteModal";
+import { useStates } from "../../hooks/useStates";
 
 function BusinessesPage() {
   const url = "/api/v1.0.0/businesses";
   const { items, error, loading } = useFetch(url);
+  const { router } = useStates();
   const [item, setItem] = useState("");
   const dispatch = useDispatch();
-  const router = useRouter();
 
   const handleEditProduct = (product) => {
     //set product to store

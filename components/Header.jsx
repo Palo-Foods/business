@@ -1,8 +1,21 @@
 import React from "react";
 import Link from "next/link";
 import { MdSearch } from "react-icons/md";
+import Spinner from "./ui/Spinner";
+import { useAuth } from "../hooks/auth/useAuth";
+import { useStates } from "../hooks/useStates";
 
 function Header() {
+  const { auth, loading } = useAuth();
+  const { router } = useStates();
+
+  //handle login
+  const handleLogout = async (e) => {
+    e.preventDefault();
+    await auth.signOut();
+    router.push("/");
+  };
+
   return (
     <header>
       <nav className="navbar navbar-expand-sm navbar-light bg-white border-bottom fixed-top">
@@ -67,8 +80,8 @@ function Header() {
                       Settings
                     </a>
                   </Link>
-                  <a className="dropdown-item" href="#">
-                    Logout
+                  <a className="dropdown-item" href="#" onClick={handleLogout}>
+                    {loading && <Spinner />} Logout
                   </a>
                 </div>
               </li>

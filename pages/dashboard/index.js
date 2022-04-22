@@ -11,8 +11,10 @@ import {
   MdStarOutline,
   MdStarHalf,
 } from "react-icons/md";
+import { useStates } from "../../hooks/useStates";
 
 function DashboardPage() {
+  const { router } = useStates();
   return (
     <DashboardLayout>
       <div className="d-flex justify-content-between align-items-center mb-2">

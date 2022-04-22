@@ -1,14 +1,12 @@
 import React from "react";
 import Link from "next/link";
-import { useRouter } from "next/router";
 import { useStates } from "../../hooks/useStates";
 import DashboardLayout from "../../components/layouts/DashboardLayout";
 
 function OrderPage() {
-  const router = useRouter();
   console.log(router);
 
-  const { setInput } = useStates();
+  const { setInput, router } = useStates();
 
   const handleAddBusiness = (e) => {
     e.preventDefault();

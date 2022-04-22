@@ -27,6 +27,7 @@ function AddBusinessPage() {
     type,
     setType,
     setInput,
+    router,
   } = useStates();
 
   //get signup hook

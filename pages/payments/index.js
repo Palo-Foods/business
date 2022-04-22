@@ -5,15 +5,14 @@ import Spinner from "../../components/ui/Spinner";
 import { useFetch } from "../../hooks/crud/useFetch";
 import { useDispatch } from "react-redux";
 import { setOrder } from "../../slices/navSlice";
+import { useStates } from "../../hooks/useStates";
 
 function OrdersPage() {
   const url = "/api/v1.0.0/payments";
   const { items, error, loading } = useFetch(url);
-  
-  const dispatch = useDispatch();
+  const { router } = useStates();
 
-  const router = useRouter();
-  console.log(router);
+  const dispatch = useDispatch();
 
   const handleNavigation = (business) => {
     //set product to store

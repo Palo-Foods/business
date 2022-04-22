@@ -1,5 +1,6 @@
 import React, { useState } from "react";
-import { MdLock } from "react-icons/md";
+import { MdLock, MdRemoveRedEye } from "react-icons/md";
+import { FaEyeSlash, FaEye } from "react-icons/fa";
 
 function Password({ setText, text, setInput, classes }) {
   const [show, setShow] = useState(false);
@@ -20,10 +21,11 @@ function Password({ setText, text, setInput, classes }) {
       />
       <span
         className="input-group-text border-start-0 bg-white"
+        style={{cursor: "pointer"}}
         id="basic-addon2"
         onClick={() => setShow(show ? false : true)}>
-        {/* {show && <FaEye className=" text-muted" />}
-        {!show && <FaEye className=" text-muted" />} */}
+        {show && <FaEye size={20} />}
+        {!show && <FaEyeSlash size={20} className="text-muted" />}
       </span>
     </div>
   );

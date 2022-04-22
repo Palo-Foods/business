@@ -1,4 +1,3 @@
-import { useRouter } from "next/router";
 import React from "react";
 import { useAuth } from "../../hooks/auth/useAuth";
 import { useStates } from "../../hooks/useStates";
@@ -7,26 +6,45 @@ import Password from "../ui/Password";
 import Spinner from "../ui/Spinner";
 import TextInput from "../ui/TextInput";
 
-export const LoginForm = () => {
-  const { auth, loading, statusCode, message, user } = useAuth();
-  const { email, setEmail, password, setPassword, setInput } = useStates("");
-
-  const router = useRouter();
+export const SignUpForm = () => {
+  const { auth, loading, statusCode, message } = useAuth();
+  const {
+    fullName,
+    setFullName,
+    email,
+    setEmail,
+    password,
+    setPassword,
+    setInput,
+  } = useStates("");
 
   //handle login
-  const handleLogin = async (e) => {
+  const handleSignUp = async (e) => {
     e.preventDefault();
 
-    const data = { email, password };
-    const url = "/api/v1.0.0/login";
-    await auth.signInWithEmailAndPassword(url, data);
-  };
+    const custom = { fullName };
+    const url = "/api/v1.0.0/account/signup";
 
-  user?.email && router.push("/dashboard");
+    //provide url, email, password, custom args
+    await auth.createUserWithEmailAndPassword(url, email, password, custom);
+  };
 
   return (
     <>
-      <form className="mt-4 mx-2" onSubmit={handleLogin}>
+      <form className="mt-4 mx-2" onSubmit={handleSignUp}>
+        <div className="mb-3">
+          <label htmlFor="email" className="form-label fw-normal">
+            Enter full name
+          </label>
+          <TextInput
+            type="text"
+            text={fullName}
+            setInput={setInput}
+            setText={setFullName}
+            classes="form-control-lg"
+            id="fullName"
+          />
+        </div>
         <div className="mb-3">
           <label htmlFor="email" className="form-label fw-normal">
             Enter email address
@@ -68,8 +86,8 @@ export const LoginForm = () => {
           <button
             type="submit"
             className="btn btn-primary"
-            disabled={!email || !password || loading}>
-            {loading && <Spinner />} <span className="ms-2">Login</span>
+            disabled={!fullName || !email || !password || loading}>
+            {loading && <Spinner />} <span className="ms-2">Sign up</span>
           </button>
         </div>
       </form>
@@ -81,4 +99,4 @@ export const LoginForm = () => {
   props: PropTypes,
 }; */
 
-export default LoginForm;
+export default SignUpForm;

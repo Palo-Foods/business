@@ -1,22 +1,28 @@
+import { compare } from "bcrypt";
+import { find } from "./crud/find";
+import { createJwt } from "./jwt";
+
 export default async (req, res) => {
   const { email, password } = JSON.parse(req?.body);
   const method = req?.method;
 
   try {
     if (method === "POST") {
-      const employee = await findOne("employees", { email, password });
-      const company = await findOne("company", { email, password });
-      if (employee || company) {
-        const result = employee || company;
-        res.status(200).json({
-          status: 200,
-          statusText: "Logged in successfully",
-          authToken: jwt,
-          id: result?._id,
-          email: result?.email,
-          fullName: result?.fullName,
-          role: result?.role,
-        });
+      const admin = await find("admins", { email: email });
+
+      const match = compare(password, admin.password);
+
+      if (match) {
+        const jwt = createJwt(admin);
+        admin &&
+          res.status(200).json({
+            status: 200,
+            statusText: "Logged in successfully",
+            authToken: jwt,
+            id: admin?._id,
+            email: admin?.email,
+            fullName: admin?.fullName,
+          });
       } else {
         res
           .status(400)

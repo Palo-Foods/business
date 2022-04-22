@@ -3,6 +3,7 @@
  **/
 import { useState } from "react";
 import { useDispatch } from "react-redux";
+import {useRouter} from "next/router";
 
 export const useStates = () => {
   const [auth, setAuth] = useState("");
@@ -28,6 +29,7 @@ export const useStates = () => {
   const [agree, setAgree] = useState("");
   const [show, setShow] = useState(true);
   const [numberOfPeople, setNumberOfPeople] = useState("");
+   const router = useRouter();
 
   const dispatch = useDispatch();
 
@@ -87,6 +89,8 @@ export const useStates = () => {
     options,
     setOptions,
     setAgree,
-    show, setShow
+    show,
+    setShow,
+    router,
   };
 };

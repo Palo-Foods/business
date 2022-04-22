@@ -1,4 +1,4 @@
-import React from "react"
+import React from "react";
 import Script from "next/script";
 import Head from "next/head";
 
@@ -19,7 +19,7 @@ function Layout(props) {
           crossOrigin="true"
         />
       </Head>
-     {/*  <Script
+      {/*  <Script
         async
         defer
         src={`https://maps.googleapis.com/maps/api/js?key=${process.env.GOOGLE_MAPS_API_KEY}`}
@@ -27,7 +27,7 @@ function Layout(props) {
       /> */}
       <Script src="https://use.fontawesome.com/2a1054e16f.js" />
       <Script src="/bootstrap.bundle.min.js" />
-      {props.children}
+      <div className="container-fluid">{props.children}</div>
     </>
   );
 }

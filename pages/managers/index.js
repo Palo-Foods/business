@@ -8,13 +8,19 @@ import { MdAdd, MdDelete, MdModeEditOutline } from "react-icons/md";
 import { useDispatch } from "react-redux";
 import { setProduct } from "../../slices/navSlice";
 import DeleteModal from "../../components/modals/DeleteModal";
+import { useStates } from "../../hooks/useStates";
 
 function ManagersPage() {
   const url = "/api/v1.0.0/managers";
   const { items, error, loading } = useFetch(url);
-  const [item, setItem] = useState("");
-  const dispatch = useDispatch();
+
   const router = useRouter();
+
+  const { user } = useStates();
+
+  const [item, setItem] = useState("");
+
+  const dispatch = useDispatch();
 
   const handleEditManager = (manager) => {
     //set product to store
@@ -46,45 +52,47 @@ function ManagersPage() {
           </a>
         </Link>
       </div>
-      <div class="card my-2">
-        <div class="card-body justify-content-start overflow-auto">
+      <div className="card my-2">
+        <div className="card-body justify-content-start overflow-auto">
           <table className="table mt-2 table-responsive">
             <thead>
               <tr>
                 <th>Manager name</th>
-                <th className="text-nowrap d-none d-md-table-cell">
-                  Region
-                </th>
+                <th className="text-nowrap d-none d-md-table-cell">Region</th>
                 <th className="text-nowrap d-none d-md-table-cell">Phone</th>
                 <th className="text-nowrap d-none d-md-table-cell">Location</th>
                 <th></th>
               </tr>
             </thead>
             <tbody>
-              <tr>
-                <td scope="row"></td>
-                <td className="text-nowrap d-none d-md-table-cell"></td>
-                <td className="text-nowrap d-none d-md-table-cell"></td>
-                <td className="text-nowrap d-none d-md-table-cell"></td>
-                <td>
-                  <a
-                    type="button"
-                    onClick={handleEditManager}
-                    className="me-md-2">
-                    <MdModeEditOutline size={20} />
-                  </a>
-                  <a
-                    type="button"
-                    className="ms-3"
-                    onClick={() => setItem({ _id: "2993", name: "Alex" })}
-                    data-bs-toggle="modal"
-                    data-bs-target="#deleteModal">
-                    <MdDelete className="text-danger" size={20} />
-                  </a>
-                </td>
-              </tr>
+              {items && (
+                <tr>
+                  <td scope="row"></td>
+                  <td className="text-nowrap d-none d-md-table-cell"></td>
+                  <td className="text-nowrap d-none d-md-table-cell"></td>
+                  <td className="text-nowrap d-none d-md-table-cell"></td>
+                  <td>
+                    <a
+                      type="button"
+                      onClick={handleEditManager}
+                      className="me-md-2">
+                      <MdModeEditOutline size={20} />
+                    </a>
+                    <a
+                      type="button"
+                      className="ms-3"
+                      onClick={() => setItem({ _id: "2993", name: "Alex" })}
+                      data-bs-toggle="modal"
+                      data-bs-target="#deleteModal">
+                      <MdDelete className="text-danger" size={20} />
+                    </a>
+                  </td>
+                </tr>
+              )}
             </tbody>
           </table>
+
+          {!items && "There are no managers"}
         </div>
       </div>
       <DeleteModal item={item} url="/api/v1.0.0/managers" />

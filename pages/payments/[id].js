@@ -6,13 +6,12 @@ import DashboardLayout from "../../components/layouts/DashboardLayout";
 import { useFetch } from "../../hooks/crud/useFetch";
 
 function PaymentPage() {
-  const router = useRouter();
   const id = router?.query?.id;
   const url = `/api/v1.0.0/payments/${id}`;
   const { items, error, loading } = useFetch(url);
   console.log(router);
 
-  const { setInput } = useStates();
+  const { setInput, router } = useStates();
 
   const handleAddBusiness = (e) => {
     e.preventDefault();

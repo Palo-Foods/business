@@ -25,6 +25,7 @@ function AddManagerPage() {
     region,
     setRegion,
     setInput,
+    router,
   } = useStates();
 
   //get signup hook
@@ -103,12 +104,7 @@ function AddManagerPage() {
                 text={region}
                 setInput={setInput}
                 setText={setRegion}
-                options={[
-                  "Eastern",
-                  "Western",
-                  "Central",
-                  "Greater Accra"
-                ]}
+                options={["Eastern", "Western", "Central", "Greater Accra"]}
                 classes="form-select-lg"
                 id="region"
               />

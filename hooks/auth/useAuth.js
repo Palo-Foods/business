@@ -94,7 +94,8 @@ export const useAuth = () => {
       setStatusCode(status);
       setMessage(statusText);
     } else {
-      setError(error);
+      setStatusCode(500);
+      setMessage(error);
     }
   };
 
