@@ -1,10 +1,13 @@
 import { authenticate } from "../authentication";
 import { findAll } from "../crud/find";
-import { verifyUser } from "../verification";
 
 export default authenticate(async (req, res) => {
-  const { role } = verifyUser(req);
-  if (role !== "business") {
-    await findAll(req, res, "payments", { managerId });
-  }
+  //const { id } = verifyUser(req);
+
+  //comes with a condition (admin)
+  //await findAll(req, res, "payments", { managerId: ObjectId(id) });
+  //await findAll(req, res, "payments", { businessId: ObjectId(id) });
+
+  //comes with no condition (admin)
+  await findAll(req, res, "payments");
 });

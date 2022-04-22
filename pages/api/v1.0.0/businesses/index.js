@@ -4,8 +4,11 @@ import { findAll } from "../crud/find";
 import { verifyUser } from "../verification";
 
 export default authenticate(async (req, res) => {
-  const { method, id, match } = verifyUser(req);
-  if (method === "GET" && match) {
-    await findAll(req, res, "businesses", { managerId: ObjectId(id) });
-  }
+  //const { id } = verifyUser(req);
+
+  //comes with a condition (admin)
+  //await findAll(req, res, "businesses", { managerId: ObjectId(id) });
+
+  //comes with a condition (manager)
+  await findAll(req, res, "businesses");
 });

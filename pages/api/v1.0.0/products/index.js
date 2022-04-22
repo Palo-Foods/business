@@ -4,14 +4,11 @@ import { findOne } from "../crud/find";
 import { verifyUser } from "../verification";
 
 export default authenticate(async (req, res) => {
-  const { role, id, match } = verifyUser(req);
-  if (role !== "business" && match) {
-    await findOne(
-      req,
-      res,
-      "products",
-      { _id: ObjectId(id) },
-      { projection: { products: 1 } }
-    );
-  }
+  //const { id } = verifyUser(req);
+
+  //comes with a condition (admin)
+  //await findAll(req, res, "products", { businessId: ObjectId(id) });
+
+  //comes with no condition (admin)
+  await findAll(req, res, "products");
 });

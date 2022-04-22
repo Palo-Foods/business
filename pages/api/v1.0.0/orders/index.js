@@ -1,11 +1,13 @@
-import { ObjectId } from "mongodb";
 import { authenticate } from "../authentication";
 import { findAll } from "../crud/find";
-import { verifyUser } from "../verification";
 
 export default authenticate(async (req, res) => {
-  const { role, match, id } = verifyUser(req);
-  if (role === "manager" && match) {
-    await findAll(req, res, "orders", { _id: ObjectId(id) });
-  }
+  //const { id } = verifyUser(req);
+
+  //comes with a condition (admin)
+  //await findAll(req, res, "orders", { managerId: ObjectId(id) });
+  //await findAll(req, res, "orders", { businessId: ObjectId(id) });
+
+  //comes with no condition (admin)
+  await findAll(req, res, "orders");
 });
