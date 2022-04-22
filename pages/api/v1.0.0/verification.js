@@ -22,15 +22,13 @@ export const verifyUser = async (req) => {
   const admin = await find(
     "admins",
     { email: email },
-    { projection: { apiKey: 1 } }
+    { projection: { password: 0, createdAt: 0 } }
   );
-  console.log("admin", admin);
 
-  const decoded = decode(admin.apiKey);
-  console.log("decoded", decoded);
+  const match = apiKey === admin.apiKey;
 
-  const match = compare(apiKey, decoded);
   console.log("match", match);
+  console.log("method", method);
 
   let body;
   if (req.body) {

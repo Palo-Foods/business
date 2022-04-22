@@ -44,7 +44,7 @@ function ManagersPage() {
         </div>
       )}
 
-      <div className="d-flex justify-content-between mt-2">
+      <div className="d-flex justify-content-between mt-2 px-0">
         <h4 className="text-muted">Managers</h4>
         <Link href="/managers/add-manager">
           <a className="btn btn-primary">
@@ -65,30 +65,38 @@ function ManagersPage() {
               </tr>
             </thead>
             <tbody>
-              {items && (
-                <tr>
-                  <td scope="row"></td>
-                  <td className="text-nowrap d-none d-md-table-cell"></td>
-                  <td className="text-nowrap d-none d-md-table-cell"></td>
-                  <td className="text-nowrap d-none d-md-table-cell"></td>
-                  <td>
-                    <a
-                      type="button"
-                      onClick={handleEditManager}
-                      className="me-md-2">
-                      <MdModeEditOutline size={20} />
-                    </a>
-                    <a
-                      type="button"
-                      className="ms-3"
-                      onClick={() => setItem({ _id: "2993", name: "Alex" })}
-                      data-bs-toggle="modal"
-                      data-bs-target="#deleteModal">
-                      <MdDelete className="text-danger" size={20} />
-                    </a>
-                  </td>
-                </tr>
-              )}
+              {items &&
+                items?.map((manager) => (
+                  <tr>
+                    <td scope="row">{manager?.fullName}</td>
+                    <td className="text-nowrap d-none d-md-table-cell"></td>
+                    <td className="text-nowrap d-none d-md-table-cell">
+                      {manager?.phone}
+                    </td>
+                    <td className="text-nowrap d-none d-md-table-cell"></td>
+                    <td>
+                      <a
+                        type="button"
+                        onClick={handleEditManager}
+                        className="me-md-2">
+                        <MdModeEditOutline size={20} />
+                      </a>
+                      <a
+                        type="button"
+                        className="ms-3"
+                        onClick={() =>
+                          setItem({
+                            name: manager?.fullName,
+                            _id: manager?._id,
+                          })
+                        }
+                        data-bs-toggle="modal"
+                        data-bs-target="#deleteModal">
+                        <MdDelete className="text-danger" size={20} />
+                      </a>
+                    </td>
+                  </tr>
+                ))}
             </tbody>
           </table>
 

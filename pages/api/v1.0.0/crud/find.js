@@ -44,7 +44,9 @@ export const findAll = async (
 ) => {
   const { db } = await connectToDatabase();
 
-  const { method, match } = verifyUser(req);
+  const { method, match } = await verifyUser(req);
+
+  console.log(method, match);
 
   try {
     if (method === "GET" && match) {
@@ -52,7 +54,7 @@ export const findAll = async (
         .collection(collection)
         .find(condition)
         .toArray(numberOfItems);
-
+      console.log(response);
       response &&
         res.status(200).json({
           status: 200,

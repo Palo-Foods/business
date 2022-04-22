@@ -4,9 +4,7 @@ import { useStates } from "../../hooks/useStates";
 import DashboardLayout from "../../components/layouts/DashboardLayout";
 
 function OrderPage() {
-  console.log(router);
-
-  const { setInput, router } = useStates();
+  const { router } = useStates();
 
   const handleAddBusiness = (e) => {
     e.preventDefault();
