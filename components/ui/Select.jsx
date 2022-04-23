@@ -10,7 +10,6 @@ const Select = ({ classes, setText, text, setInput, options, id }) => {
       </div>
       <select
         className={`form-select custom-select border-start-0 ${classes}`}
-        name=""
         id={id}
         value={text}
         onChange={setInput(setText)}>

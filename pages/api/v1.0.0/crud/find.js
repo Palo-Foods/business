@@ -54,13 +54,19 @@ export const findAll = async (
         .collection(collection)
         .find(condition)
         .toArray(numberOfItems);
-      console.log(response);
-      response &&
+
+      if (response) {
         res.status(200).json({
           status: 200,
           statusText: "OK",
           data: response,
         });
+      } else {
+        res.status(404).json({
+          status: 404,
+          statusText: "Data not found",
+        });
+      }
     }
   } catch (error) {
     res.status(500).json({

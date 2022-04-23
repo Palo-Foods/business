@@ -26,11 +26,11 @@ function DashboardLayout(props) {
       <Header />
       <div className="container-fluid">
         <div className="row">
-          <div className="col-sm-1 col-md-3 col-xl-2 py-3 d-none d-sm-block vh-100 bg-white px-0 position-sticky sticky-sidebar">
+          <div className="col-sm-1 col-md-3 col-xl-2 py-2 d-none d-sm-block vh-100 bg-white px-0 position-sticky sticky-sidebar">
             <Aside />
 
             <div className="w-100 position-absolute" style={{ bottom: 0 }}>
-              <div className="border-top w-100 d-flex justify-content-center align-items-top p-1 px-lg-3 py-1">
+              <div className="border-top w-100 d-flex justify-content-center align-items-top py-1 py-1">
                 <img
                   src="/images/profile.jpg"
                   width={30}

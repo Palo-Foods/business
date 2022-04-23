@@ -71,8 +71,8 @@ input {
   .track-icon {
     font-size: 20px !important;
   }
-  .signup-aside{
-    display: none !important
+  .signup-aside {
+    display: none !important;
   }
 }
 @media (min-width: 560px) {
@@ -81,7 +81,8 @@ input {
     top: 0rem;
     display: block !important;
     height: calc(100vh - 1rem) !important;
-  }}
+  }
+}
 @media (min-width: 768px) {
   .sticky-sidebar {
     position: fixed;
@@ -115,8 +116,7 @@ input {
   -webkit-appearance: none;
   -moz-appearance: none;
   appearance: none;
-  transition: border-color 0.15s ease-in-out, 
-  box-shadow 0.15s ease-in-out;
+  transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
 
   min-height: calc(1.5em + 1rem + 2px);
   padding: 0.5rem 1rem;
@@ -124,8 +124,13 @@ input {
   border-radius: 0.3rem;
 }
 
-input[type="search"] {
-  border: 0 !important;
+.form-control:focus {
+  color: #212529;
+  background-color: #fff;
+  border-color: #ced4da;
+  border: 0;
+  outline: 0;
+  box-shadow: 0 0 0;
 }
 
 @media (max-width: 1500px) {

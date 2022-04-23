@@ -27,6 +27,7 @@ export const useStates = () => {
   const [type, setType] = useState("");
   const [options, setOptions] = useState("");
   const [agree, setAgree] = useState("");
+  const [region, setRegion] = useState("");
   const [show, setShow] = useState(true);
   const [numberOfPeople, setNumberOfPeople] = useState("");
    const router = useRouter();
@@ -92,5 +93,7 @@ export const useStates = () => {
     show,
     setShow,
     router,
+    region,
+    setRegion,
   };
 };

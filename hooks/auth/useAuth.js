@@ -6,6 +6,7 @@
  **/
 import { useEffect } from "react";
 import { loginSignUp } from "../../functions/auth/LOGIN-SIGNUP";
+import { postPutDelete } from "../../functions/crud/POST-PUT-DELETE";
 import {
   destroyUserInSession,
   getUserInSession,
@@ -31,7 +32,6 @@ export const useAuth = () => {
 
   useEffect(() => {
     const userData = getUserInSession();
-    console.log(userData);
     setUser(userData);
   }, []);
 
@@ -46,8 +46,9 @@ export const useAuth = () => {
 
     //1. send user data to database
     const { response, error } = await loginSignUp(url, data);
+
     setLoading(false);
-    console.log(response, error);
+
     if (response) {
       const { status, statusText } = response;
 
@@ -69,6 +70,28 @@ export const useAuth = () => {
     }
   };
 
+  //1. signup user unto the platform
+  const postPutDeleteData = async (url, data, method) => {
+    setLoading(true);
+    setMessage("");
+    setError("");
+
+    //1. send user data to database
+    const { response, error } = await postPutDelete(url, data, method);
+
+    setLoading(false);
+
+    if (response) {
+      const { status, statusText } = response;
+
+      setStatusCode(status);
+      setMessage(statusText);
+    } else {
+      setStatusCode(500);
+      setMessage(error);
+    }
+  };
+
   //2. login user unto the platform
   const login = async (url, data) => {
     setLoading(true);
@@ -77,7 +100,9 @@ export const useAuth = () => {
 
     //1. send user data to database
     const { response, error } = await loginSignUp(url, data);
+
     setLoading(false);
+
     if (response) {
       const { status, statusText } = response;
 
@@ -111,6 +136,7 @@ export const useAuth = () => {
     setAuth({
       createUserWithEmailAndPassword: signUp,
       signInWithEmailAndPassword: login,
+      addUpdateDeleteUser: postPutDeleteData,
       signOut: logOut,
     });
   }, []);

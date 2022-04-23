@@ -7,9 +7,9 @@ function Password({ setText, text, setInput, classes }) {
   return (
     <div className="input-group mb-3">
       <span
-        className="input-group-text border-end-0 bg-white"
+        className="input-group-text border-end-0 bg-white px-2"
         id="basic-addon2">
-        <MdLock size={22} />
+        <MdLock size={20} />
       </span>
       <input
         type={show ? "text" : "password"}
@@ -20,12 +20,12 @@ function Password({ setText, text, setInput, classes }) {
         onChange={setInput(setText)}
       />
       <span
-        className="input-group-text border-start-0 bg-white"
+        className="input-group-text border-start-0 bg-white px-2"
         style={{cursor: "pointer"}}
         id="basic-addon2"
         onClick={() => setShow(show ? false : true)}>
-        {show && <FaEye size={20} />}
-        {!show && <FaEyeSlash size={20} className="text-muted" />}
+        {show && <FaEye size={18} />}
+        {!show && <FaEyeSlash size={18} className="text-muted" />}
       </span>
     </div>
   );

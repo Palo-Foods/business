@@ -7,6 +7,7 @@ import Spinner from "../ui/Spinner";
 import { postPutDelete } from "../../functions/crud/POST-PUT-DELETE";
 import Alert from "../ui/Alert";
 import { useStates } from "../../hooks/useStates";
+import { MdClear } from "react-icons/md";
 
 function DeleteModal({ item, url }) {
   const [show, setShow] = useState(false);
@@ -48,10 +49,10 @@ function DeleteModal({ item, url }) {
           <div className="modal-header border-0 ms-auto p-0">
             <button
               type="button"
-              className="btn btn-default"
+              className="btn btn-default mt-2"
               data-bs-dismiss="modal">
-              <span className="material-icons bg-light rounded-circle p-2">
-                close
+              <span className="bg-light rounded-circle p-2">
+                <MdClear size={20} />
               </span>
             </button>
           </div>

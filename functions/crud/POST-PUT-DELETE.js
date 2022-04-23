@@ -4,19 +4,21 @@
  * 3. Parameters: url, data, method
  * 4. Token: authToken
  **/
-
-import { getAuthToken } from "../token";
 import { resolve } from "../resolve";
 
 export const postPutDelete = async (url, data, method) => {
   //1. get auth token. Check if session exist
-  const { authToken, sessionExist } = getAuthToken();
+  const sessionExist = sessionStorage.getItem("user");
+
+  const user = JSON.parse(sessionExist);
+
+  console.log("authToken", authToken);
 
   const config = {
     method: method,
     headers: {
       ContentType: "application/json",
-      Authorization: `Bearer ${sessionExist && authToken}`,
+      Authorization: `Bearer ${sessionExist ? user?.authToken : ""}`,
     },
     body: JSON.stringify(data),
     timeout: 5000,

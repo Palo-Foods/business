@@ -1,10 +1,9 @@
-import { decode, verify } from "jsonwebtoken";
-import { compare } from "bcrypt";
+import { verify } from "jsonwebtoken";
 import { find } from "./crud/find";
 import { secret_key } from "../../../lib/secret";
 
 export const verifyUser = async (req) => {
-  const { authorization } = req?.headers;
+  const authorization = req?.headers?.authorization;
 
   const method = req?.method;
 
@@ -27,14 +26,16 @@ export const verifyUser = async (req) => {
 
   const match = apiKey === admin.apiKey;
 
-  console.log("match", match);
-  console.log("method", method);
+  console.log("match1", match);
+  console.log("method2", method);
 
-  let body;
-  if (req.body) {
-    //get req body data
-    body = JSON.parse(req?.body);
-  }
-
-  return { method, body, match, id, apiKey, businessId, managerId };
+  return {
+    method,
+    body: req.body && JSON.parse(req?.body),
+    match,
+    id,
+    apiKey,
+    businessId,
+    managerId,
+  };
 };

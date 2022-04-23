@@ -3,37 +3,41 @@
  * 2. Functions: read, fetch items,
  * 3. Parameters: url
  **/
-
 import { useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
 import { read } from "../../functions/crud/FETCH";
 import { useStates } from "../useStates";
 
-export const useFetch = (url) => {
+export const useFetch = (url, data, setData) => {
   const { loading, setLoading, error, setError } = useStates();
+  const dispatch = useDispatch()
 
-  const [items, setItems] = useState();
-
-  //fetch data from the backend
-  async function fetchItems() {
+  //1. fetch data
+  async function fetchData() {
     setLoading(true);
     const { response, error } = await read(url);
     setLoading(false);
+    console.log("me", response, error);
+
     if (response) {
-      const { data, error } = response;
-      setItems(data);
-      setError(error);
+      if (response?.status === 200) {
+        dispatch(setData(response?.data));
+      } else {
+        //navigate and logout on user not authenticated
+        setError("error");
+      }
     } else {
       setError(error);
     }
   }
 
-  //fetch items
   useEffect(() => {
-    async function getData() {
-      await fetchItems();
+    //1. check if managers exist
+    if (data?.length === 0) {
+      //if not, fetch data
+      fetchData();
     }
-    getData();
   }, []);
 
-  return { loading, error, items };
+  return { loading, error, fetchData };
 };

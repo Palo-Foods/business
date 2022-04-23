@@ -4,22 +4,35 @@ import Phone from "../../components/ui/Phone";
 import TextInput from "../../components/ui/TextInput";
 import { useStates } from "../../hooks/useStates";
 import DashboardLayout from "../../components/layouts/DashboardLayout";
-import {
-  MdCalendarToday,
-  MdOutlineFilePresent,
-  MdOutlineEmail,
-} from "react-icons/md";
+import { MdCalendarToday, MdOutlineFilePresent } from "react-icons/md";
+import { useAuth } from "../../hooks/auth/useAuth";
+import Alert from "../../components/ui/Alert";
+import Spinner from "../../components/ui/Spinner";
 
 function EditAccountPage() {
-  const { fullName, phone, setPhone, email, setEmail, setFullName, setInput } =
-    useStates();
+  const {
+    fullName,
+    phone,
+    setPhone,
+    email,
+    setEmail,
+    setFullName,
+    setInput,
+    user,
+  } = useStates();
 
-  const handleEditAccount = (e) => {
+   const { auth, loading, statusCode, message } = useAuth();
+
+  const handleEditAccount = async (e) => {
     e.preventDefault();
+    const url = `/api/v1.0.0/account/${user?.id}`;
+    const data = { fullName, phone, email };
+    await auth.addUpdateDeleteUser(url, data, "PUT");
   };
+
   return (
     <DashboardLayout>
-      <div className="d-flex justify-content-start">
+      <div className="d-flex justify-content-start px-0">
         <h4 className="mt-2 text-muted">Edit Account</h4>
       </div>
 
@@ -32,7 +45,7 @@ function EditAccountPage() {
               </label>
               <TextInput
                 type="text"
-                text={fullName}
+                text={fullName || user?.fullName}
                 setInput={setInput}
                 setText={setFullName}
                 classes="form-control-lg"
@@ -45,7 +58,7 @@ function EditAccountPage() {
               </label>
               <TextInput
                 type="email"
-                text={email}
+                text={email || user?.email}
                 setInput={setInput}
                 setText={setEmail}
                 classes="form-control-lg"
@@ -58,22 +71,56 @@ function EditAccountPage() {
               </label>
               <Phone
                 setText={setPhone}
-                text={phone}
+                text={phone || user?.phone}
                 classes="form-control-lg"
                 id="phone"
               />
             </div>
+            {message && (
+              <div className="px-3">
+                <Alert
+                  type={
+                    statusCode === 201
+                      ? "success"
+                      : statusCode === 500
+                      ? "danger"
+                      : "info"
+                  }
+                  message={message}
+                />
+              </div>
+            )}
 
             <div>
-              <button type="submit" className="btn btn-primary btn-lg">
-                Submit
+              <button
+                type="submit"
+                className="btn btn-primary btn-lg"
+                disabled={!fullName || !email || !phone}>
+                {loading && <Spinner />} Submit
               </button>
             </div>
           </form>
         </div>
       </div>
 
-      <div className="col-lg-6 my-3">
+      <div className="col-md-6">
+        <div class="card">
+          <div class="card-body">
+            <h4 class="card-title">Title</h4>
+            <p class="card-text">Text</p>
+          </div>
+        </div>
+      </div>
+      <div className="col-md-6">
+        <div class="card">
+          <div class="card-body">
+            <h4 class="card-title">Title</h4>
+            <p class="card-text">Text</p>
+          </div>
+        </div>
+      </div>
+
+      <div className="col-12 col-lg-6 my-3">
         <h4 className="text-muted">Documents</h4>
         <div className="card mt-2">
           <div className="card-header border-0 bg-white px-md-4 pt-4 pb-0 d-flex justify-content-between">
@@ -98,7 +145,7 @@ function EditAccountPage() {
           </div>
         </div>
       </div>
-      <div className="col-lg-6 my-3">
+      <div className="col-12 col-lg-6 my-3">
         <h4 className="text-muted">Payments</h4>
         <div className="card mt-2">
           <div className="card-header border-0 bg-white px-md-4 pt-4 pb-0 d-flex justify-content-between">

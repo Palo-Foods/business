@@ -31,7 +31,6 @@ const menus = [
 
 function Aside() {
   const router = useRouter();
-  console.log(router?.route);
   const user = useAuth();
 
   return (

@@ -25,7 +25,7 @@ export const insertOne = async (req, res, collection, condition, set) => {
     const response = await db.collection(collection).insertOne(condition, set);
 
     response.acknowledged &&
-      res.json({
+      res.status(201).json({
         status: 201,
         statusText: `You have successfully added data to ${collection}`,
       });
@@ -35,7 +35,7 @@ export const insertOne = async (req, res, collection, condition, set) => {
       statusText: `Adding data to ${collection} failed`,
     });
   } catch (error) {
-    res.json({
+    res.status(500).json({
       status: 500,
       statusText: "Internal server error",
       error: error.message,

@@ -1,4 +1,3 @@
-import { useRouter } from "next/router";
 import React from "react";
 import Layout from "../components/layouts/Layout";
 import TextInput from "../components/ui/TextInput";
@@ -25,13 +24,13 @@ function LoginPage() {
 
   return (
     <Layout title="Login">
-      <div className="d-flex justify-content-center align-items-center vh-100 my-4">
-        <div className="col-sm-5 col-lg-5 col-xl-3">
-          <h4 className="text-center">Welcome, back!</h4>
-          <h5 className="text-center fw-normal my-3 text-muted">Admin login</h5>
+      <div className="d-flex justify-content-center align-items-center vh-100">
+        <div className="col-sm-7 col-md-5 col-lg-4 col-xl-3">
+          <h5 className="text-center">Welcome, back!</h5>
+          <h6 className="text-center fw-normal my-2 text-muted">Admin login</h6>
           <div className="card mt-4">
             <div className="card-body">
-              <form className="mt-4 mx-2" onSubmit={handleLogin}>
+              <form className="my-3 mx-2" onSubmit={handleLogin}>
                 <div className="mb-3">
                   <label htmlFor="email" className="form-label fw-normal">
                     Enter email address
@@ -41,7 +40,7 @@ function LoginPage() {
                     text={email}
                     setInput={setInput}
                     setText={setEmail}
-                    classes="form-control-lg"
+                    classes=""
                     id="email"
                   />
                 </div>
@@ -54,7 +53,7 @@ function LoginPage() {
                     text={password}
                     setInput={setInput}
                     setText={setPassword}
-                    classes="form-control-lg"
+                    classes=""
                   />
                 </div>
                 {message && (
@@ -69,7 +68,7 @@ function LoginPage() {
                     message={message}
                   />
                 )}
-                <div className="d-grid mb-4">
+                <div className="d-grid">
                   <button
                     type="submit"
                     className="btn btn-primary"

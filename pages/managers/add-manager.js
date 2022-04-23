@@ -24,25 +24,31 @@ function AddManagerPage() {
     setFullName,
     region,
     setRegion,
-    setInput,
-    router,
+    setInput
   } = useStates();
 
   //get signup hook
   const { auth, loading, statusCode, message } = useAuth();
 
+  //get business in store
+  const manager = useSelector(selectManager);
+
   const handleAddManager = async (e) => {
     e.preventDefault();
 
-    const custom = { fullName, email, phone, region };
+    const data = {
+      fullName,
+      email,
+      phone,
+      region,
+      password: !manager && password,
+    };
+
     const url = "/api/v1.0.0/managers/signup";
 
     //provide url, email, password, custom args
-    await auth.createUserWithEmailAndPassword(url, email, password, custom);
+    await auth.addUpdateDeleteUser(url, data, manager ? "PUT" : "POST");
   };
-
-  //get business in store
-  const manager = useSelector(selectManager);
 
   return (
     <DashboardLayout>
@@ -62,7 +68,7 @@ function AddManagerPage() {
           <form className="row" onSubmit={handleAddManager}>
             <div className="col-md-6 form-group mb-4">
               <label htmlFor="fullName" className="mb-2 h6">
-                Enter name of owner
+                Enter name
               </label>
               <TextInput
                 type="text"
@@ -143,7 +149,6 @@ function AddManagerPage() {
                 className="btn btn-primary btn-lg"
                 disabled={
                   !fullName ||
-                  !name ||
                   !email ||
                   !phone ||
                   !region ||

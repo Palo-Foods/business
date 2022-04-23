@@ -22,6 +22,7 @@ export default async (req, res) => {
             id: admin?._id,
             email: admin?.email,
             fullName: admin?.fullName,
+            phone: admin?.phone,
           });
       } else {
         res

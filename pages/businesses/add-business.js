@@ -45,6 +45,21 @@ function AddBusinessPage() {
 
   //get business in store
   const business = useSelector(selectBusiness);
+
+  console.log(business);
+
+  const businessTypes = [
+    "Restaurant",
+    "Grocery shop",
+    "Clothing",
+    "Foot wear",
+    "Pharmacy",
+  ];
+  
+  const busTypes = businessTypes.filter(
+    (item) => item !== business?.businessType
+  );
+
   return (
     <DashboardLayout>
       <div className="px-0 d-flex justify-content-start">
@@ -67,7 +82,7 @@ function AddBusinessPage() {
               </label>
               <TextInput
                 type="text"
-                text={name}
+                text={name || business?.businessName}
                 setInput={setInput}
                 setText={setName}
                 classes="form-control-lg"
@@ -80,7 +95,7 @@ function AddBusinessPage() {
               </label>
               <TextInput
                 type="text"
-                text={fullName}
+                text={fullName || business?.fullName}
                 setInput={setInput}
                 setText={setFullName}
                 classes="form-control-lg"
@@ -93,7 +108,7 @@ function AddBusinessPage() {
               </label>
               <TextInput
                 type="email"
-                text={email}
+                text={email || business?.email}
                 setInput={setInput}
                 setText={setEmail}
                 classes="form-control-lg"
@@ -106,7 +121,7 @@ function AddBusinessPage() {
               </label>
               <Phone
                 setText={setPhone}
-                text={phone}
+                text={phone || business?.phone}
                 classes="form-control-lg"
               />
             </div>
@@ -115,33 +130,28 @@ function AddBusinessPage() {
                 Select business type
               </label>
               <Select
-                text={type}
+                text={type || business?.businessType}
                 setInput={setInput}
                 setText={setType}
-                options={[
-                  "Restaurant",
-                  "Grocery shop",
-                  "Clothing",
-                  "Foot wear",
-                  "Pharmacy",
-                ]}
+                options={business ? busTypes : businessTypes}
                 classes="form-select-lg"
                 id="type"
               />
             </div>
-            <div className="col-md-6 form-group mb-3">
-              <label htmlFor="password" className="mb-2 h6">
-                Enter password (keep it)
-              </label>
-              <Password
-                type="password"
-                text={password}
-                setInput={setInput}
-                setText={setPassword}
-                classes="form-control-lg"
-              />
-            </div>
-
+            {!business && (
+              <div className="col-md-6 form-group mb-3">
+                <label htmlFor="password" className="mb-2 h6">
+                  Enter password (keep it)
+                </label>
+                <Password
+                  type="password"
+                  text={password}
+                  setInput={setInput}
+                  setText={setPassword}
+                  classes="form-control-lg"
+                />
+              </div>
+            )}
             {message && (
               <div className="px-3">
                 <Alert

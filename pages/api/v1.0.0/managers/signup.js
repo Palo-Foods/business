@@ -1,4 +1,4 @@
-import { insertOne } from "../crud/insert";
+import { insert, insertOne } from "../crud/insert";
 import { encryptPassword } from "../encrypt";
 import moment from "moment";
 import { findOne } from "../crud/find";
@@ -6,7 +6,8 @@ import { verifyUser } from "../verification";
 import { authenticate } from "../authentication";
 
 export default authenticate(async function handler(req, res) {
-  const { id, method, body, match } = verifyUser(req);
+  const { id, method, body, match } = await verifyUser(req);
+
   try {
     if (method !== "POST" || !match) {
       res.status(400).json({
@@ -30,52 +31,42 @@ export default authenticate(async function handler(req, res) {
         status: 403,
         statusText: `${email} already exist`,
       });
-      console.log("hey");
       return;
     }
 
     //1. encrypt password, get token and apiKey
     const { apiKey } = await encryptPassword(body?.password, signUp);
 
-    const date = new Date();
-
     //use this as a callback unction when encrypting the password
     async function signUp(hash) {
-      const busId = nanoid(4);
-
-      const url =
-        body?.businessName?.split(" ").join("").toLowerCase() + "-" + busId;
+      const date = new Date();
 
       const data = {
         ...body,
         password: hash,
         location: null,
-        country: null,
-        terms: agree,
-        openingHours: [],
-        discount: 0,
-        logo: "",
-        heroImg: "",
-        role: "business",
-        managerId: id,
-        url,
+        terms: "agree",
+        avatar: "",
+        documents: [],
+        role: "manager",
+        adminId: id,
         createdAt: moment(date).format("lll"),
         apiKey,
       };
 
       //3. insert data into managers collection
-      const response = await insertOne("managers", data);
+      const response = await insert("managers", data);
 
       if (response) {
         //3. return inserted data
-        res.status(201).json({
-          status: 201,
-          statusText: "You have successfully added business to your managers",
+        res.status(200).json({
+          status: 200,
+          statusText: "You have successfully added manager",
         });
       } else {
         res
-          .status(401)
-          .json({ status: 401, statusText: "Registration failed" });
+          .status(400)
+          .json({ status: 400, statusText: "Registration failed" });
       }
     }
   } catch (error) {

@@ -7,13 +7,13 @@ function LoginPage() {
   return (
     <Layout title="Checkout">
       <Header />
-      <div className="d-flex justify-content-center align-items-center vh-100 my-4">
+      <div className="d-flex justify-content-center align-items-center vh-100">
         <div className="col-sm-5 col-lg-5 col-xl-3">
-          <h4 className="text-center">Welcome, back!</h4>
-          <h5 className="text-center fw-normal my-3 text-muted">
+          <h5 className="text-center">Welcome, back!</h5>
+          <h6 className="text-center fw-normal my-3 text-muted">
             Want to get some items for yourself? login
-          </h5>
-          <div className="card shadow  border-0 mt-4">
+          </h6>
+          <div className="card shadow border-0">
             <div className="card-body">
               <LoginForm />
             </div>

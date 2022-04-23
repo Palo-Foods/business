@@ -4,19 +4,19 @@
  * 3. Parameters: url
  * 4. Token: authToken
  **/
-
 import { resolve } from "../resolve";
-import { getAuthToken } from "../token";
 
 export const read = async (url) => {
   //1. get auth toke. Check if session exist
-  const { authToken, sessionExist } = getAuthToken();
+  const sessionExist = sessionStorage.getItem("user");
+  
+  const user = JSON.parse(sessionExist);
 
   const config = {
     method: "GET",
     headers: {
       ContentType: "application/json",
-      Authorization: `Bearer ${sessionExist && authToken}`,
+      Authorization: `Bearer ${sessionExist ? user?.authToken : ""}`,
     },
     timeout: 5000,
   };
