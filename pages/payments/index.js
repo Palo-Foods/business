@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { useRouter } from "next/router";
 import DashboardLayout from "../../components/layouts/DashboardLayout";
 import Spinner from "../../components/ui/Spinner";
@@ -6,11 +6,17 @@ import { useFetch } from "../../hooks/crud/useFetch";
 import { useDispatch, useSelector } from "react-redux";
 import { selectPayments, setOrder } from "../../slices/navSlice";
 import { useStates } from "../../hooks/useStates";
+import Search from "../../components/ui/Search";
+
+const searched = (keyword) => (item) =>
+  item?.name?.toLowerCase().includes(keyword);
 
 function OrdersPage() {
   const url = "/api/v1.0.0/payments";
 
   const payments = useSelector(selectPayments);
+
+  const [keyword, setKeyword] = useState("");
 
   const { loading, error, fetchData } = useFetch(url, payments, selectPayments);
 
@@ -47,6 +53,11 @@ function OrdersPage() {
       {payments && payments?.length > 0 && (
         <div class="card my-2">
           <div class="card-body justify-content-start overflow-auto">
+            <Search
+              items={businesses}
+              keyword={keyword}
+              setKeyword={setKeyword}
+            />
             <table className="table table-responsive mt-2">
               <thead>
                 <tr>
@@ -59,7 +70,7 @@ function OrdersPage() {
                 </tr>
               </thead>
               <tbody>
-                {payments?.map((payment) => (
+                {payments?.filter(searched(keyword)).map((payment) => (
                   <tr
                     style={{ cursor: "pointer" }}
                     onClick={() => handleNavigation(payment)}>

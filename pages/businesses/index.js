@@ -12,10 +12,15 @@ import {
 } from "../../slices/navSlice";
 import DeleteModal from "../../components/modals/DeleteModal";
 import { useStates } from "../../hooks/useStates";
+import Search from "../../components/ui/Search";
+
+const searched = (keyword) => (item) =>
+  item?.name?.toLowerCase().includes(keyword);
 
 function BusinessesPage() {
   const url = "/api/v1.0.0/businesses";
   const businesses = useSelector(selectBusinesses);
+  const [keyword, setKeyword] = useState("");
 
   const { loading, error, fetchData } = useFetch(
     url,
@@ -38,7 +43,7 @@ function BusinessesPage() {
   return (
     <DashboardLayout>
       <div className="d-flex justify-content-between mt-2">
-        <h4 className="text-muted">Businesses</h4>
+        <h5 className="text-muted">Businesses</h5>
         <Link href="/businesses/add-business">
           <a
             className="btn btn-primary"
@@ -69,6 +74,11 @@ function BusinessesPage() {
       {businesses && businesses?.length > 0 && (
         <div class="card my-2">
           <div class="card-body justify-content-start overflow-auto">
+            <Search
+              items={businesses}
+              keyword={keyword}
+              setKeyword={setKeyword}
+            />
             <table className="table mt-2 table-responsive">
               <thead>
                 <tr>
@@ -84,7 +94,7 @@ function BusinessesPage() {
                 </tr>
               </thead>
               <tbody>
-                {businesses.map((business) => (
+                {businesses.filter(searched(keyword)).map((business) => (
                   <tr>
                     <td scope="row">{business?.businessName}</td>
                     <td className="text-nowrap d-none d-md-table-cell">

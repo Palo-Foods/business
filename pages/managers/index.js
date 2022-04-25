@@ -8,11 +8,17 @@ import { MdAdd, MdDelete, MdModeEditOutline } from "react-icons/md";
 import { useDispatch, useSelector } from "react-redux";
 import { selectMangers, setManager, setManagers } from "../../slices/navSlice";
 import DeleteModal from "../../components/modals/DeleteModal";
+import Search from "../../components/ui/Search";
+
+const searched = (keyword) => (item) =>
+  item?.name?.toLowerCase().includes(keyword);
 
 function ManagersPage() {
   const url = "/api/v1.0.0/managers";
 
   const managers = useSelector(selectMangers);
+
+  const [keyword, setKeyword] = useState("");
 
   const { loading, error, fetchData } = useFetch(url, managers, setManagers);
 
@@ -64,6 +70,11 @@ function ManagersPage() {
         <>
           <div className="card">
             <div className="card-body justify-content-start overflow-auto">
+              <Search
+                items={businesses}
+                keyword={keyword}
+                setKeyword={setKeyword}
+              />
               <table className="table mt-2 table-responsive">
                 <thead>
                   <tr>
@@ -81,7 +92,7 @@ function ManagersPage() {
                   </tr>
                 </thead>
                 <tbody>
-                  {managers?.map((manager) => (
+                  {managers?.filter(searched(keyword)).map((manager) => (
                     <tr key={manager?._id}>
                       <td scope="row">{manager?.fullName}</td>
                       <td className="text-nowrap d-none d-md-table-cell">

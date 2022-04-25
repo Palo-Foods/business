@@ -13,20 +13,20 @@ import {
 } from "react-icons/md";
 
 const menus = [
-  { name: "Dashboard", link: "dashboard", icon: <MdDashboard size={22} /> },
+  { name: "Dashboard", link: "dashboard", icon: <MdDashboard size={20} /> },
   {
     name: "Managers",
     link: "managers",
-    icon: <MdGroups size={22} />,
+    icon: <MdGroups size={20} />,
   },
   {
     name: "Businesses",
     link: "businesses",
-    icon: <MdOutlineStore size={22} />,
+    icon: <MdOutlineStore size={20} />,
   },
-  { name: "Orders", link: "orders", icon: <MdOutlineShoppingBag size={22} /> },
-  { name: "Payments", link: "payments", icon: <MdOutlinePayment size={22} /> },
-  { name: "Settings", link: "account", icon: <MdOutlineSettings size={22} /> },
+  { name: "Orders", link: "orders", icon: <MdOutlineShoppingBag size={20} /> },
+  { name: "Payments", link: "payments", icon: <MdOutlinePayment size={20} /> },
+  { name: "Settings", link: "account", icon: <MdOutlineSettings size={20} /> },
 ];
 
 function Aside() {
@@ -44,15 +44,15 @@ function Aside() {
           <span key={menu.name}>
             <Link href={`/${menu.link}`}>
               <a
-                className={`nav-link text-center ms-md-0 d-flex align-items-center px-3 px-md-2 text-center ${
+                className={`nav-link text-center ms-md-0 d-flex align-items-center px-3 px-md-2 text-center my-0 ${
                   router?.route.slice(1).includes(menu.link)
                     ? "active"
                     : "text-black"
-                } mb-1`}
+                } mb-1 py-1`}
                 type="button"
                 role="tab"
                 aria-selected="true">
-                <span className="me-md-2 text-center">{menu?.icon}</span>
+                <span className="me-md-1 text-center">{menu?.icon}</span>
                 <span className="h6 m-2 d-none d-md-block">{menu.name}</span>
               </a>
             </Link>

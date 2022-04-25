@@ -1,6 +1,7 @@
 import React from "react";
 import Script from "next/script";
 import Head from "next/head";
+import Link from "next/link";
 import Aside from "../Aside";
 import Header from "../Header";
 
@@ -30,24 +31,26 @@ function DashboardLayout(props) {
             <Aside />
 
             <div className="w-100 position-absolute" style={{ bottom: 0 }}>
-              <div className="border-top w-100 d-flex justify-content-center align-items-top py-1 py-1">
-                <img
-                  src="/images/profile.jpg"
-                  width={30}
-                  height={30}
-                  className="rounded-circle img-fluid m-1"
-                  style={{ objectFit: "scale-down" }}
-                />
-                <div className="ms-3 d-none d-md-block">
-                  <p className="mb-0 mt-2 fw-bold">Alex Mensah</p>
-                  <p className="text-muted">Fullstack engineer</p>
-                </div>
-              </div>
+              <Link href="/account">
+                <a className="border-top w-100 d-flex justify-content-start px-md-3 align-items-top text-decoration-none py-1">
+                  <img
+                    src="/images/profile.jpg"
+                    width={30}
+                    height={30}
+                    className="rounded-circle img-fluid m-1"
+                    style={{ objectFit: "scale-down" }}
+                  />
+                  <div className="ms-2 d-none d-md-block">
+                    <p className="mb-0 mt-2 fw-bold text-black">Alex Mensah</p>
+                    <p className="text-muted">Fullstack engineer</p>
+                  </div>
+                </a>
+              </Link>
             </div>
           </div>
           <div className="col-sm-11 col-md-9 col-xl-10">
             <div className="container-fluid p-2 p-md-4 my-5 py-4">
-              <div className="row">{props.children}</div>
+              <div className="row py-2">{props.children}</div>
             </div>
           </div>
         </div>

@@ -1,6 +1,6 @@
 import React from "react";
 import Link from "next/link";
-import { MdSearch } from "react-icons/md";
+import { MdSearch, MdNotifications } from "react-icons/md";
 import Spinner from "./ui/Spinner";
 import { useAuth } from "../hooks/auth/useAuth";
 import { useStates } from "../hooks/useStates";
@@ -26,34 +26,52 @@ function Header() {
           <button
             className="navbar-toggler d-lg-none border-0"
             type="button"
-            data-toggle="collapse"
-            data-target="#collapsibleNavId"
+            data-bs-toggle="collapse"
+            data-bs-target="#collapsibleNavId"
             aria-controls="collapsibleNavId"
             aria-expanded="false"
             aria-label="Toggle navigation">
             <span className="navbar-toggler-icon"></span>
           </button>
           <div className="collapse navbar-collapse" id="collapsibleNavId">
-            <form className="form-inline my-2 my-lg-0">
-              <div className="input-group">
-                <div className="input-group-text border-end-0 bg-white">
-                  <MdSearch size={24} />
-                </div>
-                <input
-                  type="text"
-                  className="form-control border-start-0"
-                  aria-label="Text input with radio button"
-                />
-              </div>
-            </form>
             <ul className="navbar-nav ms-auto mt-2 mt-lg-0">
-              <li className="nav-item me-md-3">
+              <li className="nav-item me-md-3 d-none">
                 <a className="nav-link" href="#">
                   Link
                 </a>
               </li>
-              <li className="nav-item me-md-3">
-                <a className="nav-link">Help</a>
+              <li className="nav-item dropdown me-md-2 pt-1">
+                <a
+                  className="nav-link position-relative"
+                  href="#"
+                  id="dropdownId"
+                  data-bs-toggle="dropdown"
+                  aria-haspopup="true"
+                  aria-expanded="false">
+                  <span className="ms-md-5 fw-bold position-relative">
+                    <MdNotifications size={20} className="text-black" />
+                    <span className="position-absolute top-0 start-100 translate-middle">
+                      <small
+                        className="badge rounded-pill bg-danger text-white px-1 pb-1 fw-normal"
+                        id="notificationNumber">
+                        {2}
+                      </small>
+                      <span className="visually-hidden">notifications</span>
+                    </span>
+                  </span>
+                </a>
+                <div
+                  className="dropdown-menu dropdown-menu-end"
+                  aria-labelledby="dropdownId">
+                  <Link href="/">
+                    <a className="dropdown-item" href="#">
+                      Message
+                    </a>
+                  </Link>
+                  <a className="dropdown-item" href="#" onClick={handleLogout}>
+                    Message
+                  </a>
+                </div>
               </li>
 
               <li className="nav-item dropdown">

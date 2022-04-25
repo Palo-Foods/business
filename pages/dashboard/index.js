@@ -18,9 +18,9 @@ function DashboardPage() {
   return (
     <DashboardLayout>
       <div className="d-flex justify-content-between align-items-center mb-2">
-        <h4 className="text-muted">Sales overview</h4>
+        <h5 className="text-muted mb-0">Sales overview</h5>
         <div class="form-group">
-          <select class="custom-select form-select" name="" id="">
+          <select class="custom-select form-select px-3 py-1" name="" id="">
             <option value="7">7 days</option>
             <option value="30">30 days</option>
           </select>
@@ -35,12 +35,12 @@ function DashboardPage() {
             <div className="d-flex justify-content-start mt-3">
               <div className="me-3">
                 <span className="mx-1 track-icon bg-info rounded-circle px-3 py-2">
-                  <MdShoppingBag size={28} className="mb-1" />
+                  <MdShoppingBag size={26} className="mb-1" />
                 </span>
               </div>
               <div>
                 <p className="text-muted mb-0">Total orders</p>
-                <h1 className="h11">30</h1>
+                <h1 className="h2">30</h1>
               </div>
             </div>
           </div>
@@ -55,12 +55,12 @@ function DashboardPage() {
             <div className="d-flex justify-content-start mt-3">
               <div className="me-3">
                 <span className="mx-1 track-icon bg-yellow rounded-circle px-3 py-2">
-                  <MdOutlineMoney size={28} className="mb-1" />
+                  <MdOutlineMoney size={26} className="mb-1" />
                 </span>
               </div>
               <div>
                 <p className="text-muted mb-0">This month sales</p>
-                <h1 className="h1">Ghc 300</h1>
+                <h1 className="h2">Ghc 300</h1>
               </div>
             </div>
           </div>
@@ -75,32 +75,35 @@ function DashboardPage() {
             <div className="d-flex justify-content-start mt-3">
               <div className="me-3">
                 <span className="mx-1 track-icon bg-light rounded-circle px-3 py-2">
-                  <MdOutlinePayment size={28} className="mb-1" />
+                  <MdOutlinePayment size={26} className="mb-1" />
                 </span>
               </div>
               <div>
                 <p className="text-muted mb-0">Total sales</p>
-                <h1 className="h1">Ghc 500</h1>
+                <h1 className="h2">Ghc 500</h1>
               </div>
             </div>
           </div>
         </div>
       </div>
-
-      <div className="col-md-6 mb-3">
-        <div className="card">
-          <div className="card-body">
-            <h4 className="">Monthly sales</h4>
-            <BarChart />
+      <div className="col-12">
+        <div className="row">
+          <div className="col-md-6 mb-3">
+            <div className="card">
+              <div className="card-body p-md-4">
+                <h5 className="">Monthly sales</h5>
+                <BarChart />
+              </div>
+            </div>
           </div>
-        </div>
-      </div>
-      <div className="col-md-6 mb-3">
-        <div className="card">
-          <div className="card-body w-75 mx-md-auto">
-            <h4 className="mb-4">Items Selling</h4>
-            <div className="d-flex justify-content-center">
-              <PieChart />
+          <div className="col-md-6 mb-3">
+            <div className="card">
+              <div className="card-body p-md-4">
+                <h5 className="mb-4">Items Selling</h5>
+                <div className="d-flex justify-content-center w-75 mx-md-auto">
+                  <PieChart />
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -108,8 +111,8 @@ function DashboardPage() {
 
       <div className="col-lg-6 mb-3">
         <div className="card">
-          <div className="card-body">
-            <h4 className="">Reviews</h4>
+          <div className="card-body p-md-4">
+            <h5 className="">Reviews</h5>
             <div className="">
               <ul className="list-group list-group-flush">
                 <li className="list-group-item ps-0 d-flex justify-content-between pe-0 py-3">
@@ -123,8 +126,8 @@ function DashboardPage() {
       </div>
       <div className="col-lg-6 mb-3">
         <div className="card">
-          <div className="card-body">
-            <h4 className="">Ratings</h4>
+          <div className="card-body p-md-4">
+            <h5 className="">Ratings</h5>
             <div className="">
               <ul className="list-group list-group-flush">
                 <li className="list-group-item ps-0 d-flex justify-content-between pe-0 py-3">
