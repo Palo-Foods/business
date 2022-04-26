@@ -6,21 +6,14 @@
  **/
 import { resolve } from "../resolve";
 
-export const postPutDelete = async (url, data, method) => {
-  //1. get auth token. Check if session exist
-  const sessionExist = sessionStorage.getItem("user");
-
-  const user = JSON.parse(sessionExist);
-
-  console.log("authToken", authToken);
-
+export const postPutDelete = async (url, data, method, authToken) => {
   const config = {
     method: method,
     headers: {
       ContentType: "application/json",
-      Authorization: `Bearer ${sessionExist ? user?.authToken : ""}`,
+      Authorization: `Bearer ${authToken}`,
     },
-    body: JSON.stringify(data),
+    body: JSON.stringify(data && data),
     timeout: 5000,
   };
 

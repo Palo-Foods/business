@@ -7,10 +7,14 @@ export default async (req, res) => {
   const method = req?.method;
 
   try {
-    if (method === "POST") {
-      const admin = await find("admins", { email: email });
+    if (method === "POST" && email && password) {
+      const admin = await find(
+        "admins",
+        { email: email },
+        { email: 1, role: 1, fullName: 1, phone: 1, password: 1, apiKey: 1 }
+      );
 
-      const match = compare(password, admin.password);
+      const match = await compare(password, admin.password);
 
       if (match) {
         const jwt = createJwt(admin);

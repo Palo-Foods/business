@@ -15,7 +15,7 @@ import { useStates } from "../../hooks/useStates";
 import Search from "../../components/ui/Search";
 
 const searched = (keyword) => (item) =>
-  item?.name?.toLowerCase().includes(keyword);
+  item?.businessName?.toLowerCase().includes(keyword);
 
 function BusinessesPage() {
   const url = "/api/v1.0.0/businesses";
@@ -72,13 +72,24 @@ function BusinessesPage() {
         businesses?.length === 0 &&
         "There are no businesses"}
       {businesses && businesses?.length > 0 && (
-        <div class="card my-2">
-          <div class="card-body justify-content-start overflow-auto">
-            <Search
-              items={businesses}
-              keyword={keyword}
-              setKeyword={setKeyword}
-            />
+        <div className="card my-2">
+          <div className="card-body justify-content-start overflow-auto">
+            <div className="d-flex justify-content-between my-2 mb-4">
+              <Search
+                items={businesses}
+                keyword={keyword}
+                setKeyword={setKeyword}
+              />
+              <div>
+                <select
+                  className="custom-select form-select py-1"
+                  name="regions"
+                  id="regions">
+                  <option value="7">Eastern</option>
+                  <option value="30">Western</option>
+                </select>
+              </div>
+            </div>
             <table className="table mt-2 table-responsive">
               <thead>
                 <tr>

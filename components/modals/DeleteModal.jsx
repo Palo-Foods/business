@@ -1,25 +1,28 @@
 import React from "react";
-import Image from "next/image";
-import Error from "../../public/images/icons/trash.svg";
-import Success from "../../public/images/icons/check-circle.svg";
 import { useState } from "react";
 import Spinner from "../ui/Spinner";
-import { postPutDelete } from "../../functions/crud/POST-PUT-DELETE";
 import Alert from "../ui/Alert";
 import { useStates } from "../../hooks/useStates";
-import { MdClear } from "react-icons/md";
+import { MdClear, MdDelete, MdError, MdCheckCircle } from "react-icons/md";
+import { useAuth } from "../../hooks/auth/useAuth";
 
 function DeleteModal({ item, url }) {
   const [show, setShow] = useState(false);
+  const { auth } = useAuth();
   const { loading, setLoading, error, setError } = useStates();
 
   const deleteItem = async () => {
     setError(false);
     setLoading(true);
     const itemId = item?._id;
-    const uri = `${url}${itemId}`;
+    const uri = `${url}/${itemId}`;
+    const data = {}
     try {
-      const { response, error } = await postPutDelete(uri);
+      const { response, error } = await auth.addUpdateDeleteUser(
+        uri,
+        data, //no data is sent cos we are deleting the item
+        "DELETE"
+      );
       setLoading(false);
       if (response) {
         if (response.msg === "success") {
@@ -61,24 +64,8 @@ function DeleteModal({ item, url }) {
               <div className="text-center d-flex align-items-center">
                 <div>
                   <div className="my-4">
-                    {!show && (
-                      <Image
-                        src={Error}
-                        width={50}
-                        height={50}
-                        alt="Delete"
-                        className=""
-                      />
-                    )}
-                    {show && (
-                      <Image
-                        src={Success}
-                        width={50}
-                        height={50}
-                        alt="Success"
-                        className=""
-                      />
-                    )}
+                    {!show && <MdDelete size={50} color="red" />}
+                    {show && <MdCheckCircle size={50} />}
                   </div>
                   {!show && (
                     <h5>
@@ -92,7 +79,7 @@ function DeleteModal({ item, url }) {
               </div>
             </div>
           </div>
-          <div className="modal-footer border-0 d-flex justify-content-center">
+          <div className="modal-footer border-0 d-flex justify-content-center pb-3">
             <button
               type="button"
               className="btn btn-secondary px-4 mx-3"

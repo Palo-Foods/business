@@ -30,9 +30,8 @@ function OrdersPage() {
 
   return (
     <DashboardLayout>
-      <div className="d-flex justify-content-between mt-2">
-        <h4 className="text-muted">Orders</h4>
-      </div>
+      <h4 className="text-muted px-0">Orders</h4>
+
       {loading && (
         <div className="d-flex justify-content-center align-items-center h-100">
           <Spinner />
@@ -54,8 +53,8 @@ function OrdersPage() {
         orders?.length === 0 &&
         "There are no orders"}
       {orders && orders?.length > 0 && (
-        <div class="card my-2">
-          <div class="card-body justify-content-start overflow-auto">
+        <div className="card my-2">
+          <div className="card-body justify-content-start overflow-auto">
             <Search
               items={businesses}
               keyword={keyword}

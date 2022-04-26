@@ -1,17 +1,11 @@
 import { connectToDatabase } from "../../../../lib/mongodb";
 import { verifyUser } from "../verification";
 
-export const insert = async (collection, data) => {
-  const { db } = await connectToDatabase();
-  const response = await db.collection(collection).insertOne(data);
 
-  return response;
-};
-
-export const insertOne = async (req, res, collection, condition, set) => {
+export const insertOne = async (req, res, collection, data) => {
   const { db } = await connectToDatabase();
 
-  const { method, match } = verifyUser(req);
+  const { method, match } = await verifyUser(req);
   try {
     if (method !== "POST" && match) {
       res.status(404).json({
@@ -22,7 +16,7 @@ export const insertOne = async (req, res, collection, condition, set) => {
       return;
     }
 
-    const response = await db.collection(collection).insertOne(condition, set);
+     const response = await db.collection(collection).insertOne(data);
 
     response.acknowledged &&
       res.status(201).json({

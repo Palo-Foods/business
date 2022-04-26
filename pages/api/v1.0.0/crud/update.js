@@ -1,11 +1,14 @@
 import { ObjectId } from "mongodb";
+import { connectToDatabase } from "../../../../lib/mongodb";
 import { verifyUser } from "../verification";
 import { deleteOne } from "./delete";
 
 export const updateOne = async (collection, condition, set, filter) => {
+  const { db } = await connectToDatabase();
   const response = await db
     .collection(collection)
     .updateOne(condition, set, filter);
+
   if (response.matchedCount === 1) {
     return true;
   } else {
@@ -32,8 +35,8 @@ export const removeFromArray = async (collection, condition, set, filter) => {
 };
 
 export const updateOneEntry = async (req, res, collection, set, filter) => {
-  const { method, match } = verifyUser(req);
-  const id = req.query;
+  const { method, match } = await verifyUser(req);
+  const { id } = req.query;
 
   try {
     if (method === "PUT" && match) {
@@ -48,13 +51,6 @@ export const updateOneEntry = async (req, res, collection, set, filter) => {
         res
           .status(200)
           .json({ status: 200, statusText: `Data updated in ${collection}` });
-    } else if (method === "DELETE") {
-      //delete shop
-      const response = await deleteOne("activities", id);
-      response &&
-        res
-          .status(200)
-          .json({ status: 200, statusText: `Data deleted from ${collection}` });
     } else {
       res.status(401).json({ status: 401, statusText: "Invalid method" });
     }

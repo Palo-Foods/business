@@ -3,7 +3,7 @@
  * 2. Functions: read, fetch items,
  * 3. Parameters: url
  **/
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { read } from "../../functions/crud/FETCH";
 import { useStates } from "../useStates";
@@ -15,20 +15,25 @@ export const useFetch = (url, data, setData) => {
   //1. fetch data
   async function fetchData() {
     setLoading(true);
-    const { response, error } = await read(url);
-    setLoading(false);
-    console.log("me", response, error);
+    try {
+       const { response, error } = await read(url);
+       setLoading(false);
+       console.log("me", response, error);
 
-    if (response) {
-      if (response?.status === 200) {
-        dispatch(setData(response?.data));
-      } else {
-        //navigate and logout on user not authenticated
-        setError("error");
-      }
-    } else {
-      setError(error);
+       if (response) {
+         if (response?.status === 200) {
+           dispatch(setData(response?.data));
+         } else {
+           //navigate and logout on user not authenticated
+           setError("error");
+         }
+       } else {
+         setError(error);
+       }
+    } catch (error) {
+      setLoading(false);
     }
+   
   }
 
   useEffect(() => {

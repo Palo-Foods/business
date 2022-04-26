@@ -1,7 +1,7 @@
-import { insert } from "../crud/insert";
+import { insertOne } from "../crud/insert";
 import { encryptPassword } from "../encrypt";
 import moment from "moment";
-import { findOne } from "../crud/find";
+import { find } from "../crud/find";
 import { verifyUser } from "../verification";
 import { authenticate } from "../authentication";
 
@@ -18,7 +18,7 @@ export default authenticate(async function handler(req, res) {
     }
 
     //2. Check to see if email already exist
-    const checkEmailExistence = await findOne(
+    const checkEmailExistence = await find(
       "businesses",
       { email: body?.email },
       { projection: { email: 1 } }
@@ -64,7 +64,7 @@ export default authenticate(async function handler(req, res) {
       };
 
       //3. insert data into businesses collection
-      const response = await insert("businesses", data);
+      const response = await insertOne(eq, res, "businesses", data);
 
       if (response) {
         //3. return inserted data

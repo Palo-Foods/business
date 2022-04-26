@@ -32,9 +32,8 @@ function OrdersPage() {
 
   return (
     <DashboardLayout>
-      <div className="d-flex justify-content-between mt-2">
-        <h4 className="text-muted">Payments</h4>
-      </div>
+      <h4 className="text-muted px-0">Payments</h4>
+
       {loading && (
         <div className="d-flex justify-content-center align-items-center h-100">
           <Spinner />
@@ -50,9 +49,14 @@ function OrdersPage() {
           </div>
         </div>
       )}
+      {!loading &&
+        !error &&
+        payments &&
+        payments?.length === 0 &&
+        "There are no payments"}
       {payments && payments?.length > 0 && (
-        <div class="card my-2">
-          <div class="card-body justify-content-start overflow-auto">
+        <div className="card my-2">
+          <div className="card-body justify-content-start overflow-auto">
             <Search
               items={businesses}
               keyword={keyword}

@@ -10,22 +10,14 @@ import Alert from "../../components/ui/Alert";
 import Spinner from "../../components/ui/Spinner";
 
 function EditAccountPage() {
-  const {
-    fullName,
-    phone,
-    setPhone,
-    email,
-    setEmail,
-    setFullName,
-    setInput,
-    user,
-  } = useStates();
+  const { user, auth, loading, message } = useAuth();
+  const { fullName, phone, setPhone, email, setEmail, setFullName, setInput } =
+    useStates(user);
 
-   const { auth, loading, statusCode, message } = useAuth();
+  const url = `/api/v1.0.0/account/${user?.id}`;
 
   const handleEditAccount = async (e) => {
     e.preventDefault();
-    const url = `/api/v1.0.0/account/${user?.id}`;
     const data = { fullName, phone, email };
     await auth.addUpdateDeleteUser(url, data, "PUT");
   };
@@ -104,18 +96,18 @@ function EditAccountPage() {
       </div>
 
       <div className="col-md-6">
-        <div class="card">
-          <div class="card-body">
-            <h4 class="card-title">Title</h4>
-            <p class="card-text">Text</p>
+        <div className="card">
+          <div className="card-body">
+            <h4 className="card-title">Title</h4>
+            <p className="card-text">Text</p>
           </div>
         </div>
       </div>
       <div className="col-md-6">
-        <div class="card">
-          <div class="card-body">
-            <h4 class="card-title">Title</h4>
-            <p class="card-text">Text</p>
+        <div className="card">
+          <div className="card-body">
+            <h4 className="card-title">Title</h4>
+            <p className="card-text">Text</p>
           </div>
         </div>
       </div>

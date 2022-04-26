@@ -8,8 +8,8 @@ import Spinner from "../ui/Spinner";
 import TextInput from "../ui/TextInput";
 
 export const LoginForm = () => {
-  const { auth, loading, statusCode, message, user } = useAuth();
-  const { email, setEmail, password, setPassword, setInput } = useStates("");
+  const { login, loading, statusCode, message, user } = useAuth();
+  const { email, setEmail, password, setPassword, setInput } = useStates();
 
   const router = useRouter();
 
@@ -19,7 +19,7 @@ export const LoginForm = () => {
 
     const data = { email, password };
     const url = "/api/v1.0.0/login";
-    await auth.signInWithEmailAndPassword(url, data);
+    await login(url, data);
   };
 
   user?.email && router.push("/dashboard");

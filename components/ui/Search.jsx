@@ -18,7 +18,7 @@ function Search({ items, keyword, setKeyword }) {
             type="search"
             value={keyword}
             onChange={handleSearchChange}
-            placeholder="Search"
+            placeholder="Search..."
             aria-label="Search"
             disabled={!items?.length === 0}
             className="form-control border-start-0"

@@ -12,7 +12,7 @@ export const find = async (collection, condition, projection) => {
 
 export const findOne = async (req, res, collection, condition, projection) => {
   const { db } = await connectToDatabase();
-  const { method, match } = verifyUser(req);
+  const { method, match } = await verifyUser(req);
 
   try {
     if (method === "GET" && match) {
@@ -40,6 +40,7 @@ export const findAll = async (
   res,
   collection,
   condition,
+  projection,
   numberOfItems
 ) => {
   const { db } = await connectToDatabase();
@@ -52,7 +53,7 @@ export const findAll = async (
     if (method === "GET" && match) {
       const response = await db
         .collection(collection)
-        .find(condition)
+        .find(condition, projection)
         .toArray(numberOfItems);
 
       if (response) {

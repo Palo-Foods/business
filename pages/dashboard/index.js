@@ -19,8 +19,8 @@ function DashboardPage() {
     <DashboardLayout>
       <div className="d-flex justify-content-between align-items-center mb-2">
         <h5 className="text-muted mb-0">Sales overview</h5>
-        <div class="form-group">
-          <select class="custom-select form-select px-3 py-1" name="" id="">
+        <div className="form-group">
+          <select className="custom-select form-select px-3 py-1" name="" id="">
             <option value="7">7 days</option>
             <option value="30">30 days</option>
           </select>

@@ -76,8 +76,10 @@ export const useAuth = () => {
     setMessage("");
     setError("");
 
+    const token = user?.authToken
+
     //1. send user data to database
-    const { response, error } = await postPutDelete(url, data, method);
+    const { response, error } = await postPutDelete(url, data, method, token);
 
     setLoading(false);
 
@@ -139,7 +141,7 @@ export const useAuth = () => {
       addUpdateDeleteUser: postPutDeleteData,
       signOut: logOut,
     });
-  }, []);
+  });
 
   return {
     loading,

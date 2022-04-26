@@ -1,7 +1,7 @@
 import { insert, insertOne } from "../crud/insert";
 import { encryptPassword } from "../encrypt";
 import moment from "moment";
-import { findOne } from "../crud/find";
+import { find } from "../crud/find";
 import { verifyUser } from "../verification";
 import { authenticate } from "../authentication";
 
@@ -19,12 +19,12 @@ export default authenticate(async function handler(req, res) {
     }
 
     //2. Check to see if email already exist
-    const checkEmailExistence = await findOne(
+    const checkEmailExistence = await find(
       "managers",
       { email: body?.email },
       { projection: { email: 1 } }
     );
-
+    console.log("email", checkEmailExistence);
     //if email already exist, abort mission
     if (checkEmailExistence?.email) {
       res.json({
@@ -55,7 +55,7 @@ export default authenticate(async function handler(req, res) {
       };
 
       //3. insert data into managers collection
-      const response = await insert("managers", data);
+      const response = await insertOne(req, res, "managers", data);
 
       if (response) {
         //3. return inserted data

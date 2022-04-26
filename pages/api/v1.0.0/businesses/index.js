@@ -10,5 +10,20 @@ export default authenticate(async (req, res) => {
   //await findAll(req, res, "businesses", { managerId: ObjectId(id) });
 
   //comes with a condition (manager)
-  await findAll(req, res, "businesses");
+  await findAll(
+    req,
+    res,
+    "businesses",
+    {},
+    {
+      projection: {
+        businessName: 1,
+        email: 1,
+        fullName: 1,
+        phone: 1,
+        region: 1,
+        businessType: 1,
+      },
+    }
+  );
 });

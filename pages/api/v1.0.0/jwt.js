@@ -3,10 +3,7 @@ import { secret_key } from "../../../lib/secret";
 
 export const createJwt = (payload) => {
   const claims = {
-    id: payload._id,
-    role: payload.role,
-    apiKey: payload.apiKey,
-    email: payload.email,
+    payload,
   };
 
   const jwt = sign({ data: claims }, secret_key, {

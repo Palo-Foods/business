@@ -16,7 +16,7 @@ export const SignUpForm = () => {
     password,
     setPassword,
     setInput,
-  } = useStates("");
+  } = useStates();
 
   //handle login
   const handleSignUp = async (e) => {

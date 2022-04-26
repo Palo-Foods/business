@@ -22,7 +22,6 @@ function DashboardLayout(props) {
           crossOrigin="true"
         />
       </Head>
-      <Script src="https://use.fontawesome.com/2a1054e16f.js" />
       <Script src="/bootstrap.bundle.min.js" />
       <Header />
       <div className="container-fluid">

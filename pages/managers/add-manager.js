@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Link from "next/link";
 import Password from "../../components/ui/Password";
 import Phone from "../../components/ui/Phone";
@@ -13,6 +13,9 @@ import Spinner from "../../components/ui/Spinner";
 import Alert from "../../components/ui/Alert";
 
 function AddManagerPage() {
+  //get business in store
+  const manager = useSelector(selectManager);
+
   const {
     fullName,
     phone,
@@ -24,14 +27,11 @@ function AddManagerPage() {
     setFullName,
     region,
     setRegion,
-    setInput
-  } = useStates();
+    setInput,
+  } = useStates(manager);
 
   //get signup hook
   const { auth, loading, statusCode, message } = useAuth();
-
-  //get business in store
-  const manager = useSelector(selectManager);
 
   const handleAddManager = async (e) => {
     e.preventDefault();
@@ -44,10 +44,21 @@ function AddManagerPage() {
       password: !manager && password,
     };
 
-    const url = "/api/v1.0.0/managers/signup";
+    const updateData = {
+      fullName,
+      email,
+      phone,
+      region,
+    };
+
+    const url = `/api/v1.0.0/managers/${manager ? manager?._id : "signup"}`;
 
     //provide url, email, password, custom args
-    await auth.addUpdateDeleteUser(url, data, manager ? "PUT" : "POST");
+    await auth.addUpdateDeleteUser(
+      url,
+      manager ? updateData : data,
+      manager ? "PUT" : "POST"
+    );
   };
 
   return (
@@ -115,18 +126,20 @@ function AddManagerPage() {
                 id="region"
               />
             </div>
-            <div className="col-md-6 form-group mb-3">
-              <label htmlFor="password" className="mb-2 h6">
-                Enter password (keep it)
-              </label>
-              <Password
-                type="password"
-                text={password}
-                setInput={setInput}
-                setText={setPassword}
-                classes="form-control-lg"
-              />
-            </div>
+            {!manager && (
+              <div className="col-md-6 form-group mb-3">
+                <label htmlFor="password" className="mb-2 h6">
+                  Enter password (keep it)
+                </label>
+                <Password
+                  type="password"
+                  text={password}
+                  setInput={setInput}
+                  setText={setPassword}
+                  classes="form-control-lg"
+                />
+              </div>
+            )}
 
             {message && (
               <div className="px-3">
@@ -144,19 +157,30 @@ function AddManagerPage() {
             )}
 
             <div>
-              <button
-                type="submit"
-                className="btn btn-primary btn-lg"
-                disabled={
-                  !fullName ||
-                  !email ||
-                  !phone ||
-                  !region ||
-                  !password ||
-                  loading
-                }>
-                {loading && <Spinner />} <span className="ms-2">Submit</span>
-              </button>
+              {!manager && (
+                <button
+                  type="submit"
+                  className="btn btn-primary btn-lg"
+                  disabled={
+                    !fullName ||
+                    !email ||
+                    !phone ||
+                    !region ||
+                    !password ||
+                    loading
+                  }>
+                  {loading && <Spinner />} <span className="ms-2">Submit</span>
+                </button>
+              )}
+              {manager && (
+                <button
+                  type="submit"
+                  className="btn btn-primary btn-lg"
+                  disabled={!fullName || !email || !phone || loading}>
+                  {loading && <Spinner />}{" "}
+                  <span className="ms-2">Update manager account</span>
+                </button>
+              )}
               <Link href="/managers">
                 <a className="btn btn-default me-3 btn-lg">Go back</a>
               </Link>

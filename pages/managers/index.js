@@ -11,7 +11,7 @@ import DeleteModal from "../../components/modals/DeleteModal";
 import Search from "../../components/ui/Search";
 
 const searched = (keyword) => (item) =>
-  item?.name?.toLowerCase().includes(keyword);
+  item?.fullName?.toLowerCase().includes(keyword);
 
 function ManagersPage() {
   const url = "/api/v1.0.0/managers";
@@ -70,11 +70,22 @@ function ManagersPage() {
         <>
           <div className="card">
             <div className="card-body justify-content-start overflow-auto">
-              <Search
-                items={businesses}
-                keyword={keyword}
-                setKeyword={setKeyword}
-              />
+              <div className="d-flex justify-content-between my-2 mb-4">
+                <Search
+                  items={managers}
+                  keyword={keyword}
+                  setKeyword={setKeyword}
+                />
+                <div>
+                  <select
+                    className="custom-select form-select py-1"
+                    name="regions"
+                    id="regions">
+                    <option value="7">Eastern</option>
+                    <option value="30">Western</option>
+                  </select>
+                </div>
+              </div>
               <table className="table mt-2 table-responsive">
                 <thead>
                   <tr>

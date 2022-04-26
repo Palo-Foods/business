@@ -15,19 +15,18 @@ export const verifyUser = async (req) => {
 
   const { data } = verify(auth, secret_key);
 
-  const { id, apiKey, email } = data;
+  const { payload } = data;
+
+  const { id, apiKey, email } = payload;
   //console.log(id, apiKey, email);
   //if admin doesn't get resolved, the id wont be passed, fix the apiKey issue
   const admin = await find(
     "admins",
     { email: email },
-    { projection: { password: 0, createdAt: 0 } }
+    { projection: { apiKey: 1 } }
   );
 
-  const match = apiKey === admin.apiKey;
-
-  console.log("match1", match);
-  console.log("method2", method);
+  const match = apiKey === admin?.apiKey;
 
   return {
     method,

@@ -1,9 +1,9 @@
 import { compare } from "bcrypt";
 import { decode, verify } from "jsonwebtoken";
 import { ObjectId } from "mongodb";
-import { secret_key } from "../../../../../../lib/secret";
-import { connectToDatabase } from "../../../../../../lib/mongodb";
-import { authenticate } from "../../../authentication";
+import { secret_key } from "../../../lib/secret";
+import { connectToDatabase } from "../../../lib/mongodb";
+import { authenticate } from "./authentication";
 
 export default authenticate(async (req, res, next) => {
   const {db} = await connectToDatabase()
