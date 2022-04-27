@@ -25,7 +25,7 @@ function EditAccountPage() {
   return (
     <DashboardLayout>
       <div className="d-flex justify-content-start px-0">
-        <h4 className="mt-2 text-muted">Edit Account</h4>
+        <h5 className="mt-2 text-muted">Edit Account</h5>
       </div>
 
       <div className="card my-2">
@@ -96,7 +96,7 @@ function EditAccountPage() {
       </div>
       <div className="row">
         <div className="col-12 col-lg-6 my-3">
-          <h4 className="text-muted">Documents</h4>
+          <h5 className="text-muted">Documents</h5>
           <div className="card mt-2">
             <div className="card-header border-0 bg-white px-md-4 pt-4 pb-0 d-flex justify-content-between">
               <p className="h5 mb-0">Files</p>
@@ -121,7 +121,7 @@ function EditAccountPage() {
           </div>
         </div>
         <div className="col-12 col-lg-6 my-3">
-          <h4 className="text-muted">Payments</h4>
+          <h5 className="text-muted">Payments</h5>
           <div className="card mt-2">
             <div className="card-header border-0 bg-white px-md-4 pt-4 pb-0 d-flex justify-content-between">
               <p className="h5 mb-0">Payments</p>

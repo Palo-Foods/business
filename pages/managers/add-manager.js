@@ -63,15 +63,15 @@ function AddManagerPage() {
 
   return (
     <DashboardLayout>
-      <div className="px-0 d-flex justify-content-start">
+      <div className="px-0 d-flex justify-content-start align-items-center">
         <Link href="/managers">
           <a className="me-3 text-decoration-none">
-            <h4 className="mt-2">Managers</h4>
+            <h5 className="mt-2">Managers</h5>
           </a>
         </Link>
-        <h4 className="mt-2 text-muted">
+        <h5 className="mt-2 text-muted">
           / {manager ? "Edit" : "Add"} Manager
-        </h4>
+        </h5>
       </div>
 
       <div className="card mt-2">
@@ -86,7 +86,7 @@ function AddManagerPage() {
                 text={fullName}
                 setInput={setInput}
                 setText={setFullName}
-                classes="form-control-lg"
+                classes=""
                 id="fullName"
               />
             </div>
@@ -99,7 +99,7 @@ function AddManagerPage() {
                 text={email}
                 setInput={setInput}
                 setText={setEmail}
-                classes="form-control-lg"
+                classes=""
                 id="email"
               />
             </div>
@@ -110,7 +110,7 @@ function AddManagerPage() {
               <Phone
                 setText={setPhone}
                 text={phone}
-                classes="form-control-lg"
+                classes=""
               />
             </div>
             <div className="col-md-6 form-group mb-4">
@@ -122,7 +122,7 @@ function AddManagerPage() {
                 setInput={setInput}
                 setText={setRegion}
                 options={["Eastern", "Western", "Central", "Greater Accra"]}
-                classes="form-select-lg"
+                classes=""
                 id="region"
               />
             </div>
@@ -136,7 +136,7 @@ function AddManagerPage() {
                   text={password}
                   setInput={setInput}
                   setText={setPassword}
-                  classes="form-control-lg"
+                  classes=""
                 />
               </div>
             )}

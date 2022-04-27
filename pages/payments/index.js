@@ -56,7 +56,7 @@ function OrdersPage() {
 
   return (
     <DashboardLayout>
-      <h4 className="text-muted px-0">Payments</h4>
+      <h5 className="text-muted px-0">Payments</h5>
 
       {loading && !error && (
         <div className="d-flex justify-content-center align-items-center h-100">
@@ -76,7 +76,7 @@ function OrdersPage() {
 
       {payments && payments?.length > 0 && (
         <div className="card my-2">
-          <div className="card-body justify-content-start overflow-auto">
+          <div className="card-body justify-content-start overflow-auto p-4">
             <Search
               items={businesses}
               keyword={keyword}
@@ -84,7 +84,7 @@ function OrdersPage() {
             />
             <table className="table table-responsive mt-2">
               <thead>
-                <tr>
+                <tr className="text-start ps-0">
                   <th className="text-nowrap">Payment ID</th>
                   <th className="text-nowrap d-none d-md-table-cell">
                     Business

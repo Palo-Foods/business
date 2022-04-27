@@ -120,7 +120,7 @@ input {
 
   min-height: calc(1.5em + 1rem + 2px);
   padding: 0.5rem 1rem;
-  font-size: 1.25rem;
+  font-size: 1rem;
   border-radius: 0.3rem;
 }
 
@@ -146,4 +146,9 @@ input {
 #notificationNumber {
   font-size: 12px !important;
   height: 17px !important;
+}
+
+td {
+  padding-top: 1rem !important;
+  padding-bottom: 1rem !important;
 }

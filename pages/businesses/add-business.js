@@ -73,12 +73,12 @@ function AddBusinessPage() {
       <div className="px-0 d-flex justify-content-start">
         <Link href="/businesses">
           <a className="me-3 text-decoration-none">
-            <h4 className="mt-2">Businesses</h4>
+            <h5 className="mt-2">Businesses</h5>
           </a>
         </Link>
-        <h4 className="mt-2 text-muted">
+        <h5 className="mt-2 text-muted">
           / {business ? "Edit" : "Add"} Business
-        </h4>
+        </h5>
       </div>
 
       <div className="card mt-2">

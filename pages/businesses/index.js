@@ -19,7 +19,9 @@ import { useFilter } from "../../hooks/useFilter";
 const BusinessTableRow = ({ business, handleEditBusiness }) => {
   return (
     <tr>
-      <td scope="row">{business?.businessName}</td>
+      <td scope="row" className="ps-0">
+        {business?.businessName}
+      </td>
       <td className="text-nowrap d-none d-md-table-cell">
         {business?.fullName}
       </td>
@@ -102,8 +104,8 @@ function BusinessesPage() {
 
   return (
     <DashboardLayout>
-      <div className="d-flex justify-content-between mt-2">
-        <h5 className="text-muted">Businesses</h5>
+      <div className="d-flex justify-content-between align-items-center mt-2 mb-3">
+        <h5 className="text-muted mb-0">Businesses</h5>
         <Link href="/businesses/add-business">
           <a
             className="btn btn-primary"
@@ -130,14 +132,14 @@ function BusinessesPage() {
 
       {businesses && businesses?.length > 0 && (
         <div className="card my-2">
-          <div className="card-body justify-content-start overflow-auto">
+          <div className="card-body justify-content-start overflow-auto p-4">
             <div className="d-md-flex justify-content-md-between my-md-2 mb-md-4">
               <Search
                 items={businesses}
                 keyword={keyword}
                 setKeyword={setKeyword}
               />
-              <div>
+              <div className="mt-3 mt-md-0">
                 <select
                   className="custom-select form-select py-1"
                   name="regions"
@@ -151,10 +153,10 @@ function BusinessesPage() {
                 </select>
               </div>
             </div>
-            <table className="table mt-2 table-responsive">
+            <table className="table mt-3 table-responsive">
               <thead>
-                <tr>
-                  <th>Business name</th>
+                <tr className="text-start ps-0">
+                  <th className="ps-0">Business name</th>
                   <th className="text-nowrap d-none d-md-table-cell">
                     Owner name
                   </th>

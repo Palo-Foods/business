@@ -7,7 +7,7 @@ export const createJwt = (payload) => {
   };
 
   const jwt = sign({ data: claims }, secret_key, {
-    expiresIn: "4h",
+    expiresIn: "8h",
   });
   return jwt;
 };

@@ -15,7 +15,9 @@ import { useFilter } from "../../hooks/useFilter";
 const ManagerTableRow = ({ manager, handleEditManager }) => {
   return (
     <tr>
-      <td scope="row">{manager?.fullName}</td>
+      <td scope="row" className="text-start ps-0 py-3">
+        {manager?.fullName}
+      </td>
       <td className="text-nowrap d-none d-md-table-cell">{manager?.region}</td>
       <td className="text-nowrap d-none d-md-table-cell">{manager?.phone}</td>
       <td className="text-nowrap d-none d-md-table-cell"></td>
@@ -102,11 +104,11 @@ function ManagersPage() {
 
   return (
     <DashboardLayout>
-      <div className="d-flex justify-content-between mt-2 px-0 mb-3">
-        <h4 className="text-muted">Managers</h4>
+      <div className="d-flex justify-content-between align-items-center mt-2 px-0 mb-3">
+        <h5 className="text-muted mb-0 h5">Managers</h5>
         <Link href="/managers/add-manager">
           <a className="btn btn-primary">
-            <MdAdd size={18} /> <span> Add Manager</span>
+            <MdAdd size={18} className="fw-bold" /> <span> Add Manager</span>
           </a>
         </Link>
       </div>
@@ -129,14 +131,14 @@ function ManagersPage() {
       {managers && managers?.length > 0 && (
         <>
           <div className="card">
-            <div className="card-body justify-content-start overflow-auto">
+            <div className="card-body justify-content-start overflow-auto p-4">
               <div className="d-md-flex justify-content-md-between my-md-2 mb-md-4">
                 <Search
                   items={managers}
                   keyword={keyword}
                   setKeyword={setKeyword}
                 />
-                <div>
+                <div className="mt-3 mt-md-0">
                   <select
                     className="custom-select form-select py-1"
                     name="regions"
@@ -150,10 +152,10 @@ function ManagersPage() {
                   </select>
                 </div>
               </div>
-              <table className="table mt-2 table-responsive">
+              <table className="table mt-3 table-responsive">
                 <thead>
-                  <tr>
-                    <th>Manager name</th>
+                  <tr className="text-start ps-0">
+                    <th className="text-start ps-0">Manager name</th>
                     <th className="text-nowrap d-none d-md-table-cell">
                       Region
                     </th>
@@ -167,16 +169,17 @@ function ManagersPage() {
                   </tr>
                 </thead>
                 <tbody>
-                  {filteredData && filteredData
-                    ?.filter(searched(keyword))
-                    .map((manager) => (
-                      <ManagerTableRow
-                        key={manager?._id}
-                        manager={manager}
-                        setItem={setItem}
-                        handleEditManager={handleEditManager}
-                      />
-                    ))}
+                  {filteredData &&
+                    filteredData
+                      ?.filter(searched(keyword))
+                      .map((manager) => (
+                        <ManagerTableRow
+                          key={manager?._id}
+                          manager={manager}
+                          setItem={setItem}
+                          handleEditManager={handleEditManager}
+                        />
+                      ))}
                   {!filteredData &&
                     managers
                       ?.filter(searched(keyword))
