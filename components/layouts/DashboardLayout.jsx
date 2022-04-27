@@ -24,7 +24,7 @@ function DashboardLayout(props) {
       <Header />
       <div className="container-lg my-5 py-4">
         <div className="row py-2">
-          <div className="col-12">{props.children}</div>
+          <div className="col-12 overflow-y">{props.children}</div>
         </div>
       </div>
     </>
