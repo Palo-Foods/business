@@ -1,8 +1,6 @@
 import React from "react";
 import Script from "next/script";
 import Head from "next/head";
-import Link from "next/link";
-import Aside from "../Aside";
 import Header from "../Header";
 
 function DashboardLayout(props) {
@@ -24,34 +22,9 @@ function DashboardLayout(props) {
       </Head>
       <Script src="/bootstrap.bundle.min.js" />
       <Header />
-      <div className="container-fluid">
-        <div className="row">
-          <div className="col-sm-1 col-md-3 col-xl-2 py-2 d-none d-sm-block vh-100 bg-white px-0 position-sticky sticky-sidebar">
-            <Aside />
-
-            <div className="w-100 position-absolute" style={{ bottom: 0 }}>
-              <Link href="/account">
-                <a className="border-top w-100 d-flex justify-content-start px-md-3 align-items-top text-decoration-none py-1">
-                  <img
-                    src="/images/profile.jpg"
-                    width={30}
-                    height={30}
-                    className="rounded-circle img-fluid m-1"
-                    style={{ objectFit: "scale-down" }}
-                  />
-                  <div className="ms-2 d-none d-md-block">
-                    <p className="mb-0 mt-2 fw-bold text-black">Alex Mensah</p>
-                    <p className="text-muted">Fullstack engineer</p>
-                  </div>
-                </a>
-              </Link>
-            </div>
-          </div>
-          <div className="col-sm-11 col-md-9 col-xl-10">
-            <div className="container-fluid p-2 p-md-4 my-5 py-4">
-              <div className="row py-2">{props.children}</div>
-            </div>
-          </div>
+      <div className="container-lg my-5 py-4">
+        <div className="row py-2">
+          <div className="col-12">{props.children}</div>
         </div>
       </div>
     </>

@@ -22,6 +22,7 @@ function Search({ items, keyword, setKeyword }) {
             aria-label="Search"
             disabled={!items?.length === 0}
             className="form-control border-start-0"
+            onKeyDown={(e) => e.key === "Enter" && e.preventDefault()}
           />
         </div>
       </form>

@@ -1,45 +1,69 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import DashboardLayout from "../../components/layouts/DashboardLayout";
 import Spinner from "../../components/ui/Spinner";
 import { useFetch } from "../../hooks/crud/useFetch";
 import { useDispatch, useSelector } from "react-redux";
-import { selectPayments, setOrder } from "../../slices/navSlice";
+import { selectPayments, setOrder, setPayments } from "../../slices/navSlice";
 import { useStates } from "../../hooks/useStates";
 import Search from "../../components/ui/Search";
+import { read } from "../../functions/crud/FETCH";
 
 const searched = (keyword) => (item) =>
   item?.name?.toLowerCase().includes(keyword);
 
 function OrdersPage() {
   const url = "/api/v1.0.0/payments";
-
   const payments = useSelector(selectPayments);
 
   const [keyword, setKeyword] = useState("");
 
-  const { loading, error, fetchData } = useFetch(url, payments, selectPayments);
+  const { loading, setLoading, error, setError } = useStates();
 
-  const { router } = useStates();
+  const router = useRouter();
 
   const dispatch = useDispatch();
 
-  const handleNavigation = (business) => {
+  const fetchData = async () => {
+    setLoading(true);
+    const response = await read(url);
+    setLoading(false);
+    if (response.status !== 200) {
+      setError(response.statusText);
+    } else {
+      if (response.data > 0 || response.data === 0) {
+        dispatch(setPayments(response.data));
+      }
+    }
+  };
+
+  //fetch data
+  useEffect(() => {
+    //fetch data
+    const getData = async () => {
+      await fetchData();
+    };
+
+    if (payments.length === 0) {
+      getData();
+    }
+  }, []);
+  const handleNavigation = (payments) => {
     //set product to store
-    dispatch(setOrder(business));
-    router.push(`/payments/${business?.id}`);
+    dispatch(setOrder(payments));
+    router.push(`/payments/${payments?.id}`);
   };
 
   return (
     <DashboardLayout>
       <h4 className="text-muted px-0">Payments</h4>
 
-      {loading && (
+      {loading && !error && (
         <div className="d-flex justify-content-center align-items-center h-100">
           <Spinner />
         </div>
       )}
-      {error && (
+      {error && !loading && (
         <div className="d-flex justify-content-center align-items-center h-100">
           <div className="text-center">
             <p>There was an error</p>
@@ -49,11 +73,7 @@ function OrdersPage() {
           </div>
         </div>
       )}
-      {!loading &&
-        !error &&
-        payments &&
-        payments?.length === 0 &&
-        "There are no payments"}
+
       {payments && payments?.length > 0 && (
         <div className="card my-2">
           <div className="card-body justify-content-start overflow-auto">
@@ -91,6 +111,11 @@ function OrdersPage() {
           </div>
         </div>
       )}
+      {!loading &&
+        !error &&
+        payments &&
+        payments?.length === 0 &&
+        "There are no payments"}
     </DashboardLayout>
   );
 }

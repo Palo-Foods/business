@@ -58,6 +58,16 @@ function Aside() {
             </Link>
           </span>
         ))}
+        <a
+          className="nav-link text-center ms-md-0 d-flex align-items-center px-3 px-md-2 text-center my-0 text-black mb-1 py-1"
+          type="button"
+          role="tab"
+          aria-selected="true">
+          <span className="me-md-1 text-center">
+            <MdLogout size={20} />
+          </span>
+          <span className="h6 m-2 d-none d-md-block">Logout</span>
+        </a>
       </div>
     </div>
   );

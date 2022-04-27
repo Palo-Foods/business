@@ -8,8 +8,8 @@ import { resolve } from "../resolve";
 
 export const read = async (url) => {
   //1. get auth toke. Check if session exist
-  const sessionExist = sessionStorage.getItem("user");
-  
+  const sessionExist = sessionStorage?.getItem("user");
+
   const user = JSON.parse(sessionExist);
 
   const config = {
@@ -20,10 +20,10 @@ export const read = async (url) => {
     },
     timeout: 5000,
   };
-
-  //2. use the resolve function to process the request and response
-  const [result, error] = await resolve(fetch(url, config));
-
-  //3. return response and error
-  return { response: await result?.json(), error: error?.message };
+  try {
+    const resp = await fetch(url, config);
+    return resp.json();
+  } catch (error) {
+    return error.message;
+  }
 };

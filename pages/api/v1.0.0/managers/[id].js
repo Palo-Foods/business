@@ -14,10 +14,63 @@ export default authenticate(async (req, res) => {
         ...body,
       },
     };
-    await updateOneEntry(req, res, "managers", set);
+    try {
+      const response = await updateOneEntry(req, res, "managers", set);
+
+      const { status, statusText, data, error } = response;
+
+      res.status(status).json({
+        status: status,
+        statusText: statusText,
+        data: data,
+        error: error,
+      });
+    } catch (error) {
+      res.status(500).json({
+        status: 500,
+        statusText: "Internal server error",
+        error: error.message,
+      });
+    }
   } else if (method === "DELETE") {
-    await deleteOne(res, "managers", id);
+    try {
+      const response = await deleteOne("managers", id);
+
+      const { status, statusText, data, error } = response;
+
+      res.status(status).json({
+        status: status,
+        statusText: statusText,
+        data: data,
+        error: error,
+      });
+    } catch (error) {
+      res.status(500).json({
+        status: 500,
+        statusText: "Internal server error",
+        error: error.message,
+      });
+    }
   } else {
-    await findOne(req, res, "managers", { _id: ObjectId(id) });
+    try {
+      const response = await findOne(req, res, "managers", {
+        _id: ObjectId(id),
+      });
+
+      const { status, statusText, data, error } = response;
+
+      res.status(status).json({
+        status: status,
+        statusText: statusText,
+        data: data,
+        error: error,
+      });
+    } catch (error) {
+      res.status(500).json({
+        status: 500,
+        statusText: "Internal server error",
+        error: error.message,
+      });
+    }
   }
 });

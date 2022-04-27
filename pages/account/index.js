@@ -94,64 +94,49 @@ function EditAccountPage() {
           </form>
         </div>
       </div>
-
-      <div className="col-md-6">
-        <div className="card">
-          <div className="card-body">
-            <h4 className="card-title">Title</h4>
-            <p className="card-text">Text</p>
+      <div className="row">
+        <div className="col-12 col-lg-6 my-3">
+          <h4 className="text-muted">Documents</h4>
+          <div className="card mt-2">
+            <div className="card-header border-0 bg-white px-md-4 pt-4 pb-0 d-flex justify-content-between">
+              <p className="h5 mb-0">Files</p>
+              <Link href="/files/add-file">
+                <a className="text-decoration-none h5">
+                  <span className="fa fa-plus me-2"></span>
+                  <span>Add file</span>
+                </a>
+              </Link>
+            </div>
+            <div className="card-body">
+              <ul className="list-group list-group-flush">
+                <li className="list-group-item ps-0 d-flex justify-content-between pe-0 py-3">
+                  <span className="ps-2">Ghana card</span>
+                  <span className="">
+                    <MdOutlineFilePresent className="me-2" size={18} /> 22nd
+                    March 2022
+                  </span>
+                </li>
+              </ul>
+            </div>
           </div>
         </div>
-      </div>
-      <div className="col-md-6">
-        <div className="card">
-          <div className="card-body">
-            <h4 className="card-title">Title</h4>
-            <p className="card-text">Text</p>
-          </div>
-        </div>
-      </div>
-
-      <div className="col-12 col-lg-6 my-3">
-        <h4 className="text-muted">Documents</h4>
-        <div className="card mt-2">
-          <div className="card-header border-0 bg-white px-md-4 pt-4 pb-0 d-flex justify-content-between">
-            <p className="h5 mb-0">Files</p>
-            <Link href="/files/add-file">
-              <a className="text-decoration-none h5">
-                <span className="fa fa-plus me-2"></span>
-                <span>Add file</span>
-              </a>
-            </Link>
-          </div>
-          <div className="card-body">
-            <ul className="list-group list-group-flush">
-              <li className="list-group-item ps-0 d-flex justify-content-between pe-0 py-3">
-                <span className="ps-2">Ghana card</span>
-                <span className="">
-                  <MdOutlineFilePresent className="me-2" size={18} /> 22nd March
-                  2022
-                </span>
-              </li>
-            </ul>
-          </div>
-        </div>
-      </div>
-      <div className="col-12 col-lg-6 my-3">
-        <h4 className="text-muted">Payments</h4>
-        <div className="card mt-2">
-          <div className="card-header border-0 bg-white px-md-4 pt-4 pb-0 d-flex justify-content-between">
-            <p className="h5 mb-0">Payments</p>
-          </div>
-          <div className="card-body">
-            <ul className="list-group list-group-flush">
-              <li className="list-group-item ps-0 d-flex justify-content-between pe-0 py-3">
-                <span className="ps-2">Payment 1</span>
-                <span className="">
-                  <MdCalendarToday className="me-2" size={18} /> 22nd March 2022
-                </span>
-              </li>
-            </ul>
+        <div className="col-12 col-lg-6 my-3">
+          <h4 className="text-muted">Payments</h4>
+          <div className="card mt-2">
+            <div className="card-header border-0 bg-white px-md-4 pt-4 pb-0 d-flex justify-content-between">
+              <p className="h5 mb-0">Payments</p>
+            </div>
+            <div className="card-body">
+              <ul className="list-group list-group-flush">
+                <li className="list-group-item ps-0 d-flex justify-content-between pe-0 py-3">
+                  <span className="ps-2">Payment 1</span>
+                  <span className="">
+                    <MdCalendarToday className="me-2" size={18} /> 22nd March
+                    2022
+                  </span>
+                </li>
+              </ul>
+            </div>
           </div>
         </div>
       </div>

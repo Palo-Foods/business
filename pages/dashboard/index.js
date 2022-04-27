@@ -26,61 +26,63 @@ function DashboardPage() {
           </select>
         </div>
       </div>
-      <div className="col-12 col-md-6 col-lg-4 mb-3">
-        <div className="card">
-          <div className="card-body">
-            <div className="d-flex justify-content-end">
-              <MdOutlineInfo size={20} />
-            </div>
-            <div className="d-flex justify-content-start mt-3">
-              <div className="me-3">
-                <span className="mx-1 track-icon bg-info rounded-circle px-3 py-2">
-                  <MdShoppingBag size={26} className="mb-1" />
-                </span>
+      <div className="row">
+        <div className="col-12 col-md-6 col-lg-4 mb-3">
+          <div className="card">
+            <div className="card-body">
+              <div className="d-flex justify-content-end">
+                <MdOutlineInfo size={20} />
               </div>
-              <div>
-                <p className="text-muted mb-0">Total orders</p>
-                <h1 className="h2">30</h1>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div className="col-12 col-md-6 col-lg-4 mb-3">
-        <div className="card">
-          <div className="card-body">
-            <div className="d-flex justify-content-end">
-              <MdOutlineInfo size={20} />
-            </div>
-            <div className="d-flex justify-content-start mt-3">
-              <div className="me-3">
-                <span className="mx-1 track-icon bg-yellow rounded-circle px-3 py-2">
-                  <MdOutlineMoney size={26} className="mb-1" />
-                </span>
-              </div>
-              <div>
-                <p className="text-muted mb-0">This month sales</p>
-                <h1 className="h2">Ghc 300</h1>
+              <div className="d-flex justify-content-start mt-3">
+                <div className="me-3">
+                  <span className="mx-1 track-icon bg-info rounded-circle px-3 py-2">
+                    <MdShoppingBag size={26} className="mb-1" />
+                  </span>
+                </div>
+                <div>
+                  <p className="text-muted mb-0">Total orders</p>
+                  <h1 className="h2">30</h1>
+                </div>
               </div>
             </div>
           </div>
         </div>
-      </div>
-      <div className="col-12 col-md-6 col-lg-4 mb-3">
-        <div className="card">
-          <div className="card-body">
-            <div className="d-flex justify-content-end">
-              <MdOutlineInfo size={20} />
-            </div>
-            <div className="d-flex justify-content-start mt-3">
-              <div className="me-3">
-                <span className="mx-1 track-icon bg-light rounded-circle px-3 py-2">
-                  <MdOutlinePayment size={26} className="mb-1" />
-                </span>
+        <div className="col-12 col-md-6 col-lg-4 mb-3">
+          <div className="card">
+            <div className="card-body">
+              <div className="d-flex justify-content-end">
+                <MdOutlineInfo size={20} />
               </div>
-              <div>
-                <p className="text-muted mb-0">Total sales</p>
-                <h1 className="h2">Ghc 500</h1>
+              <div className="d-flex justify-content-start mt-3">
+                <div className="me-3">
+                  <span className="mx-1 track-icon bg-yellow rounded-circle px-3 py-2">
+                    <MdOutlineMoney size={26} className="mb-1" />
+                  </span>
+                </div>
+                <div>
+                  <p className="text-muted mb-0">This month sales</p>
+                  <h1 className="h2">Ghc 300</h1>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div className="col-12 col-md-6 col-lg-4 mb-3">
+          <div className="card">
+            <div className="card-body">
+              <div className="d-flex justify-content-end">
+                <MdOutlineInfo size={20} />
+              </div>
+              <div className="d-flex justify-content-start mt-3">
+                <div className="me-3">
+                  <span className="mx-1 track-icon bg-light rounded-circle px-3 py-2">
+                    <MdOutlinePayment size={26} className="mb-1" />
+                  </span>
+                </div>
+                <div>
+                  <p className="text-muted mb-0">Total sales</p>
+                  <h1 className="h2">Ghc 500</h1>
+                </div>
               </div>
             </div>
           </div>

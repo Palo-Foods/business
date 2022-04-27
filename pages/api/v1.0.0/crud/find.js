@@ -19,15 +19,15 @@ export const findOne = async (req, res, collection, condition, projection) => {
       const response = await db
         .collection(collection)
         .findOne(condition, projection);
-      response &&
-        res.status(200).json({
+      if (response)
+        return res.status(200).json({
           status: 200,
           statusText: "OK",
           data: response,
         });
     }
   } catch (error) {
-    res.status(500).json({
+    return res.status(500).json({
       status: 500,
       statusText: "Internal server error",
       error: error.message,
@@ -56,24 +56,30 @@ export const findAll = async (
         .find(condition, projection)
         .toArray(numberOfItems);
 
-      if (response) {
-        res.status(200).json({
+      if (response.length > 0 || response.length === 0) {
+        return {
           status: 200,
           statusText: "OK",
           data: response,
-        });
+        };
       } else {
-        res.status(404).json({
+        return {
           status: 404,
           statusText: "Data not found",
-        });
+        };
       }
+    } else {
+      return {
+        status: 401,
+        statusText: "Invalid method/not logged in",
+      };
     }
   } catch (error) {
-    res.status(500).json({
+    console.log(error.message);
+    return {
       status: 500,
       statusText: "Internal server error",
       error: error.message,
-    });
+    };
   }
 };

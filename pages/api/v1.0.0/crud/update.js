@@ -1,7 +1,6 @@
 import { ObjectId } from "mongodb";
 import { connectToDatabase } from "../../../../lib/mongodb";
 import { verifyUser } from "../verification";
-import { deleteOne } from "./delete";
 
 export const updateOne = async (collection, condition, set, filter) => {
   const { db } = await connectToDatabase();
@@ -47,18 +46,16 @@ export const updateOneEntry = async (req, res, collection, set, filter) => {
         filter
       );
 
-      response &&
-        res
-          .status(200)
-          .json({ status: 200, statusText: `Data updated in ${collection}` });
+      if (response)
+        return { status: 200, statusText: `Data updated in ${collection}` };
     } else {
       res.status(401).json({ status: 401, statusText: "Invalid method" });
     }
   } catch (error) {
-    res.status(500).json({
+    return {
       status: 500,
       statusText: "Internal server error",
       error: error.message,
-    });
+    };
   }
 };

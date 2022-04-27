@@ -8,22 +8,38 @@ export default authenticate(async (req, res) => {
 
   //comes with a condition (admin)
   //await findAll(req, res, "businesses", { managerId: ObjectId(id) });
+  try {
+    //comes with a condition (manager)
+    const response = await findAll(
+      req,
+      res,
+      "businesses",
+      {},
+      {
+        projection: {
+          businessName: 1,
+          email: 1,
+          fullName: 1,
+          phone: 1,
+          region: 1,
+          businessType: 1,
+        },
+      }
+    );
 
-  //comes with a condition (manager)
-  await findAll(
-    req,
-    res,
-    "businesses",
-    {},
-    {
-      projection: {
-        businessName: 1,
-        email: 1,
-        fullName: 1,
-        phone: 1,
-        region: 1,
-        businessType: 1,
-      },
-    }
-  );
+    const { status, statusText, data, error } = response;
+
+    res.status(status).json({
+      status: status,
+      statusText: statusText,
+      data: data,
+      error: error,
+    });
+  } catch (error) {
+    res.status(500).json({
+      status: 500,
+      statusText: "Internal Server Error",
+      error: error.message,
+    });
+  }
 });

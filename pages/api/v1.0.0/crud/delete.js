@@ -1,26 +1,27 @@
 import { ObjectId } from "mongodb";
 import { connectToDatabase } from "../../../../lib/mongodb";
+import { verifyUser } from "../verification";
 
-export const deleteOne = async (res, collection, id) => {
+export const deleteOne = async (collection, id) => {
   const { db } = await connectToDatabase();
-  console.log(collection, id);
-  try {
+  const { method, match } = await verifyUser(req);
+
+  if (method === "DELETE" && match) {
     const response = await db
       .collection(collection)
       .deleteOne({ _id: ObjectId(id) });
-    console.log("response", response);
-
-    if (response.acknowledged === true && response.deletedCount) {
-      res.status(200).json({ status: 200, statusText: "Data deleted" });
-    } else {
-      res.status(400).json({ status: 400, statusText: "Data deletion failed" });
-    }
-  } catch (error) {
-    console.log("error", error.message);
-    res.status(500).json({
+      
+    if (response)
+      return {
+        status: 200,
+        statusText: "Deleting successfully completed",
+      };
+  } else {
+    console.log(error.message);
+    return {
       status: 500,
       statusText: "Internal server error",
       error: error.message,
-    });
+    };
   }
 };

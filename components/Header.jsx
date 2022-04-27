@@ -1,13 +1,40 @@
 import React from "react";
 import Link from "next/link";
-import { MdSearch, MdNotifications } from "react-icons/md";
 import Spinner from "./ui/Spinner";
 import { useAuth } from "../hooks/auth/useAuth";
-import { useStates } from "../hooks/useStates";
+import { useRouter } from "next/router";
+import {
+  MdOutlineSettings,
+  MdOutlinePayment,
+  MdOutlineShoppingBag,
+  MdGroups,
+  MdOutlineStore,
+  MdOutlineLogout,
+  MdDashboard,
+  MdNotifications,
+  MdOutlineMenu,
+} from "react-icons/md";
+
+const menus = [
+  { name: "Dashboard", link: "dashboard", icon: <MdDashboard size={20} /> },
+  {
+    name: "Managers",
+    link: "managers",
+    icon: <MdGroups size={20} />,
+  },
+  {
+    name: "Businesses",
+    link: "businesses",
+    icon: <MdOutlineStore size={20} />,
+  },
+  { name: "Orders", link: "orders", icon: <MdOutlineShoppingBag size={20} /> },
+  { name: "Payments", link: "payments", icon: <MdOutlinePayment size={20} /> },
+  { name: "Settings", link: "account", icon: <MdOutlineSettings size={20} /> },
+];
 
 function Header() {
-  const { auth, loading } = useAuth();
-  const { router } = useStates();
+  const { user, auth, loading } = useAuth();
+  const router = useRouter();
 
   //handle login
   const handleLogout = async (e) => {
@@ -19,20 +46,21 @@ function Header() {
   return (
     <header>
       <nav className="navbar navbar-expand-sm navbar-light bg-white border-bottom fixed-top">
-        <div className="container-fluid px-md-3">
-          <a className="navbar-brand" href="#">
-            Palo
+        <div className="container-lg">
+          <a
+            className="me-3 text-black"
+            data-bs-toggle="offcanvas"
+            href="#offcanvasExample"
+            role="button"
+            aria-controls="offcanvasExample">
+            <MdOutlineMenu size={25} />
           </a>
-          <button
-            className="navbar-toggler d-lg-none border-0"
-            type="button"
-            data-bs-toggle="collapse"
-            data-bs-target="#collapsibleNavId"
-            aria-controls="collapsibleNavId"
-            aria-expanded="false"
-            aria-label="Toggle navigation">
-            <span className="navbar-toggler-icon"></span>
-          </button>
+          <Link href="/">
+            <a className="navbar-brand h4 mb-0" href="#">
+              Palo
+            </a>
+          </Link>
+
           <div className="collapse navbar-collapse" id="collapsibleNavId">
             <ul className="navbar-nav ms-auto mt-2 mt-lg-0">
               <li className="nav-item me-md-3 d-none">
@@ -107,6 +135,64 @@ function Header() {
           </div>
         </div>
       </nav>
+      <div
+        className="offcanvas offcanvas-start"
+        tabIndex="-1"
+        id="offcanvasExample"
+        aria-labelledby="offcanvasExampleLabel">
+        <div className="offcanvas-header ms-auto">
+          <button
+            type="button"
+            className="btn-close text-reset"
+            data-bs-dismiss="offcanvas"
+            aria-label="Close"></button>
+        </div>
+        <div className="offcanvas-body overflow-auto pt-0">
+          <div className="mb-3 border-bottom">
+            <p className="small text-muted mb-2">Profile</p>
+            <div className="ps-3">
+              <h5>{user?.fullName}</h5>
+              <p className="small mb-0">Joined</p>
+              <p className="small">12th April 2022</p>
+            </div>
+          </div>
+          <div className="mb-3 border-bottom">
+            <p className="small text-muted mb-2">Menu</p>
+            {menus.map((menu) => (
+              <span key={menu.name}>
+                <Link href={`/${menu.link}`}>
+                  <a
+                    className={`nav-link ms-md-0 d-flex align-items-center my-0 ${
+                      router?.query.page === menu.link
+                        ? "text-white bg-primary rounded"
+                        : "text-black"
+                    } mb-1 py-1`}
+                    type="button"
+                    role="tab"
+                    aria-selected="true">
+                    <span className="me-md-1">{menu?.icon}</span>
+                    <span className="h6 m-2">{menu.name}</span>
+                  </a>
+                </Link>
+              </span>
+            ))}
+          </div>
+          <a
+            className="nav-link ms-md-0 d-flex align-items-center my-0 text-black
+            mb-1 py-1"
+            type="button"
+            role="tab"
+            aria-selected="true"
+            onClick={handleLogout}>
+            <span className="me-md-1">
+              <MdOutlineLogout size={20} />
+            </span>
+            <span className="h6 m-2 d-md-block">
+              {loading && <Spinner />} Log out
+            </span>
+          </a>
+        </div>
+      </div>
     </header>
   );
 }
