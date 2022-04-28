@@ -11,6 +11,8 @@ const initialState = {
   phoneSignIn: null,
   businesses: [],
   business: null,
+  riders: [],
+  rider: null,
   payments: [],
   payment: null,
   stripePayload: null,
@@ -64,6 +66,12 @@ export const navSlice = createSlice({
     setPayments: (state, action) => {
       state.payments = action.payload;
     },
+    setRider: (state, action) => {
+      state.rider = action.payload;
+    },
+    setRiders: (state, action) => {
+      state.riders = action.payload;
+    },
     setUpdated: (state, action) => {
       state.updated = action.payload;
     },
@@ -87,7 +95,9 @@ export const {
   setManager,
   setPayments,
   setPayment,
-  setUpdated
+  setRiders,
+  setRider,
+  setUpdated,
 } = navSlice.actions;
 
 //Selectors, makes the data available
@@ -105,6 +115,8 @@ export const selectManager = (state) => state.nav.manager;
 export const selectMangers = (state) => state.nav.managers;
 export const selectPayment = (state) => state.nav.payment;
 export const selectPayments = (state) => state.nav.payments;
+export const selectRider = (state) => state.nav.rider;
+export const selectRiders = (state) => state.nav.riders;
 export const selectUpdated = (state) => state.nav.updated;
 
 export default navSlice.reducer;
