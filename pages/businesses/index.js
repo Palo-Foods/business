@@ -3,54 +3,21 @@ import DashboardLayout from "../../components/layouts/DashboardLayout";
 import Spinner from "../../components/ui/Spinner";
 import { useRouter } from "next/router";
 import Link from "next/link";
-import { MdAdd, MdDelete, MdModeEditOutline } from "react-icons/md";
+import { MdAdd } from "react-icons/md";
 import { useDispatch, useSelector } from "react-redux";
 import {
   selectBusinesses,
+  selectUpdated,
   setBusiness,
   setBusinesses,
+  setUpdated,
 } from "../../slices/navSlice";
 import DeleteModal from "../../components/modals/DeleteModal";
 import { useStates } from "../../hooks/useStates";
 import Search from "../../components/ui/Search";
 import { read } from "../../functions/crud/FETCH";
 import { useFilter } from "../../hooks/useFilter";
-import Select from "../../components/ui/Select";
-
-const BusinessTableRow = ({ business, handleEditBusiness, setItem }) => {
-  console.log(business);
-  return (
-    <tr>
-      <td scope="row" className="ps-0">
-        {business?.name}
-      </td>
-      <td className="text-nowrap d-none d-md-table-cell">
-        {business?.fullName}
-      </td>
-      <td className="text-nowrap d-none d-md-table-cell">{business?.phone}</td>
-      <td className="text-nowrap d-none d-md-table-cell">{business?.region}</td>
-      <td className="text-nowrap d-none d-md-table-cell">
-        {business?.location}
-      </td>
-      <td>
-        <a
-          type="button"
-          onClick={() => handleEditBusiness(business)}
-          className="me-md-2">
-          <MdModeEditOutline size={20} />
-        </a>
-        <a
-          type="button"
-          className="ms-3"
-          onClick={() => setItem(business)}
-          data-bs-toggle="modal"
-          data-bs-target="#deleteModal">
-          <MdDelete className="text-danger" size={20} />
-        </a>
-      </td>
-    </tr>
-  );
-};
+import BusinessTableRow from "../../components/BusinessTableRow";
 
 const searched = (keyword) => (item) =>
   item?.name?.toLowerCase().includes(keyword);
@@ -59,6 +26,8 @@ function BusinessesPage() {
   const url = "/api/v1.0.0/businesses";
 
   let businesses = useSelector(selectBusinesses);
+
+  const updated = useSelector(selectUpdated);
 
   const { loading, setLoading, error, region, setRegion, setError, setInput } =
     useStates();
@@ -102,7 +71,15 @@ function BusinessesPage() {
     if (businesses.length === 0) {
       getData();
     }
-  }, []);
+
+    //if updated is set on updating user data, fetch the data again and
+    if (updated) {
+      dispatch(setBusinesses([]));
+      getData();
+      //after fetching, set updated to false
+      dispatch(setUpdated(false));
+    }
+  }, [updated]);
 
   const handleEditBusiness = (business) => {
     //set product to store

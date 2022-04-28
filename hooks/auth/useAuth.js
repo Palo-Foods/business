@@ -24,8 +24,6 @@ export const useAuth = () => {
     setMessage,
     user,
     setUser,
-    auth,
-    setAuth,
     statusCode,
     setStatusCode,
   } = useStates();
@@ -76,7 +74,7 @@ export const useAuth = () => {
     setMessage("");
     setError("");
 
-    const token = user?.authToken
+    const token = user?.authToken;
 
     //1. send user data to database
     const { response, error } = await postPutDelete(url, data, method, token);
@@ -134,15 +132,6 @@ export const useAuth = () => {
     setMessage("Logged out");
   };
 
-  useEffect(() => {
-    setAuth({
-      createUserWithEmailAndPassword: signUp,
-      signInWithEmailAndPassword: login,
-      addUpdateDeleteUser: postPutDeleteData,
-      signOut: logOut,
-    });
-  });
-
   return {
     loading,
     statusCode,
@@ -150,8 +139,13 @@ export const useAuth = () => {
     error,
     setError,
     user,
-    signUp,
-    auth,
+    login,
+    auth: {
+      createUserWithEmailAndPassword: signUp,
+      signInWithEmailAndPassword: login,
+      addUpdateDeleteUser: postPutDeleteData,
+      signOut: logOut,
+    },
     postPutDeleteData,
   };
 };

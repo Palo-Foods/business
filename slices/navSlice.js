@@ -15,6 +15,7 @@ const initialState = {
   payment: null,
   stripePayload: null,
   signUpData: null,
+  updated: false,
 };
 
 export const navSlice = createSlice({
@@ -63,6 +64,9 @@ export const navSlice = createSlice({
     setPayments: (state, action) => {
       state.payments = action.payload;
     },
+    setUpdated: (state, action) => {
+      state.updated = action.payload;
+    },
   },
 });
 
@@ -83,6 +87,7 @@ export const {
   setManager,
   setPayments,
   setPayment,
+  setUpdated
 } = navSlice.actions;
 
 //Selectors, makes the data available
@@ -100,5 +105,6 @@ export const selectManager = (state) => state.nav.manager;
 export const selectMangers = (state) => state.nav.managers;
 export const selectPayment = (state) => state.nav.payment;
 export const selectPayments = (state) => state.nav.payments;
+export const selectUpdated = (state) => state.nav.updated;
 
 export default navSlice.reducer;

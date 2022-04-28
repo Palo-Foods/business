@@ -6,8 +6,12 @@ import Select from "../../components/ui/Select";
 import TextInput from "../../components/ui/TextInput";
 import { useStates } from "../../hooks/useStates";
 import DashboardLayout from "../../components/layouts/DashboardLayout";
-import { useSelector } from "react-redux";
-import { selectBusiness } from "../../slices/navSlice";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  selectBusiness,
+  setBusinesses,
+  setUpdated,
+} from "../../slices/navSlice";
 import { useAuth } from "../../hooks/auth/useAuth";
 import Spinner from "../../components/ui/Spinner";
 import Alert from "../../components/ui/Alert";
@@ -35,6 +39,8 @@ function AddBusinessPage() {
 
   //get signup hook
   const { auth, loading, statusCode, message } = useAuth();
+
+  const dispatch = useDispatch();
 
   const handleAddBusiness = async (e) => {
     e.preventDefault();
@@ -68,6 +74,9 @@ function AddBusinessPage() {
       business ? "PUT" : "POST"
     );
   };
+
+  //if updated data of business, push to all business
+  message.includes("updated") && dispatch(setUpdated(true));
 
   return (
     <DashboardLayout>
@@ -128,11 +137,7 @@ function AddBusinessPage() {
               <label htmlFor="phone" className="mb-2 h6">
                 Enter business phone
               </label>
-              <Phone
-                setText={setPhone}
-                text={phone}
-                classes=""
-              />
+              <Phone setText={setPhone} text={phone} classes="" />
             </div>
             <div className="col-md-6 form-group mb-4">
               <label htmlFor="region" className="mb-2 h6">
@@ -194,7 +199,7 @@ function AddBusinessPage() {
                 <button
                   type="submit"
                   className="btn btn-primary btn-lg"
-                   disabled={
+                  disabled={
                     !fullName ||
                     !name ||
                     !email ||
@@ -203,7 +208,7 @@ function AddBusinessPage() {
                     !region ||
                     !password ||
                     loading
-                  } >
+                  }>
                   {loading && <Spinner />} <span className="ms-2">Submit</span>
                 </button>
               )}
@@ -221,7 +226,7 @@ function AddBusinessPage() {
                     loading
                   }>
                   {loading && <Spinner />}{" "}
-                  <span className="ms-2">Update business data</span>
+                  <span className="ms-2">Update business</span>
                 </button>
               )}
               <Link href="/businesses">

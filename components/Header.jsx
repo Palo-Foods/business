@@ -158,7 +158,7 @@ function Header() {
                 <Link href={`/${menu.link}`}>
                   <a
                     className={`nav-link ms-md-0 d-flex align-items-center my-0 ${
-                      router?.query.page === menu.link
+                      router?.pathname.slice(1) === menu.link
                         ? "text-white bg-primary rounded"
                         : "text-black"
                     } mb-1 py-1`}

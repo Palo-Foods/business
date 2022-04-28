@@ -46,7 +46,9 @@ export const updateOneEntry = async (req, collection, set, filter) => {
         filter
       );
 
-      if (response.matchedCount === 1) {
+      console.log("update response", response);
+
+      if (response) {
         return { status: 200, statusText: `Data updated in ${collection}` };
       } else {
         return {
