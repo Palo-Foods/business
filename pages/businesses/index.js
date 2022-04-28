@@ -179,7 +179,7 @@ function BusinessesPage() {
                     ))}
                 {filteredData?.length === 0 && (
                   <tr>
-                    There are no business from <b>{region} region</b>
+                    There are no business from {region} region
                   </tr>
                 )}
               </tbody>
