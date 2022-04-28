@@ -22,7 +22,7 @@ function DashboardLayout(props) {
       </Head>
       <Script src="/bootstrap.bundle.min.js" />
       <Header />
-      <div className="container-lg my-5 py-4 overflow-y">
+      <div className="container-lg my-5 py-4">
         <div className="row py-2">
           <div className="col-12 mb-5">{props.children}</div>
         </div>
