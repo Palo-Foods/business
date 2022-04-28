@@ -2,12 +2,23 @@ import React from "react";
 import Link from "next/link";
 import { useStates } from "../../hooks/useStates";
 import DashboardLayout from "../../components/layouts/DashboardLayout";
+import { useAuth } from "../../hooks/auth/useAuth";
 
 function OrderPage() {
   const { router } = useStates();
 
-  const handleAddBusiness = (e) => {
-    e.preventDefault();
+   //get signup hook
+  const { auth, loading, statusCode, message, postPutDeleteData } = useAuth();
+
+  const handleProcessing = (action) => {
+    const url = `/api/v1.0.0/orders/${router?.query?.id}`;
+
+    //provide url, email, password, custom args
+    await postPutDeleteData(
+      url,
+      action,
+      action === "accept" ? "PUT" : "DELETE"
+    );
   };
   return (
     <DashboardLayout>
@@ -60,11 +71,15 @@ function OrderPage() {
             <a className="btn btn-info me-3 btn-lg mb-3 mb-md-0">Go back</a>
           </Link>
           <button
+            onClick={() => handleProcessing("decline")}
             type="submit"
             className="btn btn-danger btn-lg me-2 mb-3 mb-md-0">
             Decline
           </button>
-          <button type="submit" className="btn btn-primary btn-lg me-2">
+          <button
+            type="submit"
+            className="btn btn-primary btn-lg me-2"
+            onClick={() => handleProcessing("accept")}>
             Process
           </button>
         </div>

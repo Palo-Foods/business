@@ -15,7 +15,7 @@ export default authenticate(async (req, res) => {
       },
     };
     try {
-      const response = await updateOneEntry(req, res, "managers", set);
+      const response = await updateOneEntry(req, res, "orders", set);
 
       const { status, statusText, data, error } = response;
 
@@ -34,7 +34,7 @@ export default authenticate(async (req, res) => {
     }
   } else if (method === "DELETE") {
     try {
-      const response = await deleteOne("managers", id);
+      const response = await deleteOne("orders", id);
 
       const { status, statusText, data, error } = response;
 
@@ -53,8 +53,8 @@ export default authenticate(async (req, res) => {
     }
   } else {
     try {
-      const response = await findOne(req, res, "managers", {
-        _id: ObjectId(id),
+      const response = await findOne(req, res, "orders", {
+        _id: id,
       });
 
       const { status, statusText, data, error } = response;

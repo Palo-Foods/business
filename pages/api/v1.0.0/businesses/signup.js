@@ -57,7 +57,7 @@ export default authenticate(async function handler(req, res) {
         logo: "",
         heroImg: "",
         role: "business",
-        adminId: id,
+        managerId: id,
         url,
         createdAt: moment(date).format("lll"),
         apiKey,

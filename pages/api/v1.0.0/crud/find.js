@@ -9,8 +9,7 @@ export const find = async (collection, condition, projection) => {
 
   return response;
 };
-
-export const findOne = async (req, res, collection, condition, projection) => {
+export const findOne = async (req, collection, condition, projection) => {
   const { db } = await connectToDatabase();
   const { method, match } = await verifyUser(req);
 
@@ -19,25 +18,28 @@ export const findOne = async (req, res, collection, condition, projection) => {
       const response = await db
         .collection(collection)
         .findOne(condition, projection);
-      if (response)
-        return res.status(200).json({
-          status: 200,
-          statusText: "OK",
-          data: response,
-        });
+      return {
+        status: 200,
+        statusText: "OK",
+        data: response,
+      };
+    } else {
+      return {
+        status: 200,
+        statusText: "Invalid method/missing data",
+      };
     }
   } catch (error) {
-    return res.status(500).json({
+    return {
       status: 500,
       statusText: "Internal server error",
       error: error.message,
-    });
+    };
   }
 };
 
 export const findAll = async (
   req,
-  res,
   collection,
   condition,
   projection,

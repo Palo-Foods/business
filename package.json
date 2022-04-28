@@ -1,5 +1,5 @@
 {
-  "name": "admin",
+  "name": "manager",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -54,7 +54,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Palo-Foods/tasty.git"
+    "url": "git+https://github.com/Palo-Foods/manager.git"
   },
   "keywords": [
     "stripe",
@@ -64,7 +64,8 @@
   "author": "Richard Bentil",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/Palo-Foods/tasty/issues"
+    "url": "https://github.com/Palo-Foods/tasty/manager"
   },
-  "homepage": "https://github.com/Palo-Foods/tasty#readme"
+  "homepage": "https://github.com/Palo-Foods/manager#readme",
+  "devDependencies": {}
 }

@@ -152,5 +152,6 @@ export const useAuth = () => {
     user,
     signUp,
     auth,
+    postPutDeleteData,
   };
 };

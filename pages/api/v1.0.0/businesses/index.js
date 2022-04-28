@@ -4,7 +4,7 @@ import { findAll } from "../crud/find";
 import { verifyUser } from "../verification";
 
 export default authenticate(async (req, res) => {
-  //const { id } = verifyUser(req);
+  const { id } = verifyUser(req);
 
   //comes with a condition (admin)
   //await findAll(req, res, "businesses", { managerId: ObjectId(id) });
@@ -12,9 +12,8 @@ export default authenticate(async (req, res) => {
     //comes with a condition (manager)
     const response = await findAll(
       req,
-      res,
       "businesses",
-      {},
+      { managerId: id },
       {
         projection: {
           businessName: 1,

@@ -8,25 +8,25 @@ export default async (req, res) => {
 
   try {
     if (method === "POST" && email && password) {
-      const admin = await find(
-        "admins",
+      const manager = await find(
+        "managers",
         { email: email },
         { email: 1, role: 1, fullName: 1, phone: 1, password: 1, apiKey: 1 }
       );
 
-      const match = await compare(password, admin.password);
+      const match = await compare(password, manager.password);
 
       if (match) {
-        const jwt = createJwt(admin);
-        admin &&
+        const jwt = createJwt(manager);
+        manager &&
           res.status(200).json({
             status: 200,
             statusText: "Logged in successfully",
             authToken: jwt,
-            id: admin?._id,
-            email: admin?.email,
-            fullName: admin?.fullName,
-            phone: admin?.phone,
+            id: manager?._id,
+            email: manager?.email,
+            fullName: manager?.fullName,
+            phone: manager?.phone,
           });
       } else {
         res

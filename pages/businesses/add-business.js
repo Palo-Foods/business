@@ -93,7 +93,7 @@ function AddBusinessPage() {
                 text={name}
                 setInput={setInput}
                 setText={setName}
-                classes="form-control-lg"
+                classes=""
                 id="name"
               />
             </div>
@@ -106,7 +106,7 @@ function AddBusinessPage() {
                 text={fullName}
                 setInput={setInput}
                 setText={setFullName}
-                classes="form-control-lg"
+                classes=""
                 id="fullName"
               />
             </div>
@@ -119,7 +119,7 @@ function AddBusinessPage() {
                 text={email}
                 setInput={setInput}
                 setText={setEmail}
-                classes="form-control-lg"
+                classes=""
                 id="email"
               />
             </div>
@@ -130,7 +130,7 @@ function AddBusinessPage() {
               <Phone
                 setText={setPhone}
                 text={phone}
-                classes="form-control-lg"
+                classes=""
               />
             </div>
             <div className="col-md-6 form-group mb-4">
@@ -142,7 +142,7 @@ function AddBusinessPage() {
                 setInput={setInput}
                 setText={setRegion}
                 options={["Eastern", "Western", "Central", "Greater Accra"]}
-                classes="form-select-lg"
+                classes=""
                 id="region"
               />
             </div>
@@ -155,7 +155,7 @@ function AddBusinessPage() {
                 setInput={setInput}
                 setText={setType}
                 options={["Restaurant", "Groceries", "Liquor", "Pharmacy"]}
-                classes="form-select-lg"
+                classes=""
                 id="type"
               />
             </div>
@@ -169,7 +169,7 @@ function AddBusinessPage() {
                   text={password}
                   setInput={setInput}
                   setText={setPassword}
-                  classes="form-control-lg"
+                  classes=""
                 />
               </div>
             )}
