@@ -225,7 +225,7 @@ function AddBusinessPage() {
                 </button>
               )}
               <Link href="/businesses">
-                <a className="btn btn-default me-3">Go back</a>
+                <a className="btn btn-default ms-3">Go back</a>
               </Link>
             </div>
           </form>
