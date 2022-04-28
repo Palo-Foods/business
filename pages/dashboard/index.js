@@ -33,10 +33,10 @@ function DashboardPage() {
               <div className="d-flex justify-content-end">
                 <MdOutlineInfo size={20} />
               </div>
-              <div className="d-flex justify-content-start mt-3">
+              <div className="d-flex justify-content-start">
                 <div className="me-3">
-                  <span className="mx-1 track-icon bg-info rounded-circle px-3 py-2">
-                    <MdShoppingBag size={26} className="mb-1" />
+                  <span className="mx-1 bg-info p-3 rounded-circle">
+                    <MdShoppingBag size={26} className="mb-2" />
                   </span>
                 </div>
                 <div>
@@ -53,9 +53,9 @@ function DashboardPage() {
               <div className="d-flex justify-content-end">
                 <MdOutlineInfo size={20} />
               </div>
-              <div className="d-flex justify-content-start mt-3">
+              <div className="d-flex justify-content-start">
                 <div className="me-3">
-                  <span className="mx-1 track-icon bg-yellow rounded-circle px-3 py-2">
+                  <span className="mx-1 bg-success p-3 rounded-circle">
                     <MdOutlineMoney size={26} className="mb-1" />
                   </span>
                 </div>
@@ -73,9 +73,9 @@ function DashboardPage() {
               <div className="d-flex justify-content-end">
                 <MdOutlineInfo size={20} />
               </div>
-              <div className="d-flex justify-content-start mt-3">
+              <div className="d-flex justify-content-start">
                 <div className="me-3">
-                  <span className="mx-1 track-icon bg-light rounded-circle px-3 py-2">
+                  <span className="mx-1 bg-light p-3 rounded-circle">
                     <MdOutlinePayment size={26} className="mb-1" />
                   </span>
                 </div>
