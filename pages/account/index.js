@@ -40,7 +40,7 @@ function EditAccountPage() {
                 text={fullName || user?.fullName}
                 setInput={setInput}
                 setText={setFullName}
-                classes="form-control-lg"
+                classes=""
                 id="fullName"
               />
             </div>
@@ -53,7 +53,7 @@ function EditAccountPage() {
                 text={email || user?.email}
                 setInput={setInput}
                 setText={setEmail}
-                classes="form-control-lg"
+                classes=""
                 id="email"
               />
             </div>
@@ -64,7 +64,7 @@ function EditAccountPage() {
               <Phone
                 setText={setPhone}
                 text={phone || user?.phone}
-                classes="form-control-lg"
+                classes=""
                 id="phone"
               />
             </div>
@@ -86,7 +86,7 @@ function EditAccountPage() {
             <div>
               <button
                 type="submit"
-                className="btn btn-primary btn-lg"
+                className="btn btn-primary"
                 disabled={!fullName || !email || !phone}>
                 {loading && <Spinner />} Submit
               </button>

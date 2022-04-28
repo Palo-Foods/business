@@ -18,11 +18,6 @@ import {
 const menus = [
   { name: "Dashboard", link: "dashboard", icon: <MdDashboard size={20} /> },
   {
-    name: "Managers",
-    link: "managers",
-    icon: <MdGroups size={20} />,
-  },
-  {
     name: "Businesses",
     link: "businesses",
     icon: <MdOutlineStore size={20} />,

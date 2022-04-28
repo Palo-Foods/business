@@ -10,7 +10,7 @@ function DashboardLayout(props) {
         <title>{props.title || "Palo"}</title>
         <meta httpEquiv="Content-Type" content="text/html;charset=UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <meta name="description" content="A vendor management app" />
+        <meta name="description" content="A businesses management app" />
         <meta name="theme-color" content="#fff" />
         <link rel="icon" href="/images/favicon/favicon.ico" />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -24,7 +24,7 @@ function DashboardLayout(props) {
       <Header />
       <div className="container-lg my-5 py-4">
         <div className="row py-2">
-          <div className="col-12 overflow-y mb-5">{props.children}</div>
+          <div className="col-12 mb-5">{props.children}</div>
         </div>
       </div>
     </>

@@ -81,6 +81,7 @@ function BusinessesPage() {
       } else {
         setError(response.statusText);
       }
+       console.log(response?.data);
     }
   };
 
@@ -114,12 +115,12 @@ function BusinessesPage() {
           </a>
         </Link>
       </div>
-      {loading && (
+      {loading && !error && (
         <div className="d-flex justify-content-center align-items-center h-100 my-5">
           <Spinner />
         </div>
       )}
-      {error && (
+      {error && !loading && (
         <div className="d-flex justify-content-center align-items-center h-100">
           <div className="text-center my-5">
             <p>There was an error</p>

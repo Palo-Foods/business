@@ -21,7 +21,7 @@ export const verifyUser = async (req) => {
   //console.log(id, apiKey, email);
   //if admin doesn't get resolved, the id wont be passed, fix the apiKey issue
   const admin = await find(
-    "admins",
+    "managers",
     { email: email },
     { projection: { apiKey: 1 } }
   );

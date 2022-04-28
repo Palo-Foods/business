@@ -9,6 +9,7 @@ export const find = async (collection, condition, projection) => {
 
   return response;
 };
+
 export const findOne = async (req, collection, condition, projection) => {
   const { db } = await connectToDatabase();
   const { method, match } = await verifyUser(req);
