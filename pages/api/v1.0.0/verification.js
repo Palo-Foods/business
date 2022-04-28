@@ -18,7 +18,7 @@ export const verifyUser = async (req) => {
   const { payload } = data;
 
   const { id, apiKey, email } = payload;
-  //console.log(id, apiKey, email);
+  console.log("id", id, apiKey, email);
   //if admin doesn't get resolved, the id wont be passed, fix the apiKey issue
   const admin = await find(
     "managers",

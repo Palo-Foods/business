@@ -57,6 +57,7 @@ function AddBusinessPage() {
       type,
       region,
     };
+    console.log(updateData);
 
     const url = `/api/v1.0.0/businesses/${business ? business?._id : "signup"}`;
 
@@ -193,7 +194,7 @@ function AddBusinessPage() {
                 <button
                   type="submit"
                   className="btn btn-primary btn-lg"
-                  disabled={
+                 /*  disabled={
                     !fullName ||
                     !name ||
                     !email ||
@@ -202,14 +203,14 @@ function AddBusinessPage() {
                     !region ||
                     !password ||
                     loading
-                  }>
+                  } */>
                   {loading && <Spinner />} <span className="ms-2">Submit</span>
                 </button>
               )}
               {business && (
                 <button
                   type="submit"
-                  className="btn btn-primary btn-lg"
+                  className="btn btn-primary"
                   disabled={
                     !fullName ||
                     !name ||
@@ -224,7 +225,7 @@ function AddBusinessPage() {
                 </button>
               )}
               <Link href="/businesses">
-                <a className="btn btn-default me-3 btn-lg">Go back</a>
+                <a className="btn btn-default me-3">Go back</a>
               </Link>
             </div>
           </form>

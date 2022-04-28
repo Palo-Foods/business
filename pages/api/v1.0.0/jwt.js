@@ -3,7 +3,7 @@ import { secret_key } from "../../../lib/secret";
 
 export const createJwt = (payload) => {
   const claims = {
-    payload,
+    ...payload,
   };
 
   const jwt = sign({ data: claims }, secret_key, {

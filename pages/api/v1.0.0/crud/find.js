@@ -1,13 +1,25 @@
 import { connectToDatabase } from "../../../../lib/mongodb";
 import { verifyUser } from "../verification";
 
+//used for login and others
 export const find = async (collection, condition, projection) => {
   const { db } = await connectToDatabase();
-  const response = await db
-    .collection(collection)
-    .findOne(condition, projection);
-
-  return response;
+  try {
+    const response = await db
+      .collection(collection)
+      .findOne(condition, projection);
+    return {
+      status: 200,
+      statusText: "OK",
+      data: response,
+    };
+  } catch (error) {
+    return {
+      status: 500,
+      statusText: "Internal server error",
+      error: error.message,
+    };
+  }
 };
 
 export const findOne = async (req, collection, condition, projection) => {

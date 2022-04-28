@@ -1,7 +1,6 @@
 import { connectToDatabase } from "../../../../lib/mongodb";
 import { verifyUser } from "../verification";
 
-
 export const insertOne = async (req, res, collection, data) => {
   const { db } = await connectToDatabase();
 
@@ -16,23 +15,24 @@ export const insertOne = async (req, res, collection, data) => {
       return;
     }
 
-     const response = await db.collection(collection).insertOne(data);
-
-    response.acknowledged &&
-      res.status(201).json({
+    const response = await db.collection(collection).insertOne(data);
+console.log("response", response);
+    if (response.acknowledged) {
+      return {
         status: 201,
         statusText: `You have successfully added data to ${collection}`,
-      });
-
-    res.json({
-      status: 400,
-      statusText: `Adding data to ${collection} failed`,
-    });
+      };
+    } else {
+      return {
+        status: 400,
+        statusText: `Adding data to ${collection} failed`,
+      };
+    }
   } catch (error) {
-    res.status(500).json({
+    return {
       status: 500,
       statusText: "Internal server error",
       error: error.message,
-    });
+    };
   }
 };
