@@ -33,12 +33,12 @@ export const removeFromArray = async (collection, condition, set, filter) => {
   }
 };
 
-export const updateOneEntry = async (req, res, collection, set, filter) => {
-  const { method, match } = await verifyUser(req);
+export const updateOneEntry = async (req, collection, set, filter) => {
+  const { match } = await verifyUser(req);
   const { id } = req.query;
 
   try {
-    if (method === "PUT" && match) {
+    if (match) {
       const response = await updateOne(
         collection,
         { _id: ObjectId(id) },
@@ -46,10 +46,16 @@ export const updateOneEntry = async (req, res, collection, set, filter) => {
         filter
       );
 
-      if (response)
+      if (response.matchedCount === 1) {
         return { status: 200, statusText: `Data updated in ${collection}` };
+      } else {
+        return {
+          status: 404,
+          statusText: `Data updated in ${collection} failed`,
+        };
+      }
     } else {
-      res.status(401).json({ status: 401, statusText: "Invalid method" });
+      return { status: 401, statusText: "Unauthorized" };
     }
   } catch (error) {
     return {

@@ -6,15 +6,16 @@ import { updateOneEntry } from "../crud/update";
 export default authenticate(async (req, res) => {
   const method = req.method;
   const { id } = req.query; //needed for condition
-  //dont set methods or anything, everything has already been done in the updateOneEntry function
-  if (method === "PUT") {
-    const body = JSON.parse(req.body);
-    const set = {
-      $set: {
-        ...body,
-      },
-    };
-    try {
+  try {
+    //dont set methods or anything, everything has already been done in the updateOneEntry function
+    if (method === "PUT") {
+      const body = JSON.parse(req.body);
+      const set = {
+        $set: {
+          ...body,
+        },
+      };
+
       const response = await updateOneEntry(req, res, "orders", set);
 
       const { status, statusText, data, error } = response;
@@ -25,15 +26,7 @@ export default authenticate(async (req, res) => {
         data: data,
         error: error,
       });
-    } catch (error) {
-      res.status(500).json({
-        status: 500,
-        statusText: "Internal server error",
-        error: error.message,
-      });
-    }
-  } else if (method === "DELETE") {
-    try {
+    } else if (method === "DELETE") {
       const response = await deleteOne("orders", id);
 
       const { status, statusText, data, error } = response;
@@ -44,15 +37,7 @@ export default authenticate(async (req, res) => {
         data: data,
         error: error,
       });
-    } catch (error) {
-      res.status(500).json({
-        status: 500,
-        statusText: "Internal server error",
-        error: error.message,
-      });
-    }
-  } else {
-    try {
+    } else {
       const response = await findOne(req, res, "orders", {
         _id: id,
       });
@@ -65,12 +50,12 @@ export default authenticate(async (req, res) => {
         data: data,
         error: error,
       });
-    } catch (error) {
-      res.status(500).json({
-        status: 500,
-        statusText: "Internal server error",
-        error: error.message,
-      });
     }
+  } catch (error) {
+    res.status(500).json({
+      status: 500,
+      statusText: "Internal server error",
+      error: error.message,
+    });
   }
 });

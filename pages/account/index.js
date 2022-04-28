@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import Phone from "../../components/ui/Phone";
 import TextInput from "../../components/ui/TextInput";
@@ -10,11 +10,9 @@ import Alert from "../../components/ui/Alert";
 import Spinner from "../../components/ui/Spinner";
 
 function EditAccountPage() {
-  const { user, auth, loading, message } = useAuth();
+  const { auth, user, loading, message } = useAuth();
   const { fullName, phone, setPhone, email, setEmail, setFullName, setInput } =
     useStates(user);
-
-  const url = `/api/v1.0.0/account/${user?.id}`;
 
   const handleEditAccount = async (e) => {
     e.preventDefault();
@@ -37,7 +35,7 @@ function EditAccountPage() {
               </label>
               <TextInput
                 type="text"
-                text={fullName || user?.fullName}
+                text={fullName}
                 setInput={setInput}
                 setText={setFullName}
                 classes=""
@@ -50,7 +48,7 @@ function EditAccountPage() {
               </label>
               <TextInput
                 type="email"
-                text={email || user?.email}
+                text={email}
                 setInput={setInput}
                 setText={setEmail}
                 classes=""
@@ -61,12 +59,7 @@ function EditAccountPage() {
               <label htmlFor="phone" className="mb-2 h6">
                 Enter phone
               </label>
-              <Phone
-                setText={setPhone}
-                text={phone || user?.phone}
-                classes=""
-                id="phone"
-              />
+              <Phone setText={setPhone} text={phone} classes="" id="phone" />
             </div>
             {message && (
               <div className="px-3">
@@ -88,7 +81,7 @@ function EditAccountPage() {
                 type="submit"
                 className="btn btn-primary"
                 disabled={!fullName || !email || !phone}>
-                {loading && <Spinner />} Submit
+                {loading && <Spinner />} Update
               </button>
             </div>
           </form>

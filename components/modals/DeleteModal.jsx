@@ -6,35 +6,24 @@ import { useStates } from "../../hooks/useStates";
 import { MdClear, MdDelete, MdError, MdCheckCircle } from "react-icons/md";
 import { useAuth } from "../../hooks/auth/useAuth";
 
-function DeleteModal({ item, url }) {
-  const [show, setShow] = useState(false);
-  const { auth } = useAuth();
-  const { loading, setLoading, error, setError } = useStates();
+function DeleteModal({ item, url, setItem, fetchData }) {
+  const { auth, loading, statusCode, message } = useAuth();
 
   const deleteItem = async () => {
-    setError(false);
-    setLoading(true);
     const itemId = item?._id;
     const uri = `${url}/${itemId}`;
-    const data = {}
-    try {
-      const { response, error } = await auth.addUpdateDeleteUser(
-        uri,
-        data, //no data is sent cos we are deleting the item
-        "DELETE"
-      );
-      setLoading(false);
-      if (response) {
-        if (response.msg === "success") {
-          setShow(true);
-        } else {
-          setError(error);
-        }
-      } else {
-        setError(error);
-      }
-    } catch (error) {
-      setError(error.message);
+    const data = {};
+
+    await auth.addUpdateDeleteUser(
+      uri,
+      data, //no data is sent cos we are deleting the item
+      "DELETE"
+    );
+  };
+  const clearAnything = () => {
+    setItem(null);
+    if(statusCode === 200) {
+      fetchData()
     }
   };
 
@@ -54,7 +43,9 @@ function DeleteModal({ item, url }) {
               type="button"
               className="btn btn-default mt-2"
               data-bs-dismiss="modal">
-              <span className="bg-light rounded-circle p-2">
+              <span
+                className="bg-light rounded-circle p-2"
+                onClick={clearAnything}>
                 <MdClear size={20} />
               </span>
             </button>
@@ -63,18 +54,36 @@ function DeleteModal({ item, url }) {
             <div className="d-flex justify-content-center align-items-center">
               <div className="text-center d-flex align-items-center">
                 <div>
-                  <div className="my-4">
-                    {!show && <MdDelete size={50} color="red" />}
-                    {show && <MdCheckCircle size={50} />}
+                  <div className="">
+                    {!statusCode && <MdDelete size={50} color="red" />}
+                    {statusCode === 200 && (
+                      <MdCheckCircle
+                        size={150}
+                        color="green"
+                        className="mb-2"
+                      />
+                    )}
+                    {message && (
+                      <div className="">
+                        <Alert
+                          type={
+                            statusCode === 200
+                              ? "success"
+                              : statusCode === 500
+                              ? "danger"
+                              : "info"
+                          }
+                          message={message}
+                        />
+                      </div>
+                    )}
                   </div>
-                  {!show && (
+                  {!statusCode && (
                     <h5>
                       Do you want to delete
                       <span className="text-secondary"> {item?.name}</span>
                     </h5>
                   )}
-                  {show && <h5>{item?.name} data has been deleted</h5>}
-                  {error && <Alert type="danger" message={error} />}
                 </div>
               </div>
             </div>
@@ -83,10 +92,11 @@ function DeleteModal({ item, url }) {
             <button
               type="button"
               className="btn btn-secondary px-4 mx-3"
-              data-bs-dismiss="modal">
-              {show ? "Close" : "No"}
+              data-bs-dismiss="modal"
+              onClick={clearAnything}>
+              {statusCode ? "Close" : "No"}
             </button>
-            {!show && (
+            {!statusCode && (
               <button
                 disabled={loading}
                 type="button"

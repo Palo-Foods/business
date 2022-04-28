@@ -58,7 +58,7 @@ function OrdersPage() {
     <DashboardLayout>
       <h5 className="text-muted px-0">Payments</h5>
 
-      {loading && !error && (
+      {loading && (
         <div className="d-flex justify-content-center align-items-center h-100">
           <Spinner />
         </div>

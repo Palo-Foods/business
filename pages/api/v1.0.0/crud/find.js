@@ -1,7 +1,7 @@
 import { connectToDatabase } from "../../../../lib/mongodb";
 import { verifyUser } from "../verification";
 
-//used for login and others
+//used for login and signup
 export const find = async (collection, condition, projection) => {
   const { db } = await connectToDatabase();
   try {
@@ -24,25 +24,36 @@ export const find = async (collection, condition, projection) => {
 
 export const findOne = async (req, collection, condition, projection) => {
   const { db } = await connectToDatabase();
-  const { method, match } = await verifyUser(req);
+  const { match } = await verifyUser(req);
 
   try {
-    if (method === "GET" && match) {
+    if (match) {
       const response = await db
         .collection(collection)
         .findOne(condition, projection);
-      return {
-        status: 200,
-        statusText: "OK",
-        data: response,
-      };
+
+      console.log("find one", response);
+
+      if (response.email) {
+        return {
+          status: 200,
+          statusText: "OK",
+          data: response,
+        };
+      } else {
+        return {
+          status: 404,
+          statusText: "Not found",
+        };
+      }
     } else {
       return {
         status: 200,
-        statusText: "Invalid method/missing data",
+        statusText: "Invalid method",
       };
     }
   } catch (error) {
+    console.log("find one error", error.message);
     return {
       status: 500,
       statusText: "Internal server error",
@@ -60,12 +71,10 @@ export const findAll = async (
 ) => {
   const { db } = await connectToDatabase();
 
-  const { method, match } = await verifyUser(req);
-
-  console.log(method, match);
+  const { match } = await verifyUser(req);
 
   try {
-    if (method === "GET" && match) {
+    if (match) {
       const response = await db
         .collection(collection)
         .find(condition, projection)

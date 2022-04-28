@@ -194,7 +194,7 @@ function AddBusinessPage() {
                 <button
                   type="submit"
                   className="btn btn-primary btn-lg"
-                 /*  disabled={
+                   disabled={
                     !fullName ||
                     !name ||
                     !email ||
@@ -203,7 +203,7 @@ function AddBusinessPage() {
                     !region ||
                     !password ||
                     loading
-                  } */>
+                  } >
                   {loading && <Spinner />} <span className="ms-2">Submit</span>
                 </button>
               )}

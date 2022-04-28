@@ -15,19 +15,23 @@ import { useStates } from "../../hooks/useStates";
 import Search from "../../components/ui/Search";
 import { read } from "../../functions/crud/FETCH";
 import { useFilter } from "../../hooks/useFilter";
+import Select from "../../components/ui/Select";
 
-const BusinessTableRow = ({ business, handleEditBusiness }) => {
+const BusinessTableRow = ({ business, handleEditBusiness, setItem }) => {
+  console.log(business);
   return (
     <tr>
       <td scope="row" className="ps-0">
-        {business?.businessName}
+        {business?.name}
       </td>
       <td className="text-nowrap d-none d-md-table-cell">
         {business?.fullName}
       </td>
       <td className="text-nowrap d-none d-md-table-cell">{business?.phone}</td>
       <td className="text-nowrap d-none d-md-table-cell">{business?.region}</td>
-      <td className="text-nowrap d-none d-md-table-cell"></td>
+      <td className="text-nowrap d-none d-md-table-cell">
+        {business?.location}
+      </td>
       <td>
         <a
           type="button"
@@ -49,14 +53,14 @@ const BusinessTableRow = ({ business, handleEditBusiness }) => {
 };
 
 const searched = (keyword) => (item) =>
-  item?.businessName?.toLowerCase().includes(keyword);
+  item?.name?.toLowerCase().includes(keyword);
 
 function BusinessesPage() {
   const url = "/api/v1.0.0/businesses";
 
-  const businesses = useSelector(selectBusinesses);
+  let businesses = useSelector(selectBusinesses);
 
-  const { loading, setLoading, error, region, setRegion, setError } =
+  const { loading, setLoading, error, region, setRegion, setError, setInput } =
     useStates();
 
   const { filteredData } = useFilter(businesses, region);
@@ -70,6 +74,9 @@ function BusinessesPage() {
   const [item, setItem] = useState("");
 
   const fetchData = async () => {
+    //when an item is deleted and its successfull and data is been fetched again, we
+    //set businesses as empty array
+    businesses = [];
     setLoading(true);
     const response = await read(url);
     setLoading(false);
@@ -81,7 +88,7 @@ function BusinessesPage() {
       } else {
         setError(response.statusText);
       }
-       console.log(response?.data);
+      console.log(response?.data);
     }
   };
 
@@ -115,7 +122,7 @@ function BusinessesPage() {
           </a>
         </Link>
       </div>
-      {loading && !error && (
+      {loading && (
         <div className="d-flex justify-content-center align-items-center h-100 my-5">
           <Spinner />
         </div>
@@ -151,6 +158,7 @@ function BusinessesPage() {
                   <option value="Eastern">Eastern</option>
                   <option value="Western">Western</option>
                   <option value="Central">Central</option>
+                  <option value="Greater Accra">Greater Accra</option>
                 </select>
               </div>
             </div>
@@ -172,7 +180,7 @@ function BusinessesPage() {
               <tbody>
                 {filteredData &&
                   filteredData
-                    .filter(searched(keyword))
+                    ?.filter(searched(keyword))
                     .map((business) => (
                       <BusinessTableRow
                         key={business?._id}
@@ -183,7 +191,7 @@ function BusinessesPage() {
                     ))}
                 {!filteredData &&
                   businesses
-                    .filter(searched(keyword))
+                    ?.filter(searched(keyword))
                     .map((business) => (
                       <BusinessTableRow
                         key={business?._id}
@@ -206,7 +214,12 @@ function BusinessesPage() {
         !error &&
         businesses?.length === 0 &&
         "There are no businesses"}
-      <DeleteModal item={item} url="/api/v1.0.0/businesses" />
+      <DeleteModal
+        item={item}
+        setItem={setItem}
+        url="/api/v1.0.0/businesses"
+        fetchData={fetchData}
+      />
     </DashboardLayout>
   );
 }

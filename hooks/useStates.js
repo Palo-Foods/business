@@ -3,7 +3,7 @@
  **/
 import { useState } from "react";
 import { useDispatch } from "react-redux";
-import {useRouter} from "next/router";
+import { useRouter } from "next/router";
 
 export const useStates = (dataFromStore) => {
   const [auth, setAuth] = useState("");
@@ -13,7 +13,7 @@ export const useStates = (dataFromStore) => {
   const [email, setEmail] = useState(dataFromStore?.email);
   const [phone, setPhone] = useState(dataFromStore?.phone);
   const [fullName, setFullName] = useState(dataFromStore?.fullName);
-  const [name, setName] = useState(dataFromStore?.businessName);
+  const [name, setName] = useState(dataFromStore?.name);
   const [password, setPassword] = useState("");
   const [birthday, setBirthday] = useState("");
   const [city, setCity] = useState("");
@@ -24,7 +24,7 @@ export const useStates = (dataFromStore) => {
   const [department, setDepartment] = useState("");
   const [text, setText] = useState("");
   const [description, setDescription] = useState("");
-  const [type, setType] = useState(dataFromStore?.businessType);
+  const [type, setType] = useState(dataFromStore?.type);
   const [options, setOptions] = useState("");
   const [agree, setAgree] = useState("");
   const [region, setRegion] = useState(dataFromStore?.region);
