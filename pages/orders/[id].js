@@ -10,7 +10,7 @@ function OrderPage() {
    //get signup hook
   const { auth, loading, statusCode, message, postPutDeleteData } = useAuth();
 
-  const handleProcessing = (action) => {
+  const handleProcessing = async(action) => {
     const url = `/api/v1.0.0/orders/${router?.query?.id}`;
 
     //provide url, email, password, custom args
