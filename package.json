@@ -27,6 +27,7 @@
     "formik": "^2.2.9",
     "install": "^0.13.0",
     "jsonwebtoken": "^8.5.1",
+    "memory-cache": "^0.2.0",
     "moment": "^2.29.2",
     "mongodb": "^4.4.1",
     "next": "12.1.4",
@@ -66,6 +67,5 @@
   "bugs": {
     "url": "https://github.com/Palo-Foods/tasty/manager"
   },
-  "homepage": "https://github.com/Palo-Foods/manager#readme",
-  "devDependencies": {}
+  "homepage": "https://github.com/Palo-Foods/manager#readme"
 }

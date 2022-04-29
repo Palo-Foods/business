@@ -1,8 +1,10 @@
-import { MdAdd, MdDelete, MdModeEditOutline } from "react-icons/md";
-
-const BusinessTableRow = ({ business, handleEditBusiness, setItem }) => {
+const BusinessTableRow = ({ business, setItem }) => {
   return (
-    <tr>
+    <tr
+      onClick={() => setItem(business)}
+      data-bs-toggle="modal"
+      data-bs-target="#showModal"
+      style={{ cursor: "pointer" }}>
       <td scope="row" className="ps-0">
         {business?.name}
       </td>
@@ -13,22 +15,6 @@ const BusinessTableRow = ({ business, handleEditBusiness, setItem }) => {
       <td className="text-nowrap d-none d-md-table-cell">{business?.region}</td>
       <td className="text-nowrap d-none d-md-table-cell">
         {business?.location}
-      </td>
-      <td>
-        <a
-          type="button"
-          onClick={() => handleEditBusiness(business)}
-          className="me-md-2">
-          <MdModeEditOutline size={20} />
-        </a>
-        <a
-          type="button"
-          className="ms-3"
-          onClick={() => setItem(business)}
-          data-bs-toggle="modal"
-          data-bs-target="#deleteModal">
-          <MdDelete className="text-danger" size={20} />
-        </a>
       </td>
     </tr>
   );

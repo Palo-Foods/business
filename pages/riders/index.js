@@ -1,36 +1,42 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import DashboardLayout from "../../components/layouts/DashboardLayout";
 import Spinner from "../../components/ui/Spinner";
 import { useRouter } from "next/router";
 import Link from "next/link";
+import dynamic from "next/dynamic";
 import { MdAdd } from "react-icons/md";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  selectRiders,
-  selectUpdated,
-  setRiders,
-  setRider,
-  setUpdated,
-} from "../../slices/navSlice";
+import { selectRiders, setRiders, setRider } from "../../slices/navSlice";
 import DeleteModal from "../../components/modals/DeleteModal";
 import { useStates } from "../../hooks/useStates";
 import Search from "../../components/ui/Search";
-import { read } from "../../functions/crud/FETCH";
 import { useFilter } from "../../hooks/useFilter";
-import RidersTableRow from "../../components/RidersTableRow";
+import { useFetch } from "../../hooks/crud/useFetch";
+const RidersTableRow = dynamic(
+  () => import("../../components/RidersTableRow"),
+  {
+    loading: () => (
+      <tr>
+        loading...
+      </tr>
+    ),
+  }
+);
+const ShowModal = dynamic(() => import("../../components/modals/ShowModal"));
+const RiderModalContent = dynamic(() =>
+  import("../../components/modals/RiderModalContent")
+);
 
 const searched = (keyword) => (item) =>
   item?.name?.toLowerCase().includes(keyword);
 
 function RidersPage() {
+  const [edit, setEdit] = useState(false);
   const url = "/api/v1.0.0/riders";
 
   let riders = useSelector(selectRiders);
 
-  const updated = useSelector(selectUpdated);
-
-  const { loading, setLoading, error, region, setRegion, setError, setInput } =
-    useStates();
+  const { region, setRegion } = useStates();
 
   const { filteredData } = useFilter(riders, region);
 
@@ -42,60 +48,26 @@ function RidersPage() {
 
   const [item, setItem] = useState("");
 
-  const fetchData = async () => {
-    //when an item is deleted and its successful and data is been fetched again, we
-    //set riders as empty array
-    riders = [];
-    setLoading(true);
-    const response = await read(url);
-    setLoading(false);
-    if (response.status !== 200) {
-      setError(response.statusText);
-    } else {
-      if (response.data) {
-        dispatch(setRiders(response.data));
-      } else {
-        setError(response.statusText);
-      }
-      console.log(response?.data);
-    }
-  };
+  const { loading, error, fetchData } = useFetch(url, riders, setRiders);
 
-  //fetch data
+  //match modal to route
   useEffect(() => {
-    //fetch data
-    const getData = async () => {
-      await fetchData();
-    };
-
-    if (riders.length === 0) {
-      getData();
+    if (item) {
+      //1. if item is set, route to
+      router.replace("/riders", `/riders/${item?._id}`, {
+        shallow: true,
+      });
     }
-
-    //if updated is set on updating user data, fetch the data again and
-    if (updated) {
-      dispatch(setRiders([]));
-      if (!riders) {
-        getData();
-        //after fetching, set updated to false
-        dispatch(setUpdated(false));
-      }
-    }
-  }, [updated]);
-
-  const handleEditRider = (rider) => {
-    //set product to store
-    dispatch(setRider(rider));
-    router.push(`/riders/add-rider/${rider?._id}`);
-  };
+  }, [item]);
 
   return (
     <DashboardLayout>
       <div className="d-flex justify-content-between align-items-center mt-2 mb-3">
-        <h5 className="text-muted mb-0">Riders</h5>
+        <h6 className="text-muted mb-0">Riders</h6>
         <Link href="/riders/add-rider">
-          <a className="btn btn-primary" onClick={() => dispatch(setRider(""))}>
-            <MdAdd size={18} /> <span> Add rider</span>
+          <a className="btn btn-primary d-flex justify-content-between align-items-center" onClick={() => dispatch(setRider(""))}>
+            <MdAdd size={18} />
+            <span className="d-none d-md-block ms-2"> Add rider</span>
           </a>
         </Link>
       </div>
@@ -148,10 +120,6 @@ function RidersPage() {
                   </th>
                   <th className="text-nowrap d-none d-md-table-cell">Phone</th>
                   <th className="text-nowrap d-none d-md-table-cell">Region</th>
-                  <th className="text-nowrap d-none d-md-table-cell">
-                    Location
-                  </th>
-                  <th></th>
                 </tr>
               </thead>
               <tbody>
@@ -174,7 +142,6 @@ function RidersPage() {
                         key={rider?._id}
                         rider={rider}
                         setItem={setItem}
-                        handleEditRider={handleEditRider}
                       />
                     ))}
                 {filteredData?.length === 0 && (
@@ -187,10 +154,23 @@ function RidersPage() {
       )}
       {!loading && !error && riders?.length === 0 && "There are no riders"}
       <DeleteModal
+        type="rider"
         item={item}
         setItem={setItem}
-        url="/api/v1.0.0/riders"
+        url="/api/v1.0.0/businesses"
         fetchData={fetchData}
+        router={router}
+      />
+      <ShowModal
+        type="rider"
+        item={item}
+        setItem={setItem}
+        edit={edit}
+        setEdit={setEdit}
+        router={router}
+        content={
+          <RiderModalContent edit={edit} setEdit={setEdit} item={item} />
+        }
       />
     </DashboardLayout>
   );

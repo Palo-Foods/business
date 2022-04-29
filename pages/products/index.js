@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import DashboardLayout from "../../components/layouts/DashboardLayout";
 import Spinner from "../../components/ui/Spinner";
 import { useRouter } from "next/router";
@@ -9,8 +9,9 @@ import { selectMangers, setManager, setManagers } from "../../slices/navSlice";
 import DeleteModal from "../../components/modals/DeleteModal";
 import Search from "../../components/ui/Search";
 import { useStates } from "../../hooks/useStates";
-import { read } from "../../functions/crud/FETCH";
 import { useFilter } from "../../hooks/useFilter";
+import { useAuth } from "../../hooks/auth/useAuth";
+import { useFetch } from "../../hooks/crud/useFetch";
 
 const ManagerTableRow = ({ manager, handleEditManager }) => {
   return (
@@ -50,12 +51,12 @@ const searched = (keyword) => (item) =>
   item?.fullName?.toLowerCase().includes(keyword);
 
 function ManagersPage() {
+  const { auth } = useAuth();
   const url = "/api/v1.0.0/managers";
 
   const managers = useSelector(selectMangers);
 
-  const { loading, setLoading, error, region, setRegion, setError } =
-    useStates();
+  const { region, setRegion } = useStates();
 
   const { filteredData } = useFilter(managers, region);
 
@@ -67,33 +68,7 @@ function ManagersPage() {
 
   const [item, setItem] = useState("");
 
-  const fetchData = async () => {
-    setLoading(true);
-    const response = await read(url);
-    setLoading(false);
-    if (response.status !== 200) {
-      setError(response.statusText);
-    } else {
-      if (response.data) {
-        dispatch(setManagers(response.data));
-      } else {
-        setError(response.statusText);
-      }
-    }
-  };
-
-  //fetch data
-  useEffect(() => {
-    //fetch data
-    const getData = async () => {
-      await fetchData();
-    };
-
-    if (managers.length === 0) {
-      getData();
-    }
-  }, []);
-
+  const { loading, error, fetchData } = useFetch(url, managers, setManagers);
   //2. handle edit of data
   const handleEditManager = (manager) => {
     //set product to store

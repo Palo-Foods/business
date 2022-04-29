@@ -5,9 +5,7 @@ import Spinner from "../../components/ui/Spinner";
 import { useFetch } from "../../hooks/crud/useFetch";
 import { useDispatch, useSelector } from "react-redux";
 import { selectPayments, setOrder, setPayments } from "../../slices/navSlice";
-import { useStates } from "../../hooks/useStates";
 import Search from "../../components/ui/Search";
-import { read } from "../../functions/crud/FETCH";
 
 const searched = (keyword) => (item) =>
   item?.name?.toLowerCase().includes(keyword);
@@ -18,36 +16,12 @@ function OrdersPage() {
 
   const [keyword, setKeyword] = useState("");
 
-  const { loading, setLoading, error, setError } = useStates();
-
   const router = useRouter();
 
   const dispatch = useDispatch();
 
-  const fetchData = async () => {
-    setLoading(true);
-    const response = await read(url);
-    setLoading(false);
-    if (response.status !== 200) {
-      setError(response.statusText);
-    } else {
-      if (response.data > 0 || response.data === 0) {
-        dispatch(setPayments(response.data));
-      }
-    }
-  };
+  const { loading, error, fetchData } = useFetch(url, payments, setPayments);
 
-  //fetch data
-  useEffect(() => {
-    //fetch data
-    const getData = async () => {
-      await fetchData();
-    };
-
-    if (payments.length === 0) {
-      getData();
-    }
-  }, []);
   const handleNavigation = (payments) => {
     //set product to store
     dispatch(setOrder(payments));

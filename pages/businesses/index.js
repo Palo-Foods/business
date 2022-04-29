@@ -4,33 +4,36 @@ import Spinner from "../../components/ui/Spinner";
 import { useRouter } from "next/router";
 import Link from "next/link";
 import { MdAdd } from "react-icons/md";
-import { useDispatch, useSelector } from "react-redux";
-import {
-  selectBusinesses,
-  selectUpdated,
-  setBusiness,
-  setBusinesses,
-  setUpdated,
-} from "../../slices/navSlice";
-import DeleteModal from "../../components/modals/DeleteModal";
+import { useSelector } from "react-redux";
+import { selectBusinesses, setBusinesses } from "../../slices/navSlice";
+const DeleteModal = dynamic(() =>
+  import("../../components/modals/DeleteModal")
+);
+const ShowModal = dynamic(() => import("../../components/modals/ShowModal"));
 import { useStates } from "../../hooks/useStates";
 import Search from "../../components/ui/Search";
-import { read } from "../../functions/crud/FETCH";
 import { useFilter } from "../../hooks/useFilter";
-import BusinessTableRow from "../../components/BusinessTableRow";
+import { useFetch } from "../../hooks/crud/useFetch";
+import dynamic from "next/dynamic";
+const BusinessTableRow = dynamic(
+  () => import("../../components/BusinessTableRow"),
+  { loading: () => <tr>loading...</tr> }
+);
+const BusinessModalContent = dynamic(() =>
+  import("../../components/modals/BusinessModalContent")
+);
 
 const searched = (keyword) => (item) =>
   item?.name?.toLowerCase().includes(keyword);
 
 function BusinessesPage() {
+  const [edit, setEdit] = useState(false);
+
   const url = "/api/v1.0.0/businesses";
 
   let businesses = useSelector(selectBusinesses);
 
-  const updated = useSelector(selectUpdated);
-
-  const { loading, setLoading, error, region, setRegion, setError, setInput } =
-    useStates();
+  const { region, setRegion } = useStates();
 
   const { filteredData } = useFilter(businesses, region);
 
@@ -38,64 +41,32 @@ function BusinessesPage() {
 
   const router = useRouter();
 
-  const dispatch = useDispatch();
-
   const [item, setItem] = useState("");
 
-  const fetchData = async () => {
-    //when an item is deleted and its successfull and data is been fetched again, we
-    //set businesses as empty array
-    businesses = [];
-    setLoading(true);
-    const response = await read(url);
-    setLoading(false);
-    if (response.status !== 200) {
-      setError(response.statusText);
-    } else {
-      if (response.data) {
-        dispatch(setBusinesses(response.data));
-      } else {
-        setError(response.statusText);
-      }
-      console.log(response?.data);
-    }
-  };
+  const { loading, error, fetchData } = useFetch(
+    url,
+    businesses,
+    setBusinesses
+  );
 
-  //fetch data
+  //match modal to route
   useEffect(() => {
-    //fetch data
-    const getData = async () => {
-      await fetchData();
-    };
-
-    if (businesses.length === 0) {
-      getData();
+    if (item) {
+      //1. if item is set, route to
+      router.replace("/businesses", `/businesses/${item?._id}`, {
+        shallow: true,
+      });
     }
-
-    //if updated is set on updating user data, fetch the data again and
-    if (updated) {
-      dispatch(setBusinesses([]));
-      getData();
-      //after fetching, set updated to false
-      dispatch(setUpdated(false));
-    }
-  }, [updated]);
-
-  const handleEditBusiness = (business) => {
-    //set product to store
-    dispatch(setBusiness(business));
-    router.push(`/businesses/add-business/${business?._id}`);
-  };
+  }, [item]);
 
   return (
     <DashboardLayout>
       <div className="d-flex justify-content-between align-items-center mt-2 mb-3">
-        <h5 className="text-muted mb-0">Businesses</h5>
+        <h6 className="text-muted mb-0">Businesses</h6>
         <Link href="/businesses/add-business">
-          <a
-            className="btn btn-primary"
-            onClick={() => dispatch(setBusiness(""))}>
-            <MdAdd size={18} /> <span> Add Business</span>
+          <a className="btn btn-primary d-flex justify-content-between align-items-center">
+            <MdAdd size={18} />{" "}
+            <span className="d-none d-md-block ms-2"> Add Business</span>
           </a>
         </Link>
       </div>
@@ -148,10 +119,6 @@ function BusinessesPage() {
                   </th>
                   <th className="text-nowrap d-none d-md-table-cell">Phone</th>
                   <th className="text-nowrap d-none d-md-table-cell">Region</th>
-                  <th className="text-nowrap d-none d-md-table-cell">
-                    Location
-                  </th>
-                  <th></th>
                 </tr>
               </thead>
               <tbody>
@@ -163,7 +130,6 @@ function BusinessesPage() {
                         key={business?._id}
                         business={business}
                         setItem={setItem}
-                        handleEditBusiness={handleEditBusiness}
                       />
                     ))}
                 {!filteredData &&
@@ -174,13 +140,10 @@ function BusinessesPage() {
                         key={business?._id}
                         business={business}
                         setItem={setItem}
-                        handleEditBusiness={handleEditBusiness}
                       />
                     ))}
                 {filteredData?.length === 0 && (
-                  <tr>
-                    There are no business from {region} region
-                  </tr>
+                  <tr>There are no business from {region} region</tr>
                 )}
               </tbody>
             </table>
@@ -192,10 +155,23 @@ function BusinessesPage() {
         businesses?.length === 0 &&
         "There are no businesses"}
       <DeleteModal
+        type="business"
         item={item}
         setItem={setItem}
         url="/api/v1.0.0/businesses"
         fetchData={fetchData}
+        router={router}
+      />
+      <ShowModal
+        type="business"
+        item={item}
+        setItem={setItem}
+        edit={edit}
+        setEdit={setEdit}
+        router={router}
+        content={
+          <BusinessModalContent edit={edit} setEdit={setEdit} item={item} />
+        }
       />
     </DashboardLayout>
   );

@@ -6,34 +6,46 @@
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { read } from "../../functions/crud/FETCH";
+import { useAuth } from "../auth/useAuth";
 import { useStates } from "../useStates";
 
 export const useFetch = (url, data, setData) => {
   const { loading, setLoading, error, setError } = useStates();
+  const { auth } = useAuth();
   const dispatch = useDispatch();
 
-  //1. fetch data
-  async function fetchData() {
+  const fetchData = async () => {
     setLoading(true);
+    setError(false);
     const response = await read(url);
+    setLoading(false);
     if (response.status !== 200) {
-      setLoading(false);
-      setError(response.statusText);
+      if (response.statusText.includes("Sorry")) {
+        await auth.signOut();
+        router.push("/");
+      } else {
+        setError(response.statusText);
+      }
     } else {
-      setLoading(false);
-      if (response.data > 0 || response.data === 0) {
+      if (response.data) {
         dispatch(setData(response.data));
+      } else {
+        setError(response.statusText);
       }
     }
-    console.log(response);
-  }
+  };
 
+  //fetch data
   useEffect(() => {
-    //1. check if managers exist
-    if (data?.length === 0) {
-      fetchData();
+    //fetch data
+    const getData = async () => {
+      await fetchData();
+    };
+
+    if (data.length === 0) {
+      getData();
     }
-  });
+  }, []);
 
   return { loading, error, fetchData };
 };

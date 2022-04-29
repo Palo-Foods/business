@@ -48,8 +48,8 @@ export const findOne = async (req, collection, condition, projection) => {
       }
     } else {
       return {
-        status: 200,
-        statusText: "Invalid method",
+        status: 401,
+        statusText: "Invalid method/not logged in",
       };
     }
   } catch (error) {

@@ -6,7 +6,7 @@ import { useStates } from "../../hooks/useStates";
 import { MdClear, MdDelete, MdError, MdCheckCircle } from "react-icons/md";
 import { useAuth } from "../../hooks/auth/useAuth";
 
-function DeleteModal({ item, url, setItem, fetchData }) {
+function DeleteModal({ item, url, setItem, fetchData, router, type }) {
   const { auth, loading, statusCode, message } = useAuth();
 
   const deleteItem = async () => {
@@ -93,7 +93,11 @@ function DeleteModal({ item, url, setItem, fetchData }) {
               type="button"
               className="btn btn-secondary px-4 mx-3"
               data-bs-dismiss="modal"
-              onClick={clearAnything}>
+              onClick={() => {
+                router.replace(type === "business" ? "/businesses" : "/riders");
+                setItem(null);
+                clearAnything;
+              }}>
               {statusCode ? "Close" : "No"}
             </button>
             {!statusCode && (

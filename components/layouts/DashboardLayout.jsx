@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Script from "next/script";
 import Head from "next/head";
 import Header from "../Header";
