@@ -84,7 +84,7 @@ function BusinessesPage() {
   const handleEditBusiness = (business) => {
     //set product to store
     dispatch(setBusiness(business));
-    router.push(`/businesses/add-business`);
+    router.push(`/businesses/add-business/${business?._id}`);
   };
 
   return (
@@ -99,7 +99,7 @@ function BusinessesPage() {
           </a>
         </Link>
       </div>
-      {loading && (
+      {loading && !error && (
         <div className="d-flex justify-content-center align-items-center h-100 my-5">
           <Spinner />
         </div>

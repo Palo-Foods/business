@@ -53,7 +53,7 @@ function OrdersPage() {
   const handleNavigation = (order) => {
     //set product to store
     dispatch(setOrder(order));
-    router.push(`/orders/${order?.id}`);
+    router.push(`/orders/${order?._id}`);
   };
 
   return (

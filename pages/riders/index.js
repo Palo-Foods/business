@@ -86,7 +86,7 @@ function RidersPage() {
   const handleEditRider = (rider) => {
     //set product to store
     dispatch(setRider(rider));
-    router.push(`/riders/add-rider`);
+    router.push(`/riders/add-rider/${rider?._id}`);
   };
 
   return (
