@@ -56,7 +56,7 @@ function Header() {
             <MdOutlineMenu size={25} />
           </a>
           <Link href="/">
-            <a className="navbar-brand h4 mb-0" href="#">
+            <a className="navbar-brand h4 mb-0 me-auto" href="#">
               Palo
             </a>
           </Link>

@@ -9,7 +9,6 @@ import DashboardLayout from "../../components/layouts/DashboardLayout";
 import { useDispatch, useSelector } from "react-redux";
 import {
   selectBusiness,
-  setBusinesses,
   setUpdated,
 } from "../../slices/navSlice";
 import { useAuth } from "../../hooks/auth/useAuth";
