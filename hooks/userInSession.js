@@ -1,8 +1,9 @@
 // get session token and retrieve user data
 export const getUserInSession = () => {
   //1. Access the user
-  const sessionExist = sessionStorage.getItem("user");
-  const user = JSON.parse(sessionExist);
+  const session = sessionStorage?.getItem("user");
+  const userData = JSON.parse(session);
+  const user = userData?.data;
   return user;
 };
 

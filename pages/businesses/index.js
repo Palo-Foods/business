@@ -29,7 +29,7 @@ const searched = (keyword) => (item) =>
 
 function BusinessesPage() {
   const [edit, setEdit] = useState(false);
-  const url = "https://api.palooods.com/api/v1.1.1/users/get-all/businesses";
+  const url = "api/v1.1.1/users/get-all/businesses";
 
   let businesses = useSelector(selectBusinesses);
 

@@ -1,5 +1,5 @@
 import React from "react";
-import {MdClose} from "react-icons/md"
+import { MdClose } from "react-icons/md";
 
 const Alert = ({ message, type, onClick }) => {
   return (
@@ -10,8 +10,7 @@ const Alert = ({ message, type, onClick }) => {
         type="button"
         className="btn btn-default"
         data-bs-dismiss="alert"
-        aria-label="Close"
-        onClick={onClick}>
+        aria-label="Close">
         <MdClose className="ms-0" />
       </button>
       {message}

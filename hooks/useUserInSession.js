@@ -1,29 +1,28 @@
 import { useEffect, useState } from "react";
+import { useStates } from "./useStates";
 
-// get session token and retrieve user data
-export const useUserInSession = () => {
-  const [userData, setUserData] = useState();
+// Hook
+export function useUserInSession() {
+  const { user, setUser, router } = useStates();
+
+  const getUserInSession = () => {
+    //check session
+    const session = sessionStorage.getItem("user");
+    const data = JSON.parse(session);
+    setUser(data);
+  };
 
   useEffect(() => {
-    //1. Access the user
-    const sessionExist = sessionStorage.getItem("user");
-    if (sessionExist) {
-      const user = JSON.parse(sessionExist);
-      const { email, fullName, phone } = user;
-      setUserData({ email, fullName, phone });
-    } else {
-      setUserData(null);
-    }
+    getUserInSession();
   }, []);
 
-  useEffect(() => {
-    first
-  
-    return () => {
-      second
-    }
-  }, [third])
-  
+  //set session storage
+  const setUserToSession = (key, value) => {
+    const data = JSON.stringify(value);
+    sessionStorage.setItem(key, data);
+    getUserInSession();
+    user?.email && router.push("/dashboard");
+  };
 
-  return { userData };
-};
+  return { user, setUserToSession };
+}

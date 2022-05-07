@@ -7,14 +7,12 @@
 import { useEffect } from "react";
 import { loginSignUp } from "../../functions/auth/LOGIN-SIGNUP.ts";
 import { postPutDelete } from "../../functions/crud/POST-PUT-DELETE.js";
-import {
-  destroyUserInSession,
-  getUserInSession,
-  setUserInSession,
-} from "../userInSession";
+import { destroyUserInSession, getUserInSession } from "../userInSession";
 import { useStates } from "../useStates";
+import { useUserInSession } from "../useUserInSession";
 
 export const useAuth = () => {
+  const { setUserToSession } = useUserInSession();
   const {
     loading,
     setLoading,
@@ -50,15 +48,15 @@ export const useAuth = () => {
     if (response) {
       const { statusCode, statusText } = response;
 
-      if (status === 201) {
-        //set user in session
-        setUserInSession(response);
+      if (statusCode === 201) {
+        const data = {
+          authToken: response?.data?.authToken,
+          email: response?.data?.email,
+          fullName: response?.data?.fullName,
+          role: response?.data?.role,
+        };
 
-        //get user in session
-        const userData = getUserInSession();
-
-        //set user
-        setUser(userData);
+        setUserToSession("user", data);
       }
       setStatusCode(statusCode);
       setMessage(statusText);
@@ -107,14 +105,16 @@ export const useAuth = () => {
       const { statusCode, statusText } = response;
 
       if (statusCode === 200) {
-        //set user in session
-        setUserInSession(response);
+        const { id, authToken, email, fullName, role } = response?.data;
+        const data = {
+          id,
+          authToken,
+          email,
+          fullName,
+          role,
+        };
 
-        //get user in session
-        const userData = getUserInSession();
-
-        //set user
-        setUser(userData);
+        setUserToSession("user", data);
       }
       setStatusCode(statusCode);
       setMessage(statusText);

@@ -3,19 +3,24 @@
  * 2. Functions: read, fetch items,
  * 3. Parameters: url
  **/
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { read } from "../../functions/crud/FETCH";
+import { getUserInSession } from "../userInSession";
 import { useStates } from "../useStates";
+import { useUserInSession } from "../useUserInSession";
 
 export const useFetch = (url, data, setData) => {
   const { loading, setLoading, error, setError } = useStates();
   const dispatch = useDispatch();
 
+   const { user } = useUserInSession();
+
   //1. fetch data
   async function fetchData() {
     setLoading(true);
-    const { response, error } = await read(url);
+    const token = user?.authToken;
+    const { response, error } = await read(url, token);
     setLoading(false);
     console.log("me", response, error);
 
@@ -34,8 +39,9 @@ export const useFetch = (url, data, setData) => {
   useEffect(() => {
     //1. check if managers exist
     if (data?.length === 0) {
+      const token = user?.authToken;
       //if not, fetch data
-      fetchData();
+      fetchData(token);
     }
   }, []);
 

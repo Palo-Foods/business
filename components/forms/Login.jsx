@@ -5,22 +5,22 @@ import { useAuth } from "../../hooks/auth/useAuth";
 import { useStates } from "../../hooks/useStates";
 import Spinner from "../../components/ui/Spinner";
 import Alert from "../../components/ui/Alert";
+import { useUserInSession } from "../../hooks/useUserInSession";
 
 export default function LoginForm() {
-  const { auth, loading, statusCode, message, user } = useAuth();
+  const { auth, loading, statusCode, message } = useAuth();
   const { email, password, router, setInput, setEmail, setPassword } =
     useStates("");
-
+  const { user } = useUserInSession();
   //handle login
   const handleLogin = async (e) => {
     e.preventDefault();
 
     const data = { email, password };
-    const url = "https://api.palofoods.com/api/v1.1.1/users/login/managers";
+    const url = "api/v1.1.1/users/login/managers";
     await auth.signInWithEmailAndPassword(url, data);
+    console.log("user", user);
   };
-
-  user?.data?.email && router.push("/dashboard");
 
   return (
     <form className="my-3 mx-2" onSubmit={handleLogin}>

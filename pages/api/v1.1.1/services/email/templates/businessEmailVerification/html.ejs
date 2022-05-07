@@ -1,0 +1,217 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Base Template</title>
+    <style type="text/css">
+      body {
+        margin: 0;
+        padding: 0;
+        background-color: #f6f9fc;
+      }
+      table {
+        border-spacing: 0;
+      }
+      td {
+        padding: 0;
+      }
+      img {
+        border: 0;
+      }
+      .wrapper {
+        width: 100%;
+        table-layout: fixed;
+        background-color: #f6f9fc;
+        padding-bottom: 40px;
+      }
+      .webkit {
+        max-width: 600px;
+        background-color: #ffffff;
+      }
+      .outer {
+        margin: 0 auto;
+        width: 100%;
+        max-width: 600px;
+        border-spacing: 0;
+        font-size: 1rem;
+        font-family: sans-serif;
+        color: #4a4a4a;
+      }
+      .padding {
+        padding: 15px;
+      }
+      a {
+        text-decoration: none;
+        color: #da3861;
+        font-size: 16px;
+      }
+      .btn {
+        padding: 10px 15px;
+        white-space: nowrap;
+      }
+      .btn-primary {
+        border: 1px solid #da3861;
+        background-color: #da3861;
+        border-radius: 25px;
+        color: #fff;
+      }
+      ol li {
+        margin-bottom: 10px;
+      }
+      @media screen and (max-width: 600px) {
+        img.third-img-last {
+          width: 200px !important;
+          max-width: 200px !important;
+        }
+      }
+      @media screen and (max-width: 400px) {
+        img.third-img {
+          width: 200px !important;
+          max-width: 200px !important;
+        }
+        .padding {
+          padding: 10px;
+        }
+      }
+      .icon {
+        margin-right: 15px;
+      }
+    </style>
+  </head>
+  <body>
+    <center class="wrapper">
+      <div class="webkit">
+        <table class="outer" align="center">
+          <tr>
+            <td>
+              <table
+                width="100%"
+                cellspacing="0"
+                cellpadding="0"
+                style="border-spacing: 0"
+              >
+                <tr>
+                  <td style="padding: 5px">
+                    <a href="#"><img src="" width="100px" alt="logo" /></a>
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+          <tr>
+            <td style="padding-left: 20px; padding-right: 20px">
+              <h2>Congratulations, <%= name %></h2>
+              <p>
+                We excited that you have joined us to help us improve your
+                business. Joining us have so many benefits and some are
+              </p>
+              <ol>
+                <li><b>The will give you more exposure</b></li>
+                <li><b>It will Increase your customer base</b></li>
+              </ol>
+              <p>
+                Our platform is tailored to give your features and services to
+                help power your business
+              </p>
+              <p style="padding: 20px">
+                Your email address needs to be verified
+              </p>
+              <p style="text-align: center; padding: 20px">
+                <a
+                  type="button"
+                  href="/localhost:3000/verify_email/<%= uid %>"
+                  class="btn btn-primary"
+                  >Confirm email</a
+                >
+              </p>
+            </td>
+          </tr>
+
+          <tr>
+            <td>
+              <table width="100%" style="border-spacing: 0">
+                <tr>
+                  <td
+                    style="
+                      background-color: #da3861;
+                      padding: 15px;
+                      text-align: center;
+                    "
+                  >
+                    <p
+                      style="font-size: 14px; color: #fff; margin-bottom: 13px"
+                    >
+                      Connect with us
+                    </p>
+                    <a href="#" class="icon"
+                      ><img src="facebook.svg" alt="facebook"
+                    /></a>
+                    <a href="#" class="icon"
+                      ><img src="instagram.svg" alt="instagram"
+                    /></a>
+                    <a href="#"><img src="twitter.svg" alt="twitter" /></a>
+                  </td>
+                </tr>
+                <tr>
+                  <td style="background-color: rgb(245, 245, 245)">
+                    <table width="100%" style="border-spacing: 0">
+                      <tr>
+                        <td
+                          style="
+                            padding: 15px;
+                            text-align: center;
+                            padding-bottom: 10px;
+                          "
+                        >
+                          <a href="#"
+                            ><img src="" width="160px" alt="logo"
+                          /></a>
+                          <p
+                            style="
+                              font-size: 12px;
+                              margin-top: 18px;
+                              margin-bottom: 10px;
+                              color: #3f3f3f85;
+                            "
+                          >
+                            Palo Fleets Email
+                          </p>
+                          <p
+                            style="
+                              font-size: 12px;
+                              margin-bottom: 10px;
+                              font-weight: 600;
+                              color: #3f3f3f85;
+                            "
+                          >
+                            Contact us here
+                            <a href="tel:+233545110328" style="font-size: 12px"
+                              >+233545110328</a
+                            >
+                          </p>
+                          <p>
+                            <a
+                              href="#"
+                              style="
+                                font-size: 9px;
+                                margin-top: 20px;
+                                color: #3f3f3f85;
+                              "
+                              >UNSUBSCRIBE</a
+                            >
+                          </p>
+                        </td>
+                      </tr>
+                    </table>
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+        </table>
+      </div>
+    </center>
+  </body>
+</html>

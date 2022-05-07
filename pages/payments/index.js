@@ -11,7 +11,7 @@ const searched = (keyword) => (item) =>
   item?.name?.toLowerCase().includes(keyword);
 
 function OrdersPage() {
-  const url = "https://api.palooods.com/api/v1.1.1/users/get-all/payments";
+  const url = "api/v1.1.1/users/get-all/payments";
   const payments = useSelector(selectPayments);
 
   const [keyword, setKeyword] = useState("");
