@@ -6,7 +6,7 @@
 
 import { resolve } from "../resolve";
 
-export const loginSignUp = async (url, data) => {
+export const loginSignUp = async (url: string, data: object) => {
   const config = {
     method: "POST",
     headers: {

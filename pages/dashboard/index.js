@@ -18,7 +18,7 @@ function DashboardPage() {
   return (
     <DashboardLayout>
       <div className="d-flex justify-content-between align-items-center mb-2">
-        <h5 className="text-muted mb-0">Sales overview</h5>
+        <h6 className="text-muted mb-0">Sales overview</h6>
         <div className="form-group">
           <select className="custom-select form-select px-3 py-1" name="" id="">
             <option value="7">7 days</option>
@@ -27,16 +27,16 @@ function DashboardPage() {
         </div>
       </div>
       <div className="row">
-        <div className="col-12 col-md-6 col-lg-4 mb-3">
+        <div className="col-12 col-sm-6 col-md-4 mb-3">
           <div className="card">
             <div className="card-body">
               <div className="d-flex justify-content-end">
                 <MdOutlineInfo size={20} />
               </div>
-              <div className="d-flex justify-content-start">
+              <div className="d-flex justify-content-start align-items-center">
                 <div className="me-3">
                   <span className="mx-1 bg-info p-3 rounded-circle">
-                    <MdShoppingBag size={26} className="mb-2" />
+                    <MdShoppingBag size={22} className="mb-2" />
                   </span>
                 </div>
                 <div>
@@ -47,16 +47,16 @@ function DashboardPage() {
             </div>
           </div>
         </div>
-        <div className="col-12 col-md-6 col-lg-4 mb-3">
+        <div className="col-12 col-sm-6 col-md-4 mb-3">
           <div className="card">
             <div className="card-body">
               <div className="d-flex justify-content-end">
                 <MdOutlineInfo size={20} />
               </div>
-              <div className="d-flex justify-content-start">
+              <div className="d-flex justify-content-start align-items-center">
                 <div className="me-3">
                   <span className="mx-1 bg-success p-3 rounded-circle">
-                    <MdOutlineMoney size={26} className="mb-1" />
+                    <MdOutlineMoney size={22} className="mb-1" />
                   </span>
                 </div>
                 <div>
@@ -67,16 +67,16 @@ function DashboardPage() {
             </div>
           </div>
         </div>
-        <div className="col-12 col-md-6 col-lg-4 mb-3">
+        <div className="col-12 col-md-4 mb-3">
           <div className="card">
             <div className="card-body">
               <div className="d-flex justify-content-end">
                 <MdOutlineInfo size={20} />
               </div>
-              <div className="d-flex justify-content-start">
+              <div className="d-flex justify-content-start align-items-center">
                 <div className="me-3">
                   <span className="mx-1 bg-light p-3 rounded-circle">
-                    <MdOutlinePayment size={26} className="mb-1" />
+                    <MdOutlinePayment size={22} className="mb-1" />
                   </span>
                 </div>
                 <div>
@@ -110,42 +110,45 @@ function DashboardPage() {
           </div>
         </div>
       </div>
-
-      <div className="col-lg-6 mb-3">
-        <div className="card">
-          <div className="card-body p-md-4">
-            <h5 className="">Reviews</h5>
-            <div className="">
-              <ul className="list-group list-group-flush">
-                <li className="list-group-item ps-0 d-flex justify-content-between pe-0 py-3">
-                  <span className="">Simon</span>
-                  <span className=""> lorem</span>
-                </li>
-              </ul>
+      <div className="col-12">
+        <div className="row">
+          <div className="col-md-6 mb-3">
+            <div className="card">
+              <div className="card-body p-md-4">
+                <h5 className="">Reviews</h5>
+                <div className="">
+                  <ul className="list-group list-group-flush">
+                    <li className="list-group-item ps-0 d-flex justify-content-between pe-0 py-3">
+                      <span className="">Simon</span>
+                      <span className=""> lorem</span>
+                    </li>
+                  </ul>
+                </div>
+              </div>
             </div>
           </div>
-        </div>
-      </div>
-      <div className="col-lg-6 mb-3">
-        <div className="card">
-          <div className="card-body p-md-4">
-            <h5 className="">Ratings</h5>
-            <div className="">
-              <ul className="list-group list-group-flush">
-                <li className="list-group-item ps-0 d-flex justify-content-between pe-0 py-3">
-                  <span className="">Banku</span>
-                  <span className="d-flex align-items-center">
-                    <span className="me-2">4</span>
-                    <span>
-                      <MdStarRate />
-                      <MdStarRate />
-                      <MdStarRate />
-                      <MdStarHalf />
-                      <MdStarOutline />
-                    </span>
-                  </span>
-                </li>
-              </ul>
+          <div className="col-md-6 mb-3">
+            <div className="card">
+              <div className="card-body p-md-4">
+                <h5 className="">Ratings</h5>
+                <div className="">
+                  <ul className="list-group list-group-flush">
+                    <li className="list-group-item ps-0 d-flex justify-content-between pe-0 py-3">
+                      <span className="">Banku</span>
+                      <span className="d-flex align-items-center">
+                        <span className="me-2">4</span>
+                        <span>
+                          <MdStarRate />
+                          <MdStarRate />
+                          <MdStarRate />
+                          <MdStarHalf />
+                          <MdStarOutline />
+                        </span>
+                      </span>
+                    </li>
+                  </ul>
+                </div>
+              </div>
             </div>
           </div>
         </div>

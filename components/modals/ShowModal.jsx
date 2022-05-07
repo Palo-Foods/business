@@ -33,7 +33,7 @@ const ShowModal = ({ type, setItem, router, content, edit, setEdit }) => {
               <span
                 className="bg-light rounded-circle p-2"
                 onClick={() => {
-                  router.replace("/businesses");
+                  router.replace(type);
                   setItem(null);
                 }}>
                 <MdClear size={20} />
@@ -42,36 +42,34 @@ const ShowModal = ({ type, setItem, router, content, edit, setEdit }) => {
           </div>
           <div className="modal-body my-3">{content}</div>
           {!edit && (
-            <>
-              <div className="modal-footer border-0">
-                <a
-                  type="button"
-                  className="px-4 mx-2 text-decoration-none btn btn-danger me-auto"
-                  data-bs-dismiss="modal"
-                  data-bs-toggle="modal"
-                  data-bs-target="#deleteModal">
-                  Delete
-                </a>
-                <a
-                  type="button"
-                  className="px-4 mx-2 text-decoration-none btn btn-primary"
-                  onClick={() => setEdit(true)}>
-                  Edit
-                </a>
-                <a
-                  type="button"
-                  className="px-4 mx-2 text-decoration-none btn btn-light"
-                  data-bs-dismiss="modal"
-                  onClick={() => {
-                    router.replace(
-                      type === "business" ? "/businesses" : "/riders"
-                    );
-                    setItem(null);
-                  }}>
-                  Close
-                </a>
-              </div>
-            </>
+            <div className="modal-footer border-0">
+              <a
+                type="button"
+                className="px-4 mx-2 text-decoration-none btn btn-danger me-auto"
+                data-bs-dismiss="modal"
+                data-bs-toggle="modal"
+                data-bs-target="#deleteModal">
+                Delete
+              </a>
+              <a
+                type="button"
+                className="px-4 mx-2 text-decoration-none btn btn-primary"
+                onClick={() => setEdit(true)}>
+                Edit
+              </a>
+              <a
+                type="button"
+                className="px-4 mx-2 text-decoration-none btn btn-light"
+                data-bs-dismiss="modal"
+                onClick={() => {
+                  router.replace(
+                    type === "businesses" ? "/businesses" : "/riders"
+                  );
+                  setItem(null);
+                }}>
+                Close
+              </a>
+            </div>
           )}
         </div>
       </div>

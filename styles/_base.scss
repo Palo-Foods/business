@@ -87,8 +87,8 @@ input {
 }
 @media (min-width: 768px) {
   .sticky-sidebar {
-    position: fixed;
-    top: 0rem;
+    position: sticky;
+    top: 3rem;
     display: block !important;
     height: calc(100vh - 1rem) !important;
   }

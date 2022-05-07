@@ -1,24 +1,25 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import DashboardLayout from "../../components/layouts/DashboardLayout";
 import Spinner from "../../components/ui/Spinner";
 import { useRouter } from "next/router";
 import Link from "next/link";
+import dynamic from "next/dynamic";
 import { MdAdd } from "react-icons/md";
-import { useSelector } from "react-redux";
-import { selectBusinesses, setBusinesses } from "../../slices/navSlice";
-const DeleteModal = dynamic(() =>
-  import("../../components/modals/DeleteModal")
-);
-const ShowModal = dynamic(() => import("../../components/modals/ShowModal"));
+import { useDispatch, useSelector } from "react-redux";
+import {
+  selectBusinesses,
+  setBusiness,
+  setBusinesses,
+} from "../../slices/navSlice";
+import DeleteModal from "../../components/modals/DeleteModal";
 import { useStates } from "../../hooks/useStates";
 import Search from "../../components/ui/Search";
 import { useFilter } from "../../hooks/useFilter";
 import { useFetch } from "../../hooks/crud/useFetch";
-import dynamic from "next/dynamic";
-const BusinessTableRow = dynamic(
-  () => import("../../components/BusinessTableRow"),
-  { loading: () => <tr>loading...</tr> }
+const BusinessTableRow = dynamic(() =>
+  import("../../components/BusinessTableRow")
 );
+const ShowModal = dynamic(() => import("../../components/modals/ShowModal"));
 const BusinessModalContent = dynamic(() =>
   import("../../components/modals/BusinessModalContent")
 );
@@ -28,8 +29,7 @@ const searched = (keyword) => (item) =>
 
 function BusinessesPage() {
   const [edit, setEdit] = useState(false);
-
-  const url = "/api/v1.0.0/businesses";
+  const url = "https://api.palooods.com/api/v1.1.1/users/get-all/businesses";
 
   let businesses = useSelector(selectBusinesses);
 
@@ -41,13 +41,11 @@ function BusinessesPage() {
 
   const router = useRouter();
 
+  const dispatch = useDispatch();
+
   const [item, setItem] = useState("");
 
-  const { loading, error, fetchData } = useFetch(
-    url,
-    businesses,
-    setBusinesses
-  );
+  const { loading, error, fetchData } = useFetch(url, businesses, setBusinesses);
 
   //match modal to route
   useEffect(() => {
@@ -64,18 +62,15 @@ function BusinessesPage() {
       <div className="d-flex justify-content-between align-items-center mt-2 mb-3">
         <h6 className="text-muted mb-0">Businesses</h6>
         <Link href="/businesses/add-business">
-          <a className="btn btn-primary d-flex justify-content-between align-items-center">
-            <MdAdd size={18} />{" "}
+          <a
+            className="btn btn-primary d-flex justify-content-between align-items-center"
+            onClick={() => dispatch(setBusiness(""))}>
+            <MdAdd size={18} />
             <span className="d-none d-md-block ms-2"> Add Business</span>
           </a>
         </Link>
       </div>
-      {loading && !error && (
-        <div className="d-flex justify-content-center align-items-center h-100 my-5">
-          <Spinner />
-        </div>
-      )}
-      {error && !loading && (
+      {error && (
         <div className="d-flex justify-content-center align-items-center h-100">
           <div className="text-center my-5">
             <p>There was an error</p>
@@ -85,8 +80,12 @@ function BusinessesPage() {
           </div>
         </div>
       )}
-
-      {businesses && businesses?.length > 0 && (
+      {loading && (
+        <div className="d-flex justify-content-center align-items-center h-100 my-5">
+          <Spinner />
+        </div>
+      )}
+      {businesses && businesses.length > 1 && (
         <div className="card my-2">
           <div className="card-body justify-content-start overflow-auto p-4">
             <div className="d-md-flex justify-content-md-between my-md-2 mb-md-4">
@@ -113,7 +112,7 @@ function BusinessesPage() {
             <table className="table mt-3 table-responsive">
               <thead>
                 <tr className="text-start ps-0">
-                  <th className="ps-0">Business name</th>
+                  <th className="ps-0">Company name</th>
                   <th className="text-nowrap d-none d-md-table-cell">
                     Owner name
                   </th>
@@ -143,14 +142,14 @@ function BusinessesPage() {
                       />
                     ))}
                 {filteredData?.length === 0 && (
-                  <tr>There are no business from {region} region</tr>
+                  <tr>There are no Businesses from {region} region</tr>
                 )}
               </tbody>
             </table>
           </div>
         </div>
       )}
-      {!loading &&
+      {businesses &&
         !error &&
         businesses?.length === 0 &&
         "There are no businesses"}
@@ -158,12 +157,12 @@ function BusinessesPage() {
         type="business"
         item={item}
         setItem={setItem}
-        url="/api/v1.0.0/businesses"
+        url="https://api.palooods.com/api/v1.1.1/users/manage/businesses"
         fetchData={fetchData}
         router={router}
       />
       <ShowModal
-        type="business"
+        type="businesses"
         item={item}
         setItem={setItem}
         edit={edit}

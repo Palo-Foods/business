@@ -9,7 +9,7 @@ import { setRiders } from "../../slices/navSlice";
 import { useAuth } from "../../hooks/auth/useAuth";
 import Spinner from "../../components/ui/Spinner";
 import Alert from "../../components/ui/Alert";
-import { useFetch } from "../../hooks/crud/useFetch";
+import { useFetch } from "../../hooks/crud/useFetchs";
 
 function AddRiderForm({ rider, edit }) {
   //get rider in store
@@ -36,7 +36,7 @@ function AddRiderForm({ rider, edit }) {
 
   const ridersData = [];
 
-  const { fetchData } = useFetch("/api/v1.0.0/riders", ridersData, setRiders);
+  const { fetchData } = useFetch("/api/v1.1.0/riders", ridersData, setRiders);
 
   const handleAddRider = async (e) => {
     e.preventDefault();
@@ -61,16 +61,18 @@ function AddRiderForm({ rider, edit }) {
     };
     console.log(updateData);
 
-    const url = `/api/v1.0.0/riders/${rider ? rider?._id : "signup"}`;
-
+    const url = `/api/v1.1.0/riders/${rider ? rider?._id : "signup"}`;
+    console.log(rider);
+console.log(rider ? "PUT" : "POST");
     //provide url, email, password, custom args
     await auth.addUpdateDeleteUser(
-      url,
+      `${rider ? url : ""}`,
       rider ? updateData : data,
       rider ? "PUT" : "POST"
     );
 
-    rider && fetchData();
+    //if there is an update
+    if (statusCode === 200) await fetchData();
   };
 
   return (

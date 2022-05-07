@@ -3,47 +3,39 @@
  * 2. Functions: read, fetch items,
  * 3. Parameters: url
  **/
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { read } from "../../functions/crud/FETCH";
-import { useAuth } from "../auth/useAuth";
 import { useStates } from "../useStates";
 
 export const useFetch = (url, data, setData) => {
   const { loading, setLoading, error, setError } = useStates();
-  const { auth } = useAuth();
   const dispatch = useDispatch();
 
-  const fetchData = async () => {
+  //1. fetch data
+  async function fetchData() {
     setLoading(true);
-    setError(false);
-    const response = await read(url);
+    const { response, error } = await read(url);
     setLoading(false);
-    if (response.status !== 200) {
-      if (response.statusText.includes("Sorry")) {
-        await auth.signOut();
-        router.push("/");
+    console.log("me", response, error);
+
+    if (response) {
+      if (response?.status === 200) {
+        dispatch(setData(response?.data));
       } else {
-        setError(response.statusText);
+        //navigate and logout on user not authenticated
+        setError("error");
       }
     } else {
-      if (response.data) {
-        dispatch(setData(response.data));
-      } else {
-        setError(response.statusText);
-      }
+      setError(error);
     }
-  };
+  }
 
-  //fetch data
   useEffect(() => {
-    //fetch data
-    const getData = async () => {
-      await fetchData();
-    };
-
-    if (data.length === 0) {
-      getData();
+    //1. check if managers exist
+    if (data?.length === 0) {
+      //if not, fetch data
+      fetchData();
     }
   }, []);
 

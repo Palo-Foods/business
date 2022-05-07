@@ -1,26 +1,20 @@
 import React from "react";
-import Link from "next/link";
-import DashboardLayout from "../../components/layouts/DashboardLayout";
-import AddRiderForm from "../../components/forms/AddRiderForm";
+import { postPutDelete } from "../../functions/crud/POST-PUT-DELETE";
 
 function AddRiderPage() {
-  return (
-    <DashboardLayout>
-      <div className="px-0 d-flex justify-content-start">
-        <Link href="/riders">
-          <a className="me-3 text-decoration-none">
-            <h5 className="mt-2">Riders</h5>
-          </a>
-        </Link>
-        <h5 className="mt-2 text-muted">/ {rider ? "Edit" : "Add"} rider</h5>
-      </div>
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const data = {}
+    const response = await postPutDelete("/api/v1.1.0/riders/signup", data, "POST", "bjdjed");
+    console.log(response);
+  };
 
-      <div className="card mt-2">
-        <div className="card-body my-3">
-          <AddRiderForm />
-        </div>
-      </div>
-    </DashboardLayout>
+  return (
+    <div>
+      <form onSubmit={handleSubmit}>
+        <button>Hello</button>
+      </form>
+    </div>
   );
 }
 

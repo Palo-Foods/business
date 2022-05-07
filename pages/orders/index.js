@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import DashboardLayout from "../../components/layouts/DashboardLayout";
 import Spinner from "../../components/ui/Spinner";
-import { useFetch } from "../../hooks/crud/useFetch";
+import { useFetch } from "../../hooks/crud/useFetchs";
 import { useRouter } from "next/router";
 import { useDispatch, useSelector } from "react-redux";
 import { selectOrders, setOrder, setOrders } from "../../slices/navSlice";
@@ -11,7 +11,7 @@ const searched = (keyword) => (item) =>
   item?.orderId?.toLowerCase().includes(keyword);
 
 function OrdersPage() {
-  const url = "/api/v1.0.0/orders";
+  const url = "https://api.palooods.com/api/v1.1.1/orders";;
 
   const orders = useSelector(selectOrders);
 
@@ -23,7 +23,7 @@ function OrdersPage() {
 
   const { loading, error, fetchData } = useFetch(url, orders, setOrders);
 
-  const [item, setItem] = useState("");
+  /* const [item, setItem] = useState("");
 
   //match modal to route
   useEffect(() => {
@@ -33,7 +33,7 @@ function OrdersPage() {
         shallow: true,
       });
     }
-  }, [item]);
+  }, [item]); */
 
   const handleNavigation = (order) => {
     //set product to store

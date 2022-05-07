@@ -1,76 +1,83 @@
 import { ObjectId } from "mongodb";
 import { authenticate } from "../authentication";
 import { deleteOne } from "../crud/delete";
+import { find } from "../crud/find";
 import { updateOneEntry } from "../crud/update";
 
 export default authenticate(async (req, res) => {
-  const method = req.method;
-  const { id } = req.query; //needed for condition
-  //dont set methods or anything, everything has already been done in the updateOneEntry function
-  if (method === "PUT") {
-    const body = JSON.parse(req.body);
-    const set = {
-      $set: {
-        ...body,
-      },
-    };
-    try {
-      const response = await updateOneEntry(req, res, "products", set);
+  const { method, email, apiKey } = await verifyUser(req);
+  const { id } = req.query;
+  console.log("verification", id, method, email);
 
-      const { status, statusText, data, error } = response;
+  try {
+    //if businesses doesn't get resolved, the id wont be passed, fix the apiKey issue
+    const manager = await find(
+      "businesses",
+      { email: email },
+      { projection: { apiKey: 1 } }
+    );
 
-      res.status(status).json({
-        status: status,
-        statusText: statusText,
-        data: data,
-        error: error,
-      });
-    } catch (error) {
-      res.status(500).json({
-        status: 500,
-        statusText: "Internal server error",
-        error: error.message,
+    console.log("manager", manager);
+
+    const match = apiKey === manager?.data?.apiKey;
+
+    console.log("match", match);
+    if (match) {
+      //dont set methods or anything, everything has already been done in the updateOneEntry function
+      if (method === "PUT") {
+        const body = JSON.parse(req.body);
+        const set = {
+          $set: {
+            ...body,
+          },
+        };
+        const response = await updateOneEntry(req, res, "products", set);
+
+        const { status, statusText, data, error } = response;
+
+        res.status(status).json({
+          status: status,
+          statusText: statusText,
+          data: data,
+          error: error,
+        });
+      } else if (method === "DELETE") {
+        const response = await deleteOne("products", id);
+
+        const { status, statusText, data, error } = response;
+
+        res.status(status).json({
+          status: status,
+          statusText: statusText,
+          data: data,
+          error: error,
+        });
+      } else {
+        const response = await findOne(req, res, "products", {
+          _id: ObjectId(id),
+        });
+
+        const { status, statusText, data, error } = response;
+
+        res.status(status).json({
+          status: status,
+          statusText: statusText,
+          data: data,
+          error: error,
+        });
+      }
+    } else {
+      console.log("401");
+      res.status(401).json({
+        status: 401,
+        statusText: "not authenticated",
       });
     }
-  } else if (method === "DELETE") {
-    try {
-      const response = await deleteOne("products", id);
-
-      const { status, statusText, data, error } = response;
-
-      res.status(status).json({
-        status: status,
-        statusText: statusText,
-        data: data,
-        error: error,
-      });
-    } catch (error) {
-      res.status(500).json({
-        status: 500,
-        statusText: "Internal server error",
-        error: error.message,
-      });
-    }
-  } else {
-    try {
-      const response = await findOne(req, res, "products", {
-        _id: ObjectId(id),
-      });
-
-      const { status, statusText, data, error } = response;
-
-      res.status(status).json({
-        status: status,
-        statusText: statusText,
-        data: data,
-        error: error,
-      });
-    } catch (error) {
-      res.status(500).json({
-        status: 500,
-        statusText: "Internal server error",
-        error: error.message,
-      });
-    }
+  } catch (error) {
+    res.status(500).json({
+      status: 500,
+      statusText: "Internal server error",
+      error: error.message,
+    });
   }
 });

@@ -1,16 +1,15 @@
 import React from "react";
 import Link from "next/link";
-import Password from "../../components/ui/Password";
-import Phone from "../../components/ui/Phone";
-import Select from "../../components/ui/Select";
-import TextInput from "../../components/ui/TextInput";
+import Password from "../ui/Password";
+import Phone from "../ui/Phone";
+import Select from "../ui/Select";
+import TextInput from "../ui/TextInput";
 import { useStates } from "../../hooks/useStates";
-import { useDispatch } from "react-redux";
 import { useAuth } from "../../hooks/auth/useAuth";
-import Spinner from "../../components/ui/Spinner";
-import Alert from "../../components/ui/Alert";
+import Spinner from "../ui/Spinner";
+import Alert from "../ui/Alert";
 import { setBusinesses } from "../../slices/navSlice";
-import { useFetch } from "../../hooks/crud/useFetch";
+import { useFetch } from "../../hooks/crud/useFetchs";
 
 function AddBusinessForm({ business, edit }) {
   const {
@@ -37,7 +36,11 @@ function AddBusinessForm({ business, edit }) {
   const businessesData = []; //set to empty array. We don't want to use it in the custom hook
 
   const { fetchData } = useFetch(
-    "/api/v1.0.0/businesses",
+    `${
+      business?.name
+        ? "https://api.palofoods.com/api/v1.1.1/users/manage/managers"
+        : ""
+    }`,
     businessesData,
     setBusinesses
   );
@@ -65,16 +68,19 @@ function AddBusinessForm({ business, edit }) {
     };
     console.log(updateData);
 
-    const url = `/api/v1.0.0/businesses/${business ? business?._id : "signup"}`;
+    const url = `/api/v1.0.0/businesses/${
+      business?.name ? business?._id : "signup"
+    }`;
 
     //provide url, email, password, custom args
     await auth.addUpdateDeleteUser(
       url,
-      business ? updateData : data,
-      business ? "PUT" : "POST"
+      business?.name ? updateData : data,
+      business?.name ? "PUT" : "POST"
     );
 
-    business && fetchData();
+    //if there is an update
+    business?.name && fetchData();
   };
 
   return (
@@ -122,7 +128,7 @@ function AddBusinessForm({ business, edit }) {
         <label htmlFor="phone" className="mb-2 h6">
           Enter business phone
         </label>
-        <Phone setText={setPhone} text={phone} classes="" />
+        <Phone setText={setPhone} text={phone} />
       </div>
       <div className="col-md-6 form-group mb-4">
         <label htmlFor="region" className="mb-2 h6">
@@ -156,11 +162,12 @@ function AddBusinessForm({ business, edit }) {
             Enter password (keep it)
           </label>
           <Password
-            type="password"
             text={password}
             setInput={setInput}
             setText={setPassword}
             classes=""
+            type="password"
+            id="password"
           />
         </div>
       )}
@@ -175,6 +182,7 @@ function AddBusinessForm({ business, edit }) {
                 : "info"
             }
             message={message}
+            onClick={undefined}
           />
         </div>
       )}

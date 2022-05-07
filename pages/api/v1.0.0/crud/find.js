@@ -1,5 +1,4 @@
 import { connectToDatabase } from "../../../../lib/mongodb";
-import { verifyUser } from "../verification";
 
 //used for login and signup
 export const find = async (collection, condition, projection) => {
@@ -22,38 +21,29 @@ export const find = async (collection, condition, projection) => {
   }
 };
 
-export const findOne = async (req, collection, condition, projection) => {
-  const { db } = await connectToDatabase();
-  const { match } = await verifyUser(req);
-
+export const findOne = async (collection, condition, projection) => {
   try {
-    if (match) {
-      const response = await db
-        .collection(collection)
-        .findOne(condition, projection);
+    const { db } = await connectToDatabase();
+    const response = await db
+      .collection(collection)
+      .findOne(condition, projection);
 
-      console.log("find one", response);
+    //console.log("find one", response);
 
-      if (response.email) {
-        return {
-          status: 200,
-          statusText: "OK",
-          data: response,
-        };
-      } else {
-        return {
-          status: 404,
-          statusText: "Not found",
-        };
-      }
+    if (response.email) {
+      return {
+        status: 200,
+        statusText: "OK",
+        data: response,
+      };
     } else {
       return {
-        status: 401,
-        statusText: "Invalid method/not logged in",
+        status: 404,
+        statusText: "Not found",
       };
     }
   } catch (error) {
-    console.log("find one error", error.message);
+    //console.log("find one error", error.message);
     return {
       status: 500,
       statusText: "Internal server error",
@@ -63,43 +53,36 @@ export const findOne = async (req, collection, condition, projection) => {
 };
 
 export const findAll = async (
-  req,
   collection,
   condition,
   projection,
   numberOfItems
 ) => {
-  const { db } = await connectToDatabase();
-
-  const { match } = await verifyUser(req);
-
   try {
-    if (match) {
-      const response = await db
-        .collection(collection)
-        .find(condition, projection)
-        .toArray(numberOfItems);
+    const { db } = await connectToDatabase();
+    console.log("db");
 
-      if (response.length > 0 || response.length === 0) {
-        return {
-          status: 200,
-          statusText: "OK",
-          data: response,
-        };
-      } else {
-        return {
-          status: 404,
-          statusText: "Data not found",
-        };
-      }
+    const response = await db
+      .collection(collection)
+      .find(condition, projection)
+      .toArray(numberOfItems);
+
+   // console.log("find all response: " + response);
+
+    if (response.length >= 0) {
+      return {
+        status: 200,
+        statusText: "OK",
+        data: response,
+      };
     } else {
       return {
-        status: 401,
-        statusText: "Invalid method/not logged in",
+        status: 404,
+        statusText: "Data not found",
       };
     }
   } catch (error) {
-    console.log(error.message);
+   // console.log("find all error ", error.message);
     return {
       status: 500,
       statusText: "Internal server error",

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import DashboardLayout from "../../components/layouts/DashboardLayout";
 import Spinner from "../../components/ui/Spinner";
-import { useFetch } from "../../hooks/crud/useFetch";
+import { useFetch } from "../../hooks/crud/useFetchs";
 import { useDispatch, useSelector } from "react-redux";
 import { selectPayments, setOrder, setPayments } from "../../slices/navSlice";
 import Search from "../../components/ui/Search";
@@ -11,7 +11,7 @@ const searched = (keyword) => (item) =>
   item?.name?.toLowerCase().includes(keyword);
 
 function OrdersPage() {
-  const url = "/api/v1.0.0/payments";
+  const url = "https://api.palooods.com/api/v1.1.1/users/get-all/payments";
   const payments = useSelector(selectPayments);
 
   const [keyword, setKeyword] = useState("");

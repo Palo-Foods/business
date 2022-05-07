@@ -1,25 +1,20 @@
 import { connectToDatabase } from "../../../../lib/mongodb";
-import { verifyUser } from "../verification";
 
-export const insertOne = async (req, collection, data) => {
+export const insertOne = async (collection, data) => {
   const { db } = await connectToDatabase();
 
-  const { match } = await verifyUser(req);
-  
   try {
-    if (match) {
-      const response = await db.collection(collection).insertOne(data);
-      if (response.acknowledged) {
-        return {
-          status: 201,
-          statusText: `You have successfully added data to ${collection}`,
-        };
-      } else {
-        return {
-          status: 400,
-          statusText: `Adding data to ${collection} failed`,
-        };
-      }
+    const response = await db.collection(collection).insertOne(data);
+    if (response.acknowledged) {
+      return {
+        status: 201,
+        statusText: `You have successfully added data to ${collection}`,
+      };
+    } else {
+      return {
+        status: 400,
+        statusText: `Adding data to ${collection} failed`,
+      };
     }
   } catch (error) {
     return {

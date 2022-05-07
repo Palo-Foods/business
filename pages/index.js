@@ -1,26 +1,12 @@
 import React from "react";
 import Layout from "../components/layouts/Layout";
-import TextInput from "../components/ui/TextInput";
-import Password from "../components/ui/Password";
 import { useAuth } from "../hooks/auth/useAuth";
-import { useStates } from "../hooks/useStates";
-import Spinner from "../components/ui/Spinner";
-import Alert from "../components/ui/Alert";
+import LoginForm from "../components/forms/Login";
 
 function LoginPage() {
-  const { auth, loading, statusCode, message, user } = useAuth();
-  const { email, setEmail, password, setPassword, setInput, router } = useStates("");
+  const { user } = useAuth();
 
-  //handle login
-  const handleLogin = async (e) => {
-    e.preventDefault();
-
-    const data = { email, password };
-    const url = "/api/v1.0.0/login";
-    await auth.signInWithEmailAndPassword(url, data);
-  };
-
-  user?.email && router.push("/dashboard");
+  user?.data?.email && router.push("/dashboard");
 
   return (
     <Layout title="Login">
@@ -30,53 +16,7 @@ function LoginPage() {
           <h6 className="text-center fw-normal my-2 text-muted">Manager login</h6>
           <div className="card mt-4">
             <div className="card-body">
-              <form className="my-3 mx-2" onSubmit={handleLogin}>
-                <div className="mb-3">
-                  <label htmlFor="email" className="form-label fw-normal">
-                    Enter email address
-                  </label>
-                  <TextInput
-                    type="email"
-                    text={email}
-                    setInput={setInput}
-                    setText={setEmail}
-                    classes=""
-                    id="email"
-                  />
-                </div>
-                <div className="mb-4">
-                  <label htmlFor="password" className="form-label fw-normal">
-                    Enter a password
-                  </label>
-                  <Password
-                    type="password"
-                    text={password}
-                    setInput={setInput}
-                    setText={setPassword}
-                    classes=""
-                  />
-                </div>
-                {message && (
-                  <Alert
-                    type={
-                      statusCode === 200
-                        ? "success"
-                        : statusCode === 500
-                        ? "danger"
-                        : "info"
-                    }
-                    message={message}
-                  />
-                )}
-                <div className="d-grid">
-                  <button
-                    type="submit"
-                    className="btn btn-primary"
-                    disabled={!email || !password || loading}>
-                    {loading && <Spinner />} <span className="ms-2">Login</span>
-                  </button>
-                </div>
-              </form>
+            <LoginForm />
             </div>
           </div>
         </div>

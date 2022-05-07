@@ -1,63 +1,82 @@
 import { ObjectId } from "mongodb";
 import { authenticate } from "../authentication";
 import { deleteOne } from "../crud/delete";
+import { find } from "../crud/find";
 import { updateOneEntry } from "../crud/update";
 import { verifyUser } from "../verification";
 
 export default authenticate(async (req, res) => {
+  const { id, method, email, apiKey } = await verifyUser(req);
+  console.log("verification", id, method, email);
+
   try {
-    //1. verify if user has the right to edit account
-    const { match, method, body } = await verifyUser(req);
+    //if managers doesn't get resolved, the id wont be passed, fix the apiKey issue
+    const managers = await find(
+      "managers",
+      { email: email },
+      { projection: { apiKey: 1 } }
+    );
 
-    console.log("match: ", match);
+    console.log("managers", managers);
 
-    //2 check methods and execute accordingly
-    if (method === "PUT") {
-      const set = {
-        $set: {
-          ...body,
-        },
-      };
-      //1 update user account with data
-      const response = await updateOneEntry(req, "managers", set);
+    const match = apiKey === managers?.data?.apiKey;
 
-      const { status, statusText, data, error } = response;
-      console.log("update response ", status, statusText, data, error);
+    console.log("match", match);
+    if (match) {
+      //2 check methods and execute accordingly
+      if (method === "PUT") {
+        const set = {
+          $set: {
+            ...body,
+          },
+        };
+        //1 update user account with data
+        const response = await updateOneEntry(req, "managers", set);
 
-      res.status(status).json({
-        status: status,
-        statusText: statusText,
-        data: data,
-        error: error,
-      });
-    } else if (method === "DELETE") {
-      //delete account
-      const response = await deleteOne("managers", id);
+        const { status, statusText, data, error } = response;
+        console.log("update response ", status, statusText, data, error);
 
-      const { status, statusText, data, error } = response;
-      console.log("delete response ", status, statusText, data, error);
+        res.status(status).json({
+          status: status,
+          statusText: statusText,
+          data: data,
+          error: error,
+        });
+      } else if (method === "DELETE") {
+        //delete account
+        const response = await deleteOne("managers", id);
 
-      res.status(status).json({
-        status: status,
-        statusText: statusText,
-        data: data,
-        error: error,
-      });
+        const { status, statusText, data, error } = response;
+        console.log("delete response ", status, statusText, data, error);
+
+        res.status(status).json({
+          status: status,
+          statusText: statusText,
+          data: data,
+          error: error,
+        });
+      } else {
+        //fetch account data
+        const response = await findOne(req, "managers", {
+          _id: ObjectId(id),
+        });
+
+        const { status, statusText, data, error } = response;
+
+        console.log("fetch account ", status, statusText, data, error);
+
+        res.status(status).json({
+          status: status,
+          statusText: statusText,
+          data: data,
+          error: error,
+        });
+      }
     } else {
-      //fetch account data
-      const response = await findOne(req, "managers", {
-        _id: ObjectId(id),
-      });
-
-      const { status, statusText, data, error } = response;
-
-      console.log("fetch account ", status, statusText, data, error);
-
-      res.status(status).json({
-        status: status,
-        statusText: statusText,
-        data: data,
-        error: error,
+      console.log("401");
+      res.status(401).json({
+        status: 401,
+        statusText: "not authenticated",
       });
     }
   } catch (error) {

@@ -18,7 +18,6 @@ export default authenticate(async (req, res) => {
     };
 
     const response = await insertOne(
-      req,
       res,
       "payments",
       { _id: ObjectId(id) },

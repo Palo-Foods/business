@@ -1,17 +1,14 @@
 import React from "react";
-import { useState } from "react";
 import Spinner from "../ui/Spinner";
 import Alert from "../ui/Alert";
-import { useStates } from "../../hooks/useStates";
-import { MdClear, MdDelete, MdError, MdCheckCircle } from "react-icons/md";
+import { MdClear, MdDelete, MdCheckCircle } from "react-icons/md";
 import { useAuth } from "../../hooks/auth/useAuth";
 
 function DeleteModal({ item, url, setItem, fetchData, router, type }) {
-  const { auth, loading, statusCode, message } = useAuth();
+  const { auth, loading, statusCode, message, setMessage } = useAuth();
 
   const deleteItem = async () => {
-    const itemId = item?._id;
-    const uri = `${url}/${itemId}`;
+    const uri = `${url}/${item?._id}`;
     const data = {};
 
     await auth.addUpdateDeleteUser(
@@ -19,12 +16,13 @@ function DeleteModal({ item, url, setItem, fetchData, router, type }) {
       data, //no data is sent cos we are deleting the item
       "DELETE"
     );
+
+    if (statusCode === 200) fetchData();
   };
   const clearAnything = () => {
     setItem(null);
-    if(statusCode === 200) {
-      fetchData()
-    }
+    message = ""
+    statusCode = ""
   };
 
   return (
@@ -41,74 +39,63 @@ function DeleteModal({ item, url, setItem, fetchData, router, type }) {
           <div className="modal-header border-0 ms-auto p-0">
             <button
               type="button"
-              className="btn btn-default mt-2"
+              className="btn btn-default my-2 "
               data-bs-dismiss="modal">
-              <span
-                className="bg-light rounded-circle p-2"
-                onClick={clearAnything}>
-                <MdClear size={20} />
+              <span className="bg-light rounded-circle p-2">
+                <MdClear size={20} className="" onClick={clearAnything} />
               </span>
             </button>
           </div>
           <div className="modal-body">
             <div className="d-flex justify-content-center align-items-center">
-              <div className="text-center d-flex align-items-center">
-                <div>
-                  <div className="">
-                    {!statusCode && <MdDelete size={50} color="red" />}
-                    {statusCode === 200 && (
-                      <MdCheckCircle
-                        size={150}
-                        color="green"
-                        className="mb-2"
-                      />
-                    )}
-                    {message && (
-                      <div className="">
-                        <Alert
-                          type={
-                            statusCode === 200
-                              ? "success"
-                              : statusCode === 500
-                              ? "danger"
-                              : "info"
-                          }
-                          message={message}
-                        />
-                      </div>
-                    )}
+              <div className="text-center">
+                {statusCode === 200 && (
+                  <div>
+                    <MdCheckCircle size={150} color="#64dd64" className="" />
                   </div>
-                  {!statusCode && (
-                    <h5>
-                      Do you want to delete
-                      <span className="text-secondary"> {item?.name}</span>
-                    </h5>
-                  )}
-                </div>
+                )}
+                {message && (
+                  <p className={`${statusCode === 200 && "text-success"}`}>
+                    {message && statusCode === 200 && message}
+                  </p>
+                )}
+
+                {statusCode !== 200 && (
+                  <>
+                    <div className="mb-2">
+                      <MdDelete size={50} color="red" />
+                    </div>
+                    <h6>Do you want to delete</h6>
+                    <p className="text-secondary h6"> {item?.name}</p>
+                    {statusCode && statusCode !== 200 && (
+                      <p className="text-danger">There was an error</p>
+                    )}
+                  </>
+                )}
               </div>
             </div>
           </div>
-          <div className="modal-footer border-0 d-flex justify-content-center pb-3">
+          <div className="modal-footer border-0 d-flex justify-content-center pb-3 pt-0">
             <button
               type="button"
-              className="btn btn-secondary px-4 mx-3"
+              className="btn btn-light px-4 mx-3"
               data-bs-dismiss="modal"
               onClick={() => {
                 router.replace(type === "business" ? "/businesses" : "/riders");
                 setItem(null);
                 clearAnything;
               }}>
-              {statusCode ? "Close" : "No"}
+              {statusCode === 200 ? "Close" : "No"}
             </button>
-            {!statusCode && (
-              <button
-                disabled={loading}
-                type="button"
-                className="btn btn-primary px-4 mx-3"
-                onClick={deleteItem}>
-                {loading && <Spinner />} Yes
-              </button>
-            )}
+            {statusCode !== 200 && (
+                <button
+                  disabled={loading}
+                  type="button"
+                  className="btn btn-primary px-4 mx-3"
+                  onClick={deleteItem}>
+                  {loading && <Spinner />} Yes
+                </button>
+              )}
           </div>
         </div>
       </div>

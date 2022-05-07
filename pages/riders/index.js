@@ -11,16 +11,9 @@ import DeleteModal from "../../components/modals/DeleteModal";
 import { useStates } from "../../hooks/useStates";
 import Search from "../../components/ui/Search";
 import { useFilter } from "../../hooks/useFilter";
-import { useFetch } from "../../hooks/crud/useFetch";
+import { useFetch } from "../../hooks/crud/useFetchs";
 const RidersTableRow = dynamic(
-  () => import("../../components/RidersTableRow"),
-  {
-    loading: () => (
-      <tr>
-        loading...
-      </tr>
-    ),
-  }
+  () => import("../../components/RidersTableRow")
 );
 const ShowModal = dynamic(() => import("../../components/modals/ShowModal"));
 const RiderModalContent = dynamic(() =>
@@ -32,7 +25,7 @@ const searched = (keyword) => (item) =>
 
 function RidersPage() {
   const [edit, setEdit] = useState(false);
-  const url = "/api/v1.0.0/riders";
+  const url = "https://api.palooods.com/api/v1.1.1/users/get-all/riders";;
 
   let riders = useSelector(selectRiders);
 
@@ -48,7 +41,12 @@ function RidersPage() {
 
   const [item, setItem] = useState("");
 
-  const { loading, error, fetchData } = useFetch(url, riders, setRiders);
+  const { loading, error, fetchData } = useFetch(
+    url,
+    riders,
+    setRiders,
+    "riders"
+  );
 
   //match modal to route
   useEffect(() => {
@@ -60,12 +58,16 @@ function RidersPage() {
     }
   }, [item]);
 
+ 
+
   return (
     <DashboardLayout>
       <div className="d-flex justify-content-between align-items-center mt-2 mb-3">
         <h6 className="text-muted mb-0">Riders</h6>
         <Link href="/riders/add-rider">
-          <a className="btn btn-primary d-flex justify-content-between align-items-center" onClick={() => dispatch(setRider(""))}>
+          <a
+            className="btn btn-primary d-flex justify-content-between align-items-center"
+            onClick={() => dispatch(setRider(""))}>
             <MdAdd size={18} />
             <span className="d-none d-md-block ms-2"> Add rider</span>
           </a>
@@ -157,12 +159,12 @@ function RidersPage() {
         type="rider"
         item={item}
         setItem={setItem}
-        url="/api/v1.0.0/businesses"
+        url="/api/v1.1.0/riders"
         fetchData={fetchData}
         router={router}
       />
       <ShowModal
-        type="rider"
+        type="riders"
         item={item}
         setItem={setItem}
         edit={edit}

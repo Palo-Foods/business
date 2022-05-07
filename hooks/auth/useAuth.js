@@ -5,8 +5,8 @@
  * 4. Token: authToken
  **/
 import { useEffect } from "react";
-import { loginSignUp } from "../../functions/auth/LOGIN-SIGNUP";
-import { postPutDelete } from "../../functions/crud/POST-PUT-DELETE";
+import { loginSignUp } from "../../functions/auth/LOGIN-SIGNUP.ts";
+import { postPutDelete } from "../../functions/crud/POST-PUT-DELETE.js";
 import {
   destroyUserInSession,
   getUserInSession,
@@ -48,7 +48,7 @@ export const useAuth = () => {
     setLoading(false);
 
     if (response) {
-      const { status, statusText } = response;
+      const { statusCode, statusText } = response;
 
       if (status === 201) {
         //set user in session
@@ -60,7 +60,7 @@ export const useAuth = () => {
         //set user
         setUser(userData);
       }
-      setStatusCode(status);
+      setStatusCode(statusCode);
       setMessage(statusText);
     } else {
       setStatusCode(500);
@@ -82,9 +82,9 @@ export const useAuth = () => {
     setLoading(false);
 
     if (response) {
-      const { status, statusText } = response;
+      const { statusCode, statusText } = response;
 
-      setStatusCode(status);
+      setStatusCode(statusCode);
       setMessage(statusText);
     } else {
       setStatusCode(500);
@@ -104,9 +104,9 @@ export const useAuth = () => {
     setLoading(false);
 
     if (response) {
-      const { status, statusText } = response;
+      const { statusCode, statusText } = response;
 
-      if (status === 200) {
+      if (statusCode === 200) {
         //set user in session
         setUserInSession(response);
 
@@ -116,7 +116,7 @@ export const useAuth = () => {
         //set user
         setUser(userData);
       }
-      setStatusCode(status);
+      setStatusCode(statusCode);
       setMessage(statusText);
     } else {
       setStatusCode(500);

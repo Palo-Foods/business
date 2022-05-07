@@ -1,6 +1,4 @@
-import { MdDelete } from "react-icons/md";
-
-const RiderTableRow = ({ rider, setItem }) => {
+const RiderTableRow = ({ rider: object, setItem }) => {
   return (
     <tr
       onClick={() => setItem(rider)}

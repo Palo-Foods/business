@@ -1,90 +1,104 @@
 import { insertOne } from "../crud/insert";
 import { encryptPassword } from "../encrypt";
 import moment from "moment";
-import { find, findOne } from "../crud/find";
+import { find } from "../crud/find";
 import { verifyUser } from "../verification";
 import { authenticate } from "../authentication";
 import crypto from "crypto";
 
 export default authenticate(async function handler(req, res) {
-  const { id, method, body } = await verifyUser(req);
-  console.log(body);
+  const { id, method, email, body, apiKey } = await verifyUser(req);
+  //console.log("verification", id, method, email);
+
   try {
-    if (method !== "POST") {
-      res.status(400).json({
-        status: 400,
-        statusText: "Invalid method/missing data",
-      });
-
-      return;
-    }
-
-    //2. Check to see if email already exist
-    const { data, error, statusText } = await find(
-      "businesses",
-      { email: body?.email },
-      { projection: { email: 1 } }
+    //if businesses doesn't get resolved, the id wont be passed, fix the apiKey issue
+    const manager = await find(
+      "managers",
+      { email: email },
+      { projection: { apiKey: 1 } }
     );
 
-    console.log("check", data, error, statusText);
+    //console.log("manager", manager);
 
-    //if email already exist, abort mission
-    if (data?.email) {
-      res.json({
-        status: 403,
-        statusText: `${email} already exist`,
-      });
-      console.log("hey");
-      return;
-    }
+    const match = apiKey === manager?.data?.apiKey;
 
-    //1. encrypt password, get token and apiKey
-    const { apiKey } = await encryptPassword(body?.password, signUp);
-    console.log("apiKey", apiKey);
+    console.log("match", match);
+    if (match) {
+      if (method !== "POST") {
+        res.status(400).json({
+          status: 400,
+          statusText: "Invalid method/missing data",
+        });
 
-    //use this as a callback unction when encrypting the password
-    async function signUp(hash) {
-      const busId = crypto.randomUUID().slice(30);
-      console.log("busId", busId);
+        return;
+      }
 
-      const date = new Date();
+      //2. Check to see if email already exist
+      const { data, error, statusText } = await find(
+        "businesses",
+        { email: body?.email },
+        { projection: { email: 1 } }
+      );
 
-      console.log("hash ", hash);
+      //console.log("check", data, error, statusText);
 
-      const url =
-        body?.name?.split(" ").join("").toLowerCase() + "-" + busId;
+      //if email already exist, abort mission
+      if (data?.email) {
+        res.json({
+          status: 403,
+          statusText: `${email} already exist`,
+        });
+        console.log("hey");
+        return;
+      }
 
-      const data = {
-        ...body,
-        password: hash,
-        location: null,
-        country: null,
-        terms: "agree",
-        openingHours: [],
-        discount: 0,
-        logo: "",
-        heroImg: "",
-        role: "business",
-        managerId: id,
-        url,
-        createdAt: moment(date).format("lll"),
-        apiKey,
-      };
+      //1. encrypt password, get token and apiKey
+      const { apiKey } = await encryptPassword(body?.password, signUp);
+      //console.log("apiKey", apiKey);
 
-      console.log("data", data);
+      //use this as a callback unction when encrypting the password
+      async function signUp(hash) {
+        const busId = crypto.randomUUID().slice(30);
+        //console.log("busId", busId);
 
-      //3. insert data into businesses collection
-      const response = await insertOne(req, "businesses", data);
+        const date = new Date();
 
-      const { status, statusText, error } = response;
-      console.log("insert one", status, statusText, error);
+        //console.log("hash ", hash);
 
-      res.status(status).json({
-        status: status,
-        statusText: statusText,
-        data: data,
-        error: error,
-      });
+        const url = body?.name?.split(" ").join("").toLowerCase() + "-" + busId;
+
+        const data = {
+          ...body,
+          password: hash,
+          location: null,
+          country: null,
+          terms: "agree",
+          openingHours: [],
+          discount: 0,
+          logo: "",
+          heroImg: "",
+          role: "business",
+          managerId: id,
+          url,
+          createdAt: moment(date).format("lll"),
+          apiKey,
+        };
+
+        //console.log("data", data);
+
+        //3. insert data into businesses collection
+        const response = await insertOne("businesses", data);
+
+        const { status, statusText, error } = response;
+        //console.log("insert one", status, statusText, error);
+
+        res.status(status).json({
+          status: status,
+          statusText: statusText,
+          data: data,
+          error: error,
+        });
+      }
     }
   } catch (error) {
     console.log("error", error.message);

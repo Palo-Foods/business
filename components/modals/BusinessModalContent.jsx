@@ -1,4 +1,4 @@
-import AddBusinessForm from "../forms/AddBusinessForm";
+import AddBusinessForm from "../forms/AddBusinessForm.jsx";
 
 const BusinessModalContent = ({edit, item}) => {
   return (

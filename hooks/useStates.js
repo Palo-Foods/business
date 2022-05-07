@@ -6,7 +6,6 @@ import { useDispatch } from "react-redux";
 import { useRouter } from "next/router";
 
 export const useStates = (dataFromStore) => {
-  console.log(dataFromStore);
   const [auth, setAuth] = useState("");
   const [user, setUser] = useState("");
   const [loading, setLoading] = useState(false);
@@ -20,7 +19,7 @@ export const useStates = (dataFromStore) => {
   const [city, setCity] = useState("");
   const [address, setAddress] = useState(dataFromStore?.address);
   const [joined, setJoined] = useState("");
-  const [statusCode, setStatusCode] = useState("");
+  const [statusCode, setStatusCode] = useState();
   const [error, setError] = useState("");
   const [department, setDepartment] = useState("");
   const [text, setText] = useState("");

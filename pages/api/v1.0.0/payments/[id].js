@@ -1,57 +1,80 @@
 import { ObjectId } from "mongodb";
 import { authenticate } from "../authentication";
 import { deleteOne } from "../crud/delete";
+import { find } from "../crud/find";
 import { updateOneEntry } from "../crud/update";
 
 export default authenticate(async (req, res) => {
-  const method = req.method;
-  const { id } = req.query; //needed for condition
+  const { method, email, apiKey, body } = await verifyUser(req);
+  const { id } = req.query;
+  console.log("verification", id, method, email);
+
   try {
-    //dont set methods or anything, everything has already been done in the updateOneEntry function
-    if (method === "PUT") {
-      const body = JSON.parse(req.body);
-      const set = {
-        $set: {
-          ...body,
-        },
-      };
+    //if payments doesn't get resolved, the id wont be passed, fix the apiKey issue
+    const manager = await find(
+      "managers",
+      { email: email },
+      { projection: { apiKey: 1 } }
+    );
 
-      const response = await updateOneEntry(req, "payments", set);
+    console.log("manager", manager);
 
-      const { status, statusText, data, error } = response;
-      console.log("update response ", status, statusText, data, error);
+    const match = apiKey === manager?.data?.apiKey;
 
-      res.status(status).json({
-        status: status,
-        statusText: statusText,
-        data: data,
-        error: error,
-      });
-    } else if (method === "DELETE") {
-      const response = await deleteOne("payments", id);
+    console.log("match", match);
+    if (match) {
+      //dont set methods or anything, everything has already been done in the updateOneEntry function
+      if (method === "PUT") {
+        const body = JSON.parse(req.body);
+        const set = {
+          $set: {
+            ...body,
+          },
+        };
 
-      const { status, statusText, data, error } = response;
-      console.log("update response ", status, statusText, data, error);
+        const response = await updateOneEntry("payments", set);
 
-      res.status(status).json({
-        status: status,
-        statusText: statusText,
-        data: data,
-        error: error,
-      });
+        const { status, statusText, data, error } = response;
+        console.log("update response ", status, statusText, data, error);
+
+        res.status(status).json({
+          status: status,
+          statusText: statusText,
+          data: data,
+          error: error,
+        });
+      } else if (method === "DELETE") {
+        const response = await deleteOne("payments", id);
+
+        const { status, statusText, data, error } = response;
+        console.log("update response ", status, statusText, data, error);
+
+        res.status(status).json({
+          status: status,
+          statusText: statusText,
+          data: data,
+          error: error,
+        });
+      } else {
+        const response = await findOne("payments", {
+          _id: ObjectId(id),
+        });
+
+        const { status, statusText, data, error } = response;
+        console.log("delete response ", status, statusText, data, error);
+
+        res.status(status).json({
+          status: status,
+          statusText: statusText,
+          data: data,
+          error: error,
+        });
+      }
     } else {
-      const response = await findOne(req, res, "payments", {
-        _id: ObjectId(id),
-      });
-
-      const { status, statusText, data, error } = response;
-      console.log("delete response ", status, statusText, data, error);
-
-      res.status(status).json({
-        status: status,
-        statusText: statusText,
-        data: data,
-        error: error,
+      console.log("401");
+      res.status(401).json({
+        status: 401,
+        statusText: "not authenticated",
       });
     }
   } catch (error) {

@@ -33,31 +33,24 @@ export const removeFromArray = async (collection, condition, set, filter) => {
   }
 };
 
-export const updateOneEntry = async (req, collection, set, filter) => {
-  const { match } = await verifyUser(req);
-  const { id } = req.query;
-
+export const updateOneEntry = async (collection, id, set, filter) => {
   try {
-    if (match) {
-      const response = await updateOne(
-        collection,
-        { _id: ObjectId(id) },
-        set,
-        filter
-      );
+    const response = await updateOne(
+      collection,
+      { _id: ObjectId(id) },
+      set,
+      filter
+    );
 
-      console.log("update response", response);
+    console.log("update response", response);
 
-      if (response) {
-        return { status: 200, statusText: `Data updated in ${collection}` };
-      } else {
-        return {
-          status: 404,
-          statusText: `Data updated in ${collection} failed`,
-        };
-      }
+    if (response) {
+      return { status: 200, statusText: `Data updated in ${collection}` };
     } else {
-      return { status: 401, statusText: "Unauthorized" };
+      return {
+        status: 404,
+        statusText: `Data updated in ${collection} failed`,
+      };
     }
   } catch (error) {
     return {

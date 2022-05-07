@@ -22,75 +22,79 @@ function EditAccountPage() {
 
   return (
     <DashboardLayout>
-      <div className="d-flex justify-content-start px-0">
-        <h5 className="mt-2 text-muted">Edit Account</h5>
-      </div>
-
-      <div className="card my-2">
-        <div className="card-body my-3">
-          <form className="row" onSubmit={handleEditAccount}>
-            <div className="col-md-6 form-group mb-4">
-              <label htmlFor="fullName" className="mb-2 h6">
-                Enter name
-              </label>
-              <TextInput
-                type="text"
-                text={fullName}
-                setInput={setInput}
-                setText={setFullName}
-                classes=""
-                id="fullName"
-              />
-            </div>
-            <div className="col-md-6 form-group mb-4">
-              <label htmlFor="email" className="mb-2 h6">
-                Enter email
-              </label>
-              <TextInput
-                type="email"
-                text={email}
-                setInput={setInput}
-                setText={setEmail}
-                classes=""
-                id="email"
-              />
-            </div>
-            <div className="col-md-6 form-group mb-4">
-              <label htmlFor="phone" className="mb-2 h6">
-                Enter phone
-              </label>
-              <Phone setText={setPhone} text={phone} classes="" id="phone" />
-            </div>
-            {message && (
-              <div className="px-3">
-                <Alert
-                  type={
-                    statusCode === 201
-                      ? "success"
-                      : statusCode === 500
-                      ? "danger"
-                      : "info"
-                  }
-                  message={message}
-                />
-              </div>
-            )}
-
-            <div>
-              <button
-                type="submit"
-                className="btn btn-primary"
-                disabled={!fullName || !email || !phone}>
-                {loading && <Spinner />} Update
-              </button>
-            </div>
-          </form>
-        </div>
-      </div>
       <div className="row">
-        <div className="col-12 col-lg-6 my-3">
+        <div className="col-md-6 mb-3">
+          <h5 className="text-muted">Edit Account</h5>
+          <div className="card my-2">
+            <div className="card-body my-3">
+              <form className="row" onSubmit={handleEditAccount}>
+                <div className="form-group mb-4">
+                  <label htmlFor="fullName" className="mb-2 h6">
+                    Enter name
+                  </label>
+                  <TextInput
+                    type="text"
+                    text={fullName}
+                    setInput={setInput}
+                    setText={setFullName}
+                    classes=""
+                    id="fullName"
+                  />
+                </div>
+                <div className="form-group mb-4">
+                  <label htmlFor="email" className="mb-2 h6">
+                    Enter email
+                  </label>
+                  <TextInput
+                    type="email"
+                    text={email}
+                    setInput={setInput}
+                    setText={setEmail}
+                    classes=""
+                    id="email"
+                  />
+                </div>
+                <div className="form-group mb-4">
+                  <label htmlFor="phone" className="mb-2 h6">
+                    Enter phone
+                  </label>
+                  <Phone
+                    setText={setPhone}
+                    text={phone}
+                    classes=""
+                    id="phone"
+                  />
+                </div>
+                {message && (
+                  <div className="px-3">
+                    <Alert
+                      type={
+                        statusCode === 201
+                          ? "success"
+                          : statusCode === 500
+                          ? "danger"
+                          : "info"
+                      }
+                      message={message}
+                    />
+                  </div>
+                )}
+
+                <div>
+                  <button
+                    type="submit"
+                    className="btn btn-primary"
+                    disabled={!fullName || !email || !phone}>
+                    {loading && <Spinner />} Update
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+        <div className="col-md-6">
           <h5 className="text-muted">Documents</h5>
-          <div className="card mt-2">
+          <div className="card my-2">
             <div className="card-header border-0 bg-white px-md-4 pt-4 pb-0 d-flex justify-content-between">
               <p className="h5 mb-0">Files</p>
               <Link href="/files/add-file">
@@ -112,10 +116,9 @@ function EditAccountPage() {
               </ul>
             </div>
           </div>
-        </div>
-        <div className="col-12 col-lg-6 my-3">
-          <h5 className="text-muted">Payments</h5>
-          <div className="card mt-2">
+
+          <h5 className="text-muted mt-4">Payments</h5>
+          <div className="card my-2">
             <div className="card-header border-0 bg-white px-md-4 pt-4 pb-0 d-flex justify-content-between">
               <p className="h5 mb-0">Payments</p>
             </div>
@@ -133,6 +136,8 @@ function EditAccountPage() {
           </div>
         </div>
       </div>
+
+      <div className="row"></div>
     </DashboardLayout>
   );
 }
