@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import DashboardLayout from "../../components/layouts/DashboardLayout";
 import Spinner from "../../components/ui/Spinner";
-import { useFetch } from "../../hooks/crud/useFetchs";
+import { useFetch } from "../../hooks/crud/useFetch";
 import { useDispatch, useSelector } from "react-redux";
 import { selectPayments, setOrder, setPayments } from "../../slices/navSlice";
 import Search from "../../components/ui/Search";

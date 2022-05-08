@@ -11,10 +11,8 @@ import DeleteModal from "../../components/modals/DeleteModal";
 import { useStates } from "../../hooks/useStates";
 import Search from "../../components/ui/Search";
 import { useFilter } from "../../hooks/useFilter";
-import { useFetch } from "../../hooks/crud/useFetchs";
-const RidersTableRow = dynamic(
-  () => import("../../components/RidersTableRow")
-);
+import { useFetch } from "../../hooks/crud/useFetch";
+const RidersTableRow = dynamic(() => import("../../components/RidersTableRow"));
 const ShowModal = dynamic(() => import("../../components/modals/ShowModal"));
 const RiderModalContent = dynamic(() =>
   import("../../components/modals/RiderModalContent")
@@ -25,7 +23,7 @@ const searched = (keyword) => (item) =>
 
 function RidersPage() {
   const [edit, setEdit] = useState(false);
-  const url = "https://api.palooods.com/api/v1.1.1/users/get-all/riders";;
+  const url = "https://api.palooods.com/api/v1.1.1/users/get-all/riders";
 
   let riders = useSelector(selectRiders);
 
@@ -41,12 +39,7 @@ function RidersPage() {
 
   const [item, setItem] = useState("");
 
-  const { loading, error, fetchData } = useFetch(
-    url,
-    riders,
-    setRiders,
-    "riders"
-  );
+  const { loading, error, fetchData } = useFetch(url, riders, setRiders);
 
   //match modal to route
   useEffect(() => {
@@ -57,8 +50,6 @@ function RidersPage() {
       });
     }
   }, [item]);
-
- 
 
   return (
     <DashboardLayout>

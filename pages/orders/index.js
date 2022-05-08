@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import DashboardLayout from "../../components/layouts/DashboardLayout";
 import Spinner from "../../components/ui/Spinner";
-import { useFetch } from "../../hooks/crud/useFetchs";
+import { useFetch } from "../../hooks/crud/useFetch";
 import { useRouter } from "next/router";
 import { useDispatch, useSelector } from "react-redux";
 import { selectOrders, setOrder, setOrders } from "../../slices/navSlice";
@@ -11,7 +11,7 @@ const searched = (keyword) => (item) =>
   item?.orderId?.toLowerCase().includes(keyword);
 
 function OrdersPage() {
-  const url = "https://api.palooods.com/api/v1.1.1/orders";;
+  const url = "https://api.palooods.com/api/v1.1.1/orders";
 
   const orders = useSelector(selectOrders);
 

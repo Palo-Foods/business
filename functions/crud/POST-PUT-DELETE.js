@@ -6,7 +6,10 @@
  **/
 import { resolve } from "../resolve";
 
-export const postPutDelete = async (url, data, method, authToken) => {
+export const postPutDelete = async (url, data, method) => {
+  const sessionData = sessionStorage.getItem("user");
+  const { authToken } = JSON.parse(sessionData);
+
   const config = {
     method: method,
     headers: {

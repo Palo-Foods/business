@@ -4,32 +4,24 @@
  * 3. Parameters: url, data, method
  * 4. Token: authToken
  **/
-import { useEffect } from "react";
 import { loginSignUp } from "../../functions/auth/LOGIN-SIGNUP.ts";
 import { postPutDelete } from "../../functions/crud/POST-PUT-DELETE.js";
-import { destroyUserInSession, getUserInSession } from "../userInSession";
+import { useSessionStorage } from "../useSession";
 import { useStates } from "../useStates";
-import { useUserInSession } from "../useUserInSession";
 
 export const useAuth = () => {
-  const { setUserToSession } = useUserInSession();
+  const [user, setUser, clearSession] = useSessionStorage("user", null);
   const {
     loading,
     setLoading,
     error,
+    router,
     setError,
     message,
     setMessage,
-    user,
-    setUser,
     statusCode,
     setStatusCode,
   } = useStates();
-
-  useEffect(() => {
-    const userData = getUserInSession();
-    setUser(userData);
-  }, []);
 
   //1. signup user unto the platform
   const signUp = async (url, email, password, custom) => {
@@ -49,14 +41,15 @@ export const useAuth = () => {
       const { statusCode, statusText } = response;
 
       if (statusCode === 201) {
-        const data = {
-          authToken: response?.data?.authToken,
-          email: response?.data?.email,
-          fullName: response?.data?.fullName,
-          role: response?.data?.role,
-        };
+        const { id, authToken, email, fullName, role } = response?.data;
 
-        setUserToSession("user", data);
+        setUser("user", {
+          id,
+          authToken,
+          email,
+          fullName,
+          role,
+        });
       }
       setStatusCode(statusCode);
       setMessage(statusText);
@@ -106,15 +99,13 @@ export const useAuth = () => {
 
       if (statusCode === 200) {
         const { id, authToken, email, fullName, role } = response?.data;
-        const data = {
+        setUser("user", {
           id,
           authToken,
           email,
           fullName,
           role,
-        };
-
-        setUserToSession("user", data);
+        });
       }
       setStatusCode(statusCode);
       setMessage(statusText);
@@ -127,7 +118,8 @@ export const useAuth = () => {
   //2. login out user on the platform
   const logOut = async () => {
     setLoading(true);
-    destroyUserInSession();
+    //destroyUserInSession();
+    clearSession();
     setLoading(false);
     setMessage("Logged out");
   };

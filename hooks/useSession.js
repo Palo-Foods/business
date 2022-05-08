@@ -1,22 +1,30 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 
-// Hook
-export function useSessionStorage() {
-  const [item, setItem] = useState();
-  const [user, setUser] = useState();
+export const useSessionStorage = (key) => {
+  const [item, setItem] = useState("");
 
-  useEffect(() => {
-    //check session
-    const session = sessionStorage.getItem("user");
-    const data = JSON.parse(session);
-    setUser(data?.data);
-  }, []);
-
-  //set session storage
-  const setSession = (key, value) => {
-    const data = JSON.stringify(value);
-    sessionStorage.setItem(key, data);
+  const getSessionStorage = () => {
+    const session = sessionStorage.getItem(key);
+    if (typeof session == "string") {
+      const data = JSON.parse(session);
+      setItem(data);
+    }
   };
 
-  return { user, item, setSession };
-}
+  useEffect(() => {
+    getSessionStorage();
+  }, []);
+
+  const setSession = (key, value) => {
+    sessionStorage.setItem(key, JSON.stringify(value));
+    getSessionStorage();
+  };
+
+  const clearSession = () => {
+    sessionStorage.clear(key);
+    setItem(null);
+    getSessionStorage();
+  };
+
+  return [item, setSession, clearSession];
+};

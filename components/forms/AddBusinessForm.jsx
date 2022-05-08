@@ -9,7 +9,7 @@ import { useAuth } from "../../hooks/auth/useAuth";
 import Spinner from "../ui/Spinner";
 import Alert from "../ui/Alert";
 import { setBusinesses } from "../../slices/navSlice";
-import { useFetch } from "../../hooks/crud/useFetchs";
+import { useFetch } from "../../hooks/crud/useFetch";
 
 function AddBusinessForm({ business, edit }) {
   const {
@@ -36,11 +36,7 @@ function AddBusinessForm({ business, edit }) {
   const businessesData = []; //set to empty array. We don't want to use it in the custom hook
 
   const { fetchData } = useFetch(
-    `${
-      business?.name
-        ? "https://api.palofoods.com/api/v1.1.1/users/manage/managers"
-        : ""
-    }`,
+    `${business?.name ? "/api/v1.1.1/users/get-all/businesses" : ""}`,
     businessesData,
     setBusinesses
   );
@@ -68,8 +64,8 @@ function AddBusinessForm({ business, edit }) {
     };
     console.log(updateData);
 
-    const url = `/api/v1.0.0/businesses/${
-      business?.name ? business?._id : "signup"
+    const url = `/api/v1.1.1/users/${
+      business ? "/manage/businesses/" + business?._id : "register/businesses"
     }`;
 
     //provide url, email, password, custom args

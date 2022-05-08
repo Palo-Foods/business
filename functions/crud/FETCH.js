@@ -6,17 +6,15 @@
  **/
 import { resolve } from "../resolve";
 
-export const read = async (url, token) => {
-  //1. get auth toke. Check if session exist
- /*  const sessionExist = sessionStorage?.getItem("user");
+export const read = async (url) => {
+  const sessionData = sessionStorage.getItem("user");
+  const { authToken } = JSON.parse(sessionData);
 
-  const user = JSON.parse(sessionExist);
- */
   const config = {
     method: "GET",
     headers: {
       ContentType: "application/json",
-      Authorization: `Bearer ${token}`,
+      Authorization: `Bearer ${authToken}`,
     },
     timeout: 5000,
   };

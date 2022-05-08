@@ -3,15 +3,16 @@ import TextInput from "../../components/ui/TextInput";
 import Password from "../../components/ui/Password";
 import { useAuth } from "../../hooks/auth/useAuth";
 import { useStates } from "../../hooks/useStates";
+import { useRouter } from "next/router";
 import Spinner from "../../components/ui/Spinner";
 import Alert from "../../components/ui/Alert";
-import { useUserInSession } from "../../hooks/useUserInSession";
+import { useSessionStorage } from "../../hooks/useSession";
 
 export default function LoginForm() {
+  const router = useRouter();
   const { auth, loading, statusCode, message } = useAuth();
-  const { email, password, router, setInput, setEmail, setPassword } =
-    useStates("");
-  const { user } = useUserInSession();
+  const { email, password, setInput, setEmail, setPassword } = useStates("");
+  const [user] = useSessionStorage("user");
   //handle login
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -19,8 +20,11 @@ export default function LoginForm() {
     const data = { email, password };
     const url = "api/v1.1.1/users/login/managers";
     await auth.signInWithEmailAndPassword(url, data);
-    console.log("user", user);
+    console.log(user);
+    user?.email && router.push("/dashboard");
   };
+
+  //user?.email && router.push("/dashboard");
 
   return (
     <form className="my-3 mx-2" onSubmit={handleLogin}>
