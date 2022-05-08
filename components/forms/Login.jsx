@@ -6,13 +6,11 @@ import { useStates } from "../../hooks/useStates";
 import { useRouter } from "next/router";
 import Spinner from "../../components/ui/Spinner";
 import Alert from "../../components/ui/Alert";
-import { useSessionStorage } from "../../hooks/useSession";
 
 export default function LoginForm() {
   const router = useRouter();
-  const { auth, loading, statusCode, message } = useAuth();
+  const { auth, loading, statusCode, message, user } = useAuth();
   const { email, password, setInput, setEmail, setPassword } = useStates("");
-  const [user] = useSessionStorage("user");
   //handle login
   const handleLogin = async (e) => {
     e.preventDefault();

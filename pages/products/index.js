@@ -50,9 +50,9 @@ const ManagerTableRow = ({ manager, handleEditManager }) => {
 const searched = (keyword) => (item) =>
   item?.fullName?.toLowerCase().includes(keyword);
 
-function ManagersPage() {
+function ProductsPage() {
   const { auth } = useAuth();
-  const url = "/api/v1.0.0/managers";
+  const url = "/api/v1.1.1/products";
 
   const managers = useSelector(selectMangers);
 
@@ -92,7 +92,7 @@ function ManagersPage() {
           <Spinner />
         </div>
       )}
-      {error && (
+      {error && !loading && (
         <div className="d-flex justify-content-center align-items-center h-100">
           <div className="text-center">
             <p>There was an error</p>
@@ -187,4 +187,4 @@ function ManagersPage() {
   );
 }
 
-export default ManagersPage;
+export default ProductsPage;

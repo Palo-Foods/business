@@ -45,7 +45,11 @@ function BusinessesPage() {
 
   const [item, setItem] = useState("");
 
-  const { loading, error, fetchData } = useFetch(url, businesses, setBusinesses);
+  const { loading, error, fetchData } = useFetch(
+    url,
+    businesses,
+    setBusinesses
+  );
 
   //match modal to route
   useEffect(() => {
@@ -70,7 +74,7 @@ function BusinessesPage() {
           </a>
         </Link>
       </div>
-      {error && (
+      {error && !loading && (
         <div className="d-flex justify-content-center align-items-center h-100">
           <div className="text-center my-5">
             <p>There was an error</p>
@@ -80,7 +84,7 @@ function BusinessesPage() {
           </div>
         </div>
       )}
-      {loading && (
+      {loading && !error && (
         <div className="d-flex justify-content-center align-items-center h-100 my-5">
           <Spinner />
         </div>
@@ -149,10 +153,7 @@ function BusinessesPage() {
           </div>
         </div>
       )}
-      {businesses &&
-        !error &&
-        businesses?.length === 0 &&
-        "There are no businesses"}
+      {!loading && !error && businesses && businesses?.length === 0 && "There are no businesses"}
       <DeleteModal
         type="business"
         item={item}

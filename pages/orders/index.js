@@ -11,7 +11,7 @@ const searched = (keyword) => (item) =>
   item?.orderId?.toLowerCase().includes(keyword);
 
 function OrdersPage() {
-  const url = "https://api.palooods.com/api/v1.1.1/orders";
+  const url = "/api/v1.1.1/orders";
 
   const orders = useSelector(selectOrders);
 
@@ -44,11 +44,7 @@ function OrdersPage() {
   return (
     <DashboardLayout>
       <h5 className="text-muted px-0 mb-3">Orders</h5>
-      {loading && (
-        <div className="d-flex justify-content-center align-items-center h-100">
-          <Spinner />
-        </div>
-      )}
+
       {error && !loading && (
         <div className="d-flex justify-content-center align-items-center h-100">
           <div className="text-center">
@@ -57,6 +53,12 @@ function OrdersPage() {
               Reload
             </button>
           </div>
+        </div>
+      )}
+
+      {loading && !error && (
+        <div className="d-flex justify-content-center align-items-center h-100">
+          <Spinner />
         </div>
       )}
 
@@ -97,9 +99,9 @@ function OrdersPage() {
         </div>
       )}
 
-      {!loading &&
+      {orders &&
+        !loading &&
         !error &&
-        orders &&
         orders?.length === 0 &&
         "There are no orders"}
     </DashboardLayout>

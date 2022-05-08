@@ -51,6 +51,7 @@ export const login = async (req, res, collection) => {
         email: email,
         fullName: fullName,
         phone: phone,
+        role
       };
       return statusCode200(res, data, "Logged in successfully");
     } else {

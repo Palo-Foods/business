@@ -23,7 +23,7 @@ const searched = (keyword) => (item) =>
 
 function RidersPage() {
   const [edit, setEdit] = useState(false);
-  const url = "https://api.palooods.com/api/v1.1.1/users/get-all/riders";
+  const url = "/api/v1.1.1/users/get-all/riders";
 
   let riders = useSelector(selectRiders);
 
@@ -64,11 +64,6 @@ function RidersPage() {
           </a>
         </Link>
       </div>
-      {loading && (
-        <div className="d-flex justify-content-center align-items-center h-100 my-5">
-          <Spinner />
-        </div>
-      )}
       {error && !loading && (
         <div className="d-flex justify-content-center align-items-center h-100">
           <div className="text-center my-5">
@@ -77,6 +72,11 @@ function RidersPage() {
               Reload
             </button>
           </div>
+        </div>
+      )}
+      {loading && !error && (
+        <div className="d-flex justify-content-center align-items-center h-100 my-5">
+          <Spinner />
         </div>
       )}
 
@@ -145,7 +145,11 @@ function RidersPage() {
           </div>
         </div>
       )}
-      {!loading && !error && riders?.length === 0 && "There are no riders"}
+      {riders &&
+        !loading &&
+        !error &&
+        riders?.length === 0 &&
+        "There are no riders"}
       <DeleteModal
         type="rider"
         item={item}

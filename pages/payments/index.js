@@ -11,7 +11,7 @@ const searched = (keyword) => (item) =>
   item?.name?.toLowerCase().includes(keyword);
 
 function OrdersPage() {
-  const url = "api/v1.1.1/users/get-all/payments";
+  const url = "/api/v1.1.1/users/get-all/payments";
   const payments = useSelector(selectPayments);
 
   const [keyword, setKeyword] = useState("");
@@ -32,7 +32,7 @@ function OrdersPage() {
     <DashboardLayout>
       <h5 className="text-muted px-0">Payments</h5>
 
-      {loading && (
+      {loading && !error && (
         <div className="d-flex justify-content-center align-items-center h-100">
           <Spinner />
         </div>

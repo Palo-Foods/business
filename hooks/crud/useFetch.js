@@ -6,7 +6,6 @@
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { read } from "../../functions/crud/FETCH";
-import { useSessionStorage } from "../useSession";
 import { useStates } from "../useStates";
 
 export const useFetch = (url, data, setData) => {
