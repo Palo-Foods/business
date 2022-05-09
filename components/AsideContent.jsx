@@ -55,7 +55,7 @@ const AsideContent = () => {
             <Link href={`/${menu.link}`}>
               <a
                 className={`nav-link ms-md-0 d-flex align-items-center my-0 ${
-                  router?.pathname.slice(1) === menu.link
+                  router?.pathname.includes(menu.link)
                     ? "active fw-bold"
                     : "text-black fw-normal"
                 } mb-1 py-1`}

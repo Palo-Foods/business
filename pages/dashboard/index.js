@@ -10,6 +10,7 @@ import {
   MdStarRate,
   MdStarOutline,
   MdStarHalf,
+  MdBikeScooter
 } from "react-icons/md";
 import { useStates } from "../../hooks/useStates";
 
@@ -21,8 +22,9 @@ function DashboardPage() {
         <h6 className="text-muted mb-0">Sales overview</h6>
         <div className="form-group">
           <select className="custom-select form-select px-3 py-1" name="" id="">
-            <option value="7">7 days</option>
-            <option value="30">30 days</option>
+            <option value="1">Today</option>
+            <option value="7">This week</option>
+            <option value="30">This month</option>
           </select>
         </div>
       </div>
@@ -31,7 +33,7 @@ function DashboardPage() {
           <div className="card">
             <div className="card-body">
               <div className="d-flex justify-content-end">
-                <MdOutlineInfo size={20} />
+                <MdOutlineInfo size={18} className="text-muted" />
               </div>
               <div className="d-flex justify-content-start align-items-center">
                 <div className="me-3">
@@ -51,17 +53,17 @@ function DashboardPage() {
           <div className="card">
             <div className="card-body">
               <div className="d-flex justify-content-end">
-                <MdOutlineInfo size={20} />
+                <MdOutlineInfo size={18} className="text-muted" />
               </div>
               <div className="d-flex justify-content-start align-items-center">
                 <div className="me-3">
-                  <span className="mx-1 bg-success p-3 rounded-circle">
-                    <MdOutlineMoney size={22} className="mb-1" />
+                  <span className="mx-1 bg-warning p-3 rounded-circle">
+                    <MdBikeScooter size={22} className="mb-1" />
                   </span>
                 </div>
                 <div>
-                  <p className="text-muted mb-0">This month sales</p>
-                  <h1 className="h2">Ghc 300</h1>
+                  <p className="text-muted mb-0">Deliveries</p>
+                  <h1 className="h2">30</h1>
                 </div>
               </div>
             </div>
@@ -71,7 +73,7 @@ function DashboardPage() {
           <div className="card">
             <div className="card-body">
               <div className="d-flex justify-content-end">
-                <MdOutlineInfo size={20} />
+                <MdOutlineInfo size={18} className="text-muted" />
               </div>
               <div className="d-flex justify-content-start align-items-center">
                 <div className="me-3">
@@ -81,7 +83,7 @@ function DashboardPage() {
                 </div>
                 <div>
                   <p className="text-muted mb-0">Total sales</p>
-                  <h1 className="h2">Ghc 500</h1>
+                  <h1 className="h2">&#8373; 500</h1>
                 </div>
               </div>
             </div>

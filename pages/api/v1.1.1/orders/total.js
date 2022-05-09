@@ -1,4 +1,3 @@
-import { ObjectId } from "mongodb";
 import { authenticate } from "../authentication";
 import { find, findAll } from "../db/find";
 import {
@@ -13,7 +12,7 @@ import { verifyUser } from "../verification";
 import Cors from "cors";
 import { runMiddleware } from "../corsMiddleWare";
 import { get } from "../functions/get";
-import moment from "moment";
+import { connectToDatabase } from "../../../../lib/mongodb";
 
 // Initializing the cors middleware
 const cors = Cors({
@@ -43,18 +42,28 @@ export default authenticate(async (req, res) => {
       return;
     }
 
-    //3. find all riders
-    const projection = {
-      projection: { orders: 1, createdAt: moment().format("MMM Do YY") },
-    }; //use date and time to insert orders
+    const { db } = connectToDatabase();
 
-    await get(collection, userId, res, projection);
-
-    if (results?.length >= 0) {
-      statusCode200(res, results, "OK");
-    } else {
-      statusCode404(res);
-    }
+    const results = await db.collection(collection).aggregate([
+      {
+        $group: {
+          _id: "$managerId",
+          ordersArr: { $push: "$total" },
+        },
+      },
+      {
+        $project: {
+          results: {
+            $reduce: {
+              input: "$ordersArr",
+              initialValue: 0,
+              in: { $multiply: ["$$value", "$$this"] },
+            },
+          },
+        },
+      },
+    ]);
+    statusCode200(res, results, "OK");
   } catch (err) {
     statusCode500(res, error);
   }

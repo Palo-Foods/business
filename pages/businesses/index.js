@@ -89,7 +89,7 @@ function BusinessesPage() {
           <Spinner />
         </div>
       )}
-      {businesses && businesses.length > 1 && (
+      {businesses && !loading && !error && businesses.length > 1 && (
         <div className="card my-2">
           <div className="card-body justify-content-start overflow-auto p-4">
             <div className="d-md-flex justify-content-md-between my-md-2 mb-md-4">
