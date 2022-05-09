@@ -18,7 +18,7 @@ export async function onboardingEmail(fullName, userEmail, password, url) {
 
   const email = new Email({
     views: {
-      root: "/pages/api/v1.1.0/services/email/templates/",
+      root: "/pages/api/v1.1.1/services/email/templates/",
       options: { extension: "ejs" },
     },
     message: {

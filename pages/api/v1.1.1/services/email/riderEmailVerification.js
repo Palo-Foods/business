@@ -18,7 +18,7 @@ export async function verifyEmail(riderId, fullName, userEmail, pass) {
 
   const email = new Email({
     views: {
-      root: "/pages/api/v1.1.0/emailService/templates/",
+      root: "/pages/api/v1.1.1/services/email/templates/",
       options: { extension: "ejs" },
     },
     message: {
