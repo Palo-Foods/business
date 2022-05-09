@@ -1,6 +1,6 @@
 import { insert } from "../../db/insert";
 import { authenticate } from "../../authentication";
-import { find } from "../../db/find";
+import { findOne } from "../../db/find";
 import {
   statusCode201,
   statusCode401,
@@ -28,10 +28,12 @@ export default authenticate(async (req, res) => {
   const body = JSON.parse(req.body);
 
   //const collection = "businesses";
+  console.log("role", role);
 
   try {
+    const role = "admin" || "manager";
     //1. check if authorized to sign up, using match, role
-    if (role !== ("admin" || "manager")) {
+    if (!role) {
       statusCode401(res);
       return;
     }
@@ -44,7 +46,7 @@ export default authenticate(async (req, res) => {
     }
 
     //3. find if user already exist
-    const results = await find(
+    const results = await findOne(
       collection,
       { email: body?.email },
       {
@@ -60,11 +62,13 @@ export default authenticate(async (req, res) => {
       //use this as a callback unction when encrypting the password
       async function signUp(hash) {
         const data = getUserData(collection, body, hash, userId, role, apiKey);
+        console.log("data", data);
         //5. insert data into company collection
         const response = await insert(collection, data);
+        console.log("response", response);
 
         if (response.acknowledged) {
-          statusCode201(res, results);
+          statusCode201(res, "Data added");
         } else {
           statusCode404(res, "Adding data to failed");
         }

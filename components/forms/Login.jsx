@@ -22,7 +22,7 @@ export default function LoginForm() {
     user?.email && router.push("/dashboard");
   };
 
-  //user?.email && router.push("/dashboard");
+  user?.email && router.push("/dashboard");
 
   return (
     <form className="my-3 mx-2" onSubmit={handleLogin}>

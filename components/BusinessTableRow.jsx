@@ -1,4 +1,4 @@
-const BusinessTableRow = ({ business: object, setItem }) => {
+const BusinessTableRow = ({ business, setItem }) => {
   return (
     <tr
       onClick={() => setItem(business)}

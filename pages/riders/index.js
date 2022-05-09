@@ -4,7 +4,7 @@ import Spinner from "../../components/ui/Spinner";
 import { useRouter } from "next/router";
 import Link from "next/link";
 import dynamic from "next/dynamic";
-import { MdAdd } from "react-icons/md";
+import { MdAdd, MdBikeScooter } from "react-icons/md";
 import { useDispatch, useSelector } from "react-redux";
 import { selectRiders, setRiders, setRider } from "../../slices/navSlice";
 import DeleteModal from "../../components/modals/DeleteModal";
@@ -64,7 +64,7 @@ function RidersPage() {
           </a>
         </Link>
       </div>
-      {error && !loading && (
+      {error && (
         <div className="d-flex justify-content-center align-items-center h-100">
           <div className="text-center my-5">
             <p>There was an error</p>
@@ -74,7 +74,7 @@ function RidersPage() {
           </div>
         </div>
       )}
-      {loading && !error && (
+      {loading && (
         <div className="d-flex justify-content-center align-items-center h-100 my-5">
           <Spinner />
         </div>
@@ -145,16 +145,17 @@ function RidersPage() {
           </div>
         </div>
       )}
-      {riders &&
-        !loading &&
-        !error &&
-        riders?.length === 0 &&
-        "There are no riders"}
+      {riders && !loading && !error && riders?.length === 0 && (
+        <div className="text-center">
+          <MdBikeScooter size={100} className="text-muted my-4" />
+          <p>There are no riders</p>
+        </div>
+      )}
       <DeleteModal
         type="rider"
         item={item}
         setItem={setItem}
-        url="/api/v1.1.0/riders"
+        url="/api/v1.1.1/users/manage/riders"
         fetchData={fetchData}
         router={router}
       />

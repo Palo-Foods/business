@@ -15,7 +15,6 @@ export const useAuth = () => {
     loading,
     setLoading,
     error,
-    router,
     setError,
     message,
     setMessage,
@@ -65,10 +64,8 @@ export const useAuth = () => {
     setMessage("");
     setError("");
 
-    const token = user?.authToken;
-
     //1. send user data to database
-    const { response, error } = await postPutDelete(url, data, method, token);
+    const { response, error } = await postPutDelete(url, data, method);
 
     setLoading(false);
 
@@ -126,6 +123,7 @@ export const useAuth = () => {
 
   return {
     loading,
+    setLoading,
     statusCode,
     message,
     error,

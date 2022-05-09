@@ -11,7 +11,7 @@ const searched = (keyword) => (item) =>
   item?.orderId?.toLowerCase().includes(keyword);
 
 function OrdersPage() {
-  const url = "/api/v1.1.1/orders";
+  const url = "/api/v1.1.1/users/get-all/orders";
 
   const orders = useSelector(selectOrders);
 

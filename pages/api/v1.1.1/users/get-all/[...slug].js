@@ -56,7 +56,8 @@ export default authenticate(async (req, res) => {
         apiKey: 0,
       },
     });
-    statusCode200(res, results);
+    console.log(results);
+    statusCode200(res, results, "OK");
   } catch (error) {
     statusCode500(res, error);
   }

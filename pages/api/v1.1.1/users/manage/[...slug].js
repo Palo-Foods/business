@@ -31,7 +31,7 @@ export default authenticate(async (req, res) => {
 
   try {
     //1. check if authorized
-    if (role !== ("admin" || "manager")) {
+    if (role !== "manager") {
       statusCode401(res);
       return;
     }

@@ -69,18 +69,19 @@ function AddRiderForm({ rider, edit }) {
       rider ? "/manage/riders/" + rider?._id : "register/riders"
     }`;
 
-    console.log(rider);
-    console.log(rider ? "PUT" : "POST");
     //provide url, email, password, custom args
     await auth.addUpdateDeleteUser(
-      `${rider ? url : ""}`,
+      url,
       rider ? updateData : data,
       rider ? "PUT" : "POST"
     );
 
     //if there is an update
-    if (statusCode === 200) await fetchData();
+    statusCode === 200 && fetchData();
   };
+
+  //if there is an update
+  statusCode === 200 && fetchData();
 
   return (
     <form className="row" onSubmit={handleAddRider}>

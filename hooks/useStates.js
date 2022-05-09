@@ -6,7 +6,7 @@ import { useDispatch } from "react-redux";
 import { useRouter } from "next/router";
 
 export const useStates = (dataFromStore) => {
-  console.log(dataFromStore);
+  console.log("use states", dataFromStore);
   const [auth, setAuth] = useState("");
   const [user, setUser] = useState("");
   const [loading, setLoading] = useState(false);
@@ -35,7 +35,6 @@ export const useStates = (dataFromStore) => {
 
   const dispatch = useDispatch();
 
-  const hello = () => {};
 
   //receive all input values and process them
   function setInput(setter) {

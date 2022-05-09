@@ -25,7 +25,7 @@ export const put = async (collection, id, res, set) => {
       phone: phone,
     };
 
-    return statusCode200(res, data, "OK");
+    return statusCode200(res, data, "Data updated");
   } else {
     return statusCode404(res);
   }

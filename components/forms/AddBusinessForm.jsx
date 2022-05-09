@@ -62,7 +62,6 @@ function AddBusinessForm({ business, edit }) {
       type,
       region,
     };
-    console.log(updateData);
 
     const url = `/api/v1.1.1/users/${
       business ? "/manage/businesses/" + business?._id : "register/businesses"
@@ -76,7 +75,7 @@ function AddBusinessForm({ business, edit }) {
     );
 
     //if there is an update
-    business?.name && fetchData();
+    statusCode === 200 && fetchData();
   };
 
   return (
@@ -198,7 +197,7 @@ function AddBusinessForm({ business, edit }) {
               !password ||
               loading
             }>
-            {loading && <Spinner />} <span className="ms-2">Submit</span>
+            {loading && <Spinner className="me-2" />} <span>Submit</span>
           </button>
         )}
         {business && (

@@ -1,4 +1,4 @@
-const RiderTableRow = ({ rider: object, setItem }) => {
+const RiderTableRow = ({ rider, setItem }) => {
   return (
     <tr
       onClick={() => setItem(rider)}

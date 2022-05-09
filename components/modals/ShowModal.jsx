@@ -2,6 +2,12 @@ import React, { useState } from "react";
 import { MdClear, MdArrowBack } from "react-icons/md";
 
 const ShowModal = ({ type, setItem, router, content, edit, setEdit }) => {
+
+  const handleClearItem = () => {
+    router.replace(type);
+    setItem(null);
+  };
+  
   //check if router reloads after
   return (
     <div
@@ -32,10 +38,7 @@ const ShowModal = ({ type, setItem, router, content, edit, setEdit }) => {
               data-bs-dismiss="modal">
               <span
                 className="bg-light rounded-circle p-2"
-                onClick={() => {
-                  router.replace(type);
-                  setItem(null);
-                }}>
+                onClick={handleClearItem}>
                 <MdClear size={20} />
               </span>
             </button>
@@ -61,12 +64,7 @@ const ShowModal = ({ type, setItem, router, content, edit, setEdit }) => {
                 type="button"
                 className="px-4 mx-2 text-decoration-none btn btn-light"
                 data-bs-dismiss="modal"
-                onClick={() => {
-                  router.replace(
-                    type === "businesses" ? "/businesses" : "/riders"
-                  );
-                  setItem(null);
-                }}>
+                onClick={handleClearItem}>
                 Close
               </a>
             </div>

@@ -14,19 +14,18 @@ export const useFetch = (url, data, setData) => {
 
   //1. fetch data
   async function fetchData() {
+    setError("")
+    setData([])
     setLoading(true);
-    const { response, error } = await read(url);
+    const response = await read(url);
     setLoading(false);
 
-    if (response) {
-      if (response?.status === 200) {
-        dispatch(setData(response?.data));
-      } else {
-        //navigate and logout on user not authenticated
-        setError("error");
-      }
+    if (response?.statusCode === 200) {
+      console.log("response", response);
+      dispatch(setData(response?.data));
     } else {
-      setError(error);
+      //navigate and logout on user not authenticated
+      setError("error");
     }
   }
 

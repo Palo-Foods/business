@@ -4,7 +4,7 @@ import Spinner from "../../components/ui/Spinner";
 import { useRouter } from "next/router";
 import Link from "next/link";
 import dynamic from "next/dynamic";
-import { MdAdd } from "react-icons/md";
+import { MdAdd, MdOutlineStore } from "react-icons/md";
 import { useDispatch, useSelector } from "react-redux";
 import {
   selectBusinesses,
@@ -31,7 +31,8 @@ function BusinessesPage() {
   const [edit, setEdit] = useState(false);
   const url = "api/v1.1.1/users/get-all/businesses";
 
-  let businesses = useSelector(selectBusinesses);
+  const businesses = useSelector(selectBusinesses);
+  console.log(businesses);
 
   const { region, setRegion } = useStates();
 
@@ -50,6 +51,7 @@ function BusinessesPage() {
     businesses,
     setBusinesses
   );
+  console.log(loading, error);
 
   //match modal to route
   useEffect(() => {
@@ -74,7 +76,7 @@ function BusinessesPage() {
           </a>
         </Link>
       </div>
-      {error && !loading && (
+      {error && (
         <div className="d-flex justify-content-center align-items-center h-100">
           <div className="text-center my-5">
             <p>There was an error</p>
@@ -84,12 +86,12 @@ function BusinessesPage() {
           </div>
         </div>
       )}
-      {loading && !error && (
+      {loading && (
         <div className="d-flex justify-content-center align-items-center h-100 my-5">
           <Spinner />
         </div>
       )}
-      {businesses && !loading && !error && businesses.length > 1 && (
+      {businesses && businesses.length > 0 && (
         <div className="card my-2">
           <div className="card-body justify-content-start overflow-auto p-4">
             <div className="d-md-flex justify-content-md-between my-md-2 mb-md-4">
@@ -146,19 +148,28 @@ function BusinessesPage() {
                       />
                     ))}
                 {filteredData?.length === 0 && (
-                  <tr>There are no Businesses from {region} region</tr>
+                  <tr>
+                    <td className="text-nowrap d-none d-md-table-cell border-0 ps-0">
+                      There are no Businesses from {region} region
+                    </td>
+                  </tr>
                 )}
               </tbody>
             </table>
           </div>
         </div>
       )}
-      {!loading && !error && businesses && businesses?.length === 0 && "There are no businesses"}
+      {!loading && !error && businesses && businesses?.length === 0 && (
+        <div className="text-center">
+          <MdOutlineStore size={100} className="text-muted my-4" />
+          <p>There are no business</p>
+        </div>
+      )}
       <DeleteModal
         type="business"
         item={item}
         setItem={setItem}
-        url="https://api.palooods.com/api/v1.1.1/users/manage/businesses"
+        url="/api/v1.1.1/users/manage/businesses"
         fetchData={fetchData}
         router={router}
       />

@@ -7,12 +7,6 @@ export const findOne = async (collection, filter, projection) => {
   return results;
 };
 
-export const find = async (collection, filter, projection) => {
-  const { db } = await connectToDatabase();
-  const results = await db.collection(collection).find(filter, projection);
-  //console.log(results)
-  return results;
-};
 
 export const findAll = async (collection, filter, projection, numberOfItems) => {
   const { db } = await connectToDatabase();

@@ -1,11 +1,12 @@
 import React from "react";
 import Spinner from "../ui/Spinner";
-import Alert from "../ui/Alert";
 import { MdClear, MdDelete, MdCheckCircle } from "react-icons/md";
 import { useAuth } from "../../hooks/auth/useAuth";
+import { useStates } from "../../hooks/useStates";
 
 function DeleteModal({ item, url, setItem, fetchData, router, type }) {
-  const { auth, loading, statusCode, message, setMessage } = useAuth();
+  const { auth, statusCode, message } = useAuth();
+  const { setLoading, loading, setError } = useStates();
 
   const deleteItem = async () => {
     const uri = `${url}/${item?._id}`;
@@ -17,12 +18,18 @@ function DeleteModal({ item, url, setItem, fetchData, router, type }) {
       "DELETE"
     );
 
-    if (statusCode === 200) fetchData();
+    statusCode === 200 && fetchData();
   };
+
+  statusCode === 200 && fetchData();
+
   const clearAnything = () => {
+    setLoading("");
+    setError("");
     setItem(null);
-    message = ""
-    statusCode = ""
+    router.replace(type + "s");
+    message = "";
+    statusCode = "";
   };
 
   return (
@@ -80,22 +87,18 @@ function DeleteModal({ item, url, setItem, fetchData, router, type }) {
               type="button"
               className="btn btn-light px-4 mx-3"
               data-bs-dismiss="modal"
-              onClick={() => {
-                router.replace(type === "business" ? "/businesses" : "/riders");
-                setItem(null);
-                clearAnything;
-              }}>
+              onClick={clearAnything}>
               {statusCode === 200 ? "Close" : "No"}
             </button>
             {statusCode !== 200 && (
-                <button
-                  disabled={loading}
-                  type="button"
-                  className="btn btn-primary px-4 mx-3"
-                  onClick={deleteItem}>
-                  {loading && <Spinner />} Yes
-                </button>
-              )}
+              <button
+                disabled={loading}
+                type="button"
+                className="btn btn-primary px-4 mx-3"
+                onClick={deleteItem}>
+                {loading && <Spinner />} Yes
+              </button>
+            )}
           </div>
         </div>
       </div>

@@ -1,24 +1,12 @@
-import React, { useEffect } from "react";
+import React from "react";
 import Link from "next/link";
-import Phone from "../../components/ui/Phone";
-import TextInput from "../../components/ui/TextInput";
-import { useStates } from "../../hooks/useStates";
 import DashboardLayout from "../../components/layouts/DashboardLayout";
 import { MdCalendarToday, MdOutlineFilePresent } from "react-icons/md";
-import { useAuth } from "../../hooks/auth/useAuth";
-import Alert from "../../components/ui/Alert";
-import Spinner from "../../components/ui/Spinner";
+import { useSessionStorage } from "../../hooks/useSession";
+import AccountForm from "../../components/forms/AccountForm";
 
 function EditAccountPage() {
-  const { auth, user, loading, message } = useAuth();
-  const { fullName, phone, setPhone, email, setEmail, setFullName, setInput } =
-    useStates(user);
-
-  const handleEditAccount = async (e) => {
-    e.preventDefault();
-    const data = { fullName, phone, email };
-    await auth.addUpdateDeleteUser(url, data, "PUT");
-  };
+  const [user] = useSessionStorage("user");
 
   return (
     <DashboardLayout>
@@ -27,68 +15,7 @@ function EditAccountPage() {
           <h5 className="text-muted">Edit Account</h5>
           <div className="card my-2">
             <div className="card-body my-3">
-              <form className="row" onSubmit={handleEditAccount}>
-                <div className="form-group mb-4">
-                  <label htmlFor="fullName" className="mb-2 h6">
-                    Enter name
-                  </label>
-                  <TextInput
-                    type="text"
-                    text={fullName}
-                    setInput={setInput}
-                    setText={setFullName}
-                    classes=""
-                    id="fullName"
-                  />
-                </div>
-                <div className="form-group mb-4">
-                  <label htmlFor="email" className="mb-2 h6">
-                    Enter email
-                  </label>
-                  <TextInput
-                    type="email"
-                    text={email}
-                    setInput={setInput}
-                    setText={setEmail}
-                    classes=""
-                    id="email"
-                  />
-                </div>
-                <div className="form-group mb-4">
-                  <label htmlFor="phone" className="mb-2 h6">
-                    Enter phone
-                  </label>
-                  <Phone
-                    setText={setPhone}
-                    text={phone}
-                    classes=""
-                    id="phone"
-                  />
-                </div>
-                {message && (
-                  <div className="px-3">
-                    <Alert
-                      type={
-                        statusCode === 201
-                          ? "success"
-                          : statusCode === 500
-                          ? "danger"
-                          : "info"
-                      }
-                      message={message}
-                    />
-                  </div>
-                )}
-
-                <div>
-                  <button
-                    type="submit"
-                    className="btn btn-primary"
-                    disabled={!fullName || !email || !phone}>
-                    {loading && <Spinner />} Update
-                  </button>
-                </div>
-              </form>
+              <AccountForm user={user} />
             </div>
           </div>
         </div>
