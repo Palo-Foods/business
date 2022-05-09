@@ -20,9 +20,10 @@ export const postPutDelete = async (url, data, method) => {
     timeout: 5000,
   };
 
-  //2. use the resolve function to process the request and response
-  const [result, error] = await resolve(fetch(url, config));
-
-  //3. return response and error
-  return { response: await result?.json(), error: error?.message };
+  try {
+    const resp = await fetch(url, config);
+    return resp.json();
+  } catch (error) {
+    return error.message;
+  }
 };

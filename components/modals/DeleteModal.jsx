@@ -20,14 +20,13 @@ function DeleteModal({ item, url, setItem, fetchData, router, type }) {
 
     statusCode === 200 && fetchData();
   };
-
-  statusCode === 200 && fetchData();
+   statusCode === 200 && fetchData();
 
   const clearAnything = () => {
     setLoading("");
     setError("");
     setItem(null);
-    router.replace(type + "s");
+    router.replace(type.includes("ess") ? type + "es" : type + "s");
     message = "";
     statusCode = "";
   };

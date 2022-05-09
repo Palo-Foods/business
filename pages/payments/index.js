@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/router";
+import { MdOutlinePayment } from "react-icons/md";
 import DashboardLayout from "../../components/layouts/DashboardLayout";
 import Spinner from "../../components/ui/Spinner";
 import { useFetch } from "../../hooks/crud/useFetch";
@@ -85,11 +86,12 @@ function OrdersPage() {
           </div>
         </div>
       )}
-      {!loading &&
-        !error &&
-        payments &&
-        payments?.length === 0 &&
-        "There are no payments"}
+      {!loading && !error && payments && payments?.length === 0 && (
+        <div className="text-center">
+          <MdOutlinePayment size={100} className="text-muted my-4" />
+          <p>There are no payments</p>
+        </div>
+      )}
     </DashboardLayout>
   );
 }

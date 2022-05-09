@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import DashboardLayout from "../../components/layouts/DashboardLayout";
 import Spinner from "../../components/ui/Spinner";
+import { MdOutlineShoppingBag } from "react-icons/md";
 import { useFetch } from "../../hooks/crud/useFetch";
 import { useRouter } from "next/router";
 import { useDispatch, useSelector } from "react-redux";
@@ -99,11 +100,12 @@ function OrdersPage() {
         </div>
       )}
 
-      {orders &&
-        !loading &&
-        !error &&
-        orders?.length === 0 &&
-        "There are no orders"}
+      {orders && !loading && !error && orders?.length === 0 && (
+        <div className="text-center">
+          <MdOutlineShoppingBag size={100} className="text-muted my-4" />
+          <p>There are no orders</p>
+        </div>
+      )}
     </DashboardLayout>
   );
 }

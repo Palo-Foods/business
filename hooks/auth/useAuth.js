@@ -32,30 +32,25 @@ export const useAuth = () => {
     const data = { email, password, ...custom };
 
     //1. send user data to database
-    const { response, error } = await loginSignUp(url, data);
+    const response = await loginSignUp(url, data);
 
     setLoading(false);
 
-    if (response) {
-      const { statusCode, statusText } = response;
+    const { statusCode, statusText } = response;
 
-      if (statusCode === 201) {
-        const { id, authToken, email, fullName, role } = response?.data;
+    if (statusCode === 201) {
+      const { id, authToken, email, fullName, role } = response?.data;
 
-        setUser("user", {
-          id,
-          authToken,
-          email,
-          fullName,
-          role,
-        });
-      }
-      setStatusCode(statusCode);
-      setMessage(statusText);
-    } else {
-      setStatusCode(500);
-      setMessage(error);
+      setUser("user", {
+        id,
+        authToken,
+        email,
+        fullName,
+        role,
+      });
     }
+    setStatusCode(statusCode);
+    setMessage(statusText);
   };
 
   //1. signup user unto the platform
@@ -69,15 +64,10 @@ export const useAuth = () => {
 
     setLoading(false);
 
-    if (response.statusCode === 200) {
-      const { statusCode, statusText } = response;
+    const { statusCode, statusText } = response;
 
-      setStatusCode(statusCode);
-      setMessage(statusText);
-    } else {
-      setStatusCode(500);
-      setMessage(error);
-    }
+    setStatusCode(statusCode);
+    setMessage(statusText);
   };
 
   //2. login user unto the platform
@@ -87,29 +77,24 @@ export const useAuth = () => {
     setError("");
 
     //1. send user data to database
-    const { response, error } = await loginSignUp(url, data);
+    const response = await loginSignUp(url, data);
 
     setLoading(false);
 
-    if (response) {
-      const { statusCode, statusText } = response;
+    const { statusCode, statusText } = response;
 
-      if (statusCode === 200) {
-        const { id, authToken, email, fullName, role } = response?.data;
-        setUser("user", {
-          id,
-          authToken,
-          email,
-          fullName,
-          role,
-        });
-      }
-      setStatusCode(statusCode);
-      setMessage(statusText);
-    } else {
-      setStatusCode(500);
-      setMessage(error);
+    if (statusCode === 200) {
+      const { id, authToken, email, fullName, role } = response?.data;
+      setUser("user", {
+        id,
+        authToken,
+        email,
+        fullName,
+        role,
+      });
     }
+    setStatusCode(statusCode);
+    setMessage(statusText);
   };
 
   //2. login out user on the platform
