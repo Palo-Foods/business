@@ -65,11 +65,11 @@ export const useAuth = () => {
     setError("");
 
     //1. send user data to database
-    const { response, error } = await postPutDelete(url, data, method);
+    const response = await postPutDelete(url, data, method);
 
     setLoading(false);
 
-    if (response) {
+    if (response.statusCode === 200) {
       const { statusCode, statusText } = response;
 
       setStatusCode(statusCode);
