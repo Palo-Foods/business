@@ -7,9 +7,9 @@ function Header() {
   return (
     <header>
       <nav className="navbar navbar-expand-sm navbar-light bg-white border-bottom">
-        <div className="container-fluid">
+        <div className="container-fluid px-3">
           <a
-            className="me-3 text-black d-lg-none"
+            className="text-black d-lg-none me-2"
             data-bs-toggle="offcanvas"
             href="#offcanvasExample"
             role="button"

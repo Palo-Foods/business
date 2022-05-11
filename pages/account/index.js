@@ -12,7 +12,7 @@ function EditAccountPage() {
     <DashboardLayout>
       <div className="row">
         <div className="col-md-6 mb-3">
-          <h5 className="text-muted">Edit Account</h5>
+          <h6 className="text-muted">Edit Account</h6>
           <div className="card my-2">
             <div className="card-body my-3">
               <AccountForm user={user} />
@@ -20,18 +20,18 @@ function EditAccountPage() {
           </div>
         </div>
         <div className="col-md-6">
-          <h5 className="text-muted">Documents</h5>
+          <h6 className="text-muted">Documents</h6>
           <div className="card my-2">
             <div className="card-header border-0 bg-white px-md-4 pt-4 pb-0 d-flex justify-content-between">
-              <p className="h5 mb-0">Files</p>
+              <p className="h6 mb-0">Files</p>
               <Link href="/files/add-file">
-                <a className="text-decoration-none h5">
+                <a className="text-decoration-none h6">
                   <span className="fa fa-plus me-2"></span>
                   <span>Add file</span>
                 </a>
               </Link>
             </div>
-            <div className="card-body">
+            <div className="card-body pt-0">
               <ul className="list-group list-group-flush">
                 <li className="list-group-item ps-0 d-flex justify-content-between pe-0 py-3">
                   <span className="ps-2">Ghana card</span>
@@ -44,12 +44,12 @@ function EditAccountPage() {
             </div>
           </div>
 
-          <h5 className="text-muted mt-4">Payments</h5>
+          <h6 className="text-muted mt-4">Payments</h6>
           <div className="card my-2">
             <div className="card-header border-0 bg-white px-md-4 pt-4 pb-0 d-flex justify-content-between">
-              <p className="h5 mb-0">Payments</p>
+              <p className="h6 mb-0">Payments</p>
             </div>
-            <div className="card-body">
+            <div className="card-body pt-0">
               <ul className="list-group list-group-flush">
                 <li className="list-group-item ps-0 d-flex justify-content-between pe-0 py-3">
                   <span className="ps-2">Payment 1</span>

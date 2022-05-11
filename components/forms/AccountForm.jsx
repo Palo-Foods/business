@@ -10,7 +10,7 @@ import { useStates } from "../../hooks/useStates";
 function AccountForm({ user }) {
   const { auth, loading, message } = useAuth();
 
-  const { fullName, phone, setPhone, email, setEmail, setFullName, setInput } =
+  const { fullName, phone, setPhone, email, setEmail, setFullName, setInput, router } =
     useStates(user);
 
   const handleEditAccount = async (e) => {
@@ -29,7 +29,7 @@ function AccountForm({ user }) {
   return (
     <form className="row" onSubmit={handleEditAccount}>
       <div className="form-group mb-4">
-        <label htmlFor="fullName" className="mb-2 h6">
+        <label htmlFor="fullName" className="mb-2">
           Enter name
         </label>
         <TextInput
@@ -42,7 +42,7 @@ function AccountForm({ user }) {
         />
       </div>
       <div className="form-group mb-4">
-        <label htmlFor="email" className="mb-2 h6">
+        <label htmlFor="email" className="mb-2">
           Enter email
         </label>
         <TextInput
@@ -55,7 +55,7 @@ function AccountForm({ user }) {
         />
       </div>
       <div className="form-group mb-4">
-        <label htmlFor="phone" className="mb-2 h6">
+        <label htmlFor="phone" className="mb-2">
           Enter phone
         </label>
         <Phone setText={setPhone} text={phone} classes="" id="phone" />
@@ -75,10 +75,11 @@ function AccountForm({ user }) {
         </div>
       )}
 
-      <div>
+      <div className="d-flex justify-content-between mt-3">
+        <a className="btn btn-outline-primary w-100 me-2" onClick={() => router.back()}>Cancel</a>
         <button
           type="submit"
-          className="btn btn-primary"
+          className="btn btn-primary w-100"
           disabled={!fullName || !email || !phone}>
           {loading && <Spinner />} Update
         </button>

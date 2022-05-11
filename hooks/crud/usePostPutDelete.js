@@ -3,12 +3,12 @@
  * 2. Functions: read, post, put, delete
  * 3. Parameters: url, data, method
  **/
-import { useUtility } from "../useUtilities";
 import { postPutDelete } from "../../functions/crud/POST-PUT-DELETE";
+import { useStates } from "../useStates";
 
 export const usePostPutDelete = () => {
   const { loading, setLoading, error, setError, message, setMessage } =
-    useUtility();
+    useStates();
 
   //this function makes an https request
   //you can make a post, put or delete request to the server
@@ -26,5 +26,5 @@ export const usePostPutDelete = () => {
     console.log(response, error);
   };
 
-  return { loading, error, message, postPutDeleteData };
+  return { loading, error, setError, message, postPutDeleteData };
 };

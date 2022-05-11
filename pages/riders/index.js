@@ -4,7 +4,7 @@ import Spinner from "../../components/ui/Spinner";
 import { useRouter } from "next/router";
 import Link from "next/link";
 import dynamic from "next/dynamic";
-import { MdAdd, MdBikeScooter } from "react-icons/md";
+import { MdAdd, MdBikeScooter, MdDangerous } from "react-icons/md";
 import { useDispatch, useSelector } from "react-redux";
 import { selectRiders, setRiders, setRider } from "../../slices/navSlice";
 import DeleteModal from "../../components/modals/DeleteModal";
@@ -57,28 +57,35 @@ function RidersPage() {
         <h6 className="text-muted mb-0">Riders</h6>
         <Link href="/riders/add-rider">
           <a
-            className="btn btn-primary d-flex justify-content-between align-items-center"
+            className="btn btn-outline-primary d-flex justify-content-between align-items-center"
             onClick={() => dispatch(setRider(""))}>
             <MdAdd size={18} />
             <span className="d-none d-md-block ms-2"> Add rider</span>
           </a>
         </Link>
       </div>
-      {error && (
-        <div className="d-flex justify-content-center align-items-center h-100">
-          <div className="text-center my-5">
-            <p>There was an error</p>
-            <button className="btn btn-primary" onClick={fetchData}>
-              Reload
-            </button>
-          </div>
+      <div className="bg-white p-3 mb-2 border rounded d-flex justify-content-between align-items-center">
+        <h6 className="mb-0">Riders</h6>
+        <div>
+          {loading && !error && (
+            <div className="d-flex justify-content-center align-items-center h-100">
+              <Spinner />
+            </div>
+          )}
+
+          {error && !loading && (
+            <div className="">
+              <MdDangerous size={20} className="text-danger" />
+              <a
+                type="button"
+                className="ms-2 text-black text-decoration-none"
+                onClick={fetchData}>
+                Reload
+              </a>
+            </div>
+          )}
         </div>
-      )}
-      {loading && (
-        <div className="d-flex justify-content-center align-items-center h-100 my-5">
-          <Spinner />
-        </div>
-      )}
+      </div>
 
       {riders && riders?.length > 0 && (
         <div className="card my-2">
@@ -124,7 +131,6 @@ function RidersPage() {
                         key={rider?._id}
                         rider={rider}
                         setItem={setItem}
-                        handleEditRider={handleEditRider}
                       />
                     ))}
                 {!filteredData &&

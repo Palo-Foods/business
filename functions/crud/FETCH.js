@@ -8,13 +8,14 @@ import { resolve } from "../resolve";
 
 export const read = async (url) => {
   const sessionData = sessionStorage.getItem("user");
-  const { authToken } = JSON.parse(sessionData);
+  const  token  = JSON.parse(sessionData);
+  const authToken = token?.authToken
 
   const config = {
     method: "GET",
     headers: {
       ContentType: "application/json",
-      Authorization: `Bearer ${authToken}`,
+      Authorization: `Bearer ${sessionData && authToken}`,
     },
     timeout: 5000,
   };

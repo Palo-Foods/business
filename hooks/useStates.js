@@ -31,10 +31,15 @@ export const useStates = (dataFromStore) => {
   const [region, setRegion] = useState(dataFromStore?.region);
   const [show, setShow] = useState(true);
   const [numberOfPeople, setNumberOfPeople] = useState("");
+
+  const [uploadedImage, setUploadedImage] = useState("");
+  const [itemImage, setItemImage] = useState(dataFromStore?.itemImage?.url);
+  const [price, setPrice] = useState(null);
+  const [discount, setDiscount] = useState(null);
+
   const router = useRouter();
 
   const dispatch = useDispatch();
-
 
   //receive all input values and process them
   function setInput(setter) {
@@ -95,5 +100,13 @@ export const useStates = (dataFromStore) => {
     router,
     region,
     setRegion,
+    price,
+    setPrice,
+    discount,
+    setDiscount,
+    itemImage,
+    setItemImage,
+    uploadedImage,
+    setUploadedImage,
   };
 };

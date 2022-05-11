@@ -6,11 +6,10 @@ import {
   MdShoppingBag,
   MdOutlineInfo,
   MdOutlinePayment,
-  MdOutlineMoney,
   MdStarRate,
   MdStarOutline,
   MdStarHalf,
-  MdBikeScooter
+  MdBikeScooter,
 } from "react-icons/md";
 import { useStates } from "../../hooks/useStates";
 
@@ -29,61 +28,61 @@ function DashboardPage() {
         </div>
       </div>
       <div className="row">
-        <div className="col-12 col-sm-6 col-md-4 mb-3">
+        <div className="col-6 col-sm-4 col-md-4 mb-3">
           <div className="card">
             <div className="card-body">
-              <div className="d-flex justify-content-end">
+              <div className="d-flex justify-content-end  d-none d-md-block">
                 <MdOutlineInfo size={18} className="text-muted" />
               </div>
               <div className="d-flex justify-content-start align-items-center">
-                <div className="me-3">
-                  <span className="mx-1 bg-info p-3 rounded-circle">
-                    <MdShoppingBag size={22} className="mb-2" />
+                <div className="me-3  d-none d-sm-block">
+                  <span className="mx-1 bg-info p-2 p-md-3 rounded-circle">
+                    <MdShoppingBag size={22} className="mb-1" />
                   </span>
                 </div>
                 <div>
                   <p className="text-muted mb-0">Total orders</p>
-                  <h1 className="h2">30</h1>
+                  <h1 className="h2 mb-0">30</h1>
                 </div>
               </div>
             </div>
           </div>
         </div>
-        <div className="col-12 col-sm-6 col-md-4 mb-3">
+        <div className="col-6 col-sm-4 col-md-4 mb-3">
           <div className="card">
             <div className="card-body">
-              <div className="d-flex justify-content-end">
+              <div className="d-flex justify-content-end  d-none d-md-block">
                 <MdOutlineInfo size={18} className="text-muted" />
               </div>
               <div className="d-flex justify-content-start align-items-center">
-                <div className="me-3">
-                  <span className="mx-1 bg-warning p-3 rounded-circle">
+                <div className="me-3  d-none d-sm-block">
+                  <span className="mx-1 bg-warning p-2 p-md-3 rounded-circle">
                     <MdBikeScooter size={22} className="mb-1" />
                   </span>
                 </div>
                 <div>
                   <p className="text-muted mb-0">Deliveries</p>
-                  <h1 className="h2">30</h1>
+                  <h1 className="h2 mb-0">30</h1>
                 </div>
               </div>
             </div>
           </div>
         </div>
-        <div className="col-12 col-md-4 mb-3">
+        <div className="col-6 col-sm-4 col-md-4 mb-3">
           <div className="card">
             <div className="card-body">
-              <div className="d-flex justify-content-end">
+              <div className="d-flex justify-content-end d-none d-md-block">
                 <MdOutlineInfo size={18} className="text-muted" />
               </div>
               <div className="d-flex justify-content-start align-items-center">
-                <div className="me-3">
-                  <span className="mx-1 bg-light p-3 rounded-circle">
+                <div className="me-3 d-none d-sm-block">
+                  <span className="mx-1 bg-light p-2 p-md-3 rounded-circle">
                     <MdOutlinePayment size={22} className="mb-1" />
                   </span>
                 </div>
                 <div>
                   <p className="text-muted mb-0">Total sales</p>
-                  <h1 className="h2">&#8373; 500</h1>
+                  <h1 className="h2 mb-0">&#8373; 500</h1>
                 </div>
               </div>
             </div>

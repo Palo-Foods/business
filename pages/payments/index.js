@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/router";
-import { MdOutlinePayment } from "react-icons/md";
+import { MdOutlinePayment, MdDangerous } from "react-icons/md";
 import DashboardLayout from "../../components/layouts/DashboardLayout";
 import Spinner from "../../components/ui/Spinner";
 import { useFetch } from "../../hooks/crud/useFetch";
@@ -33,22 +33,28 @@ function OrdersPage() {
     <DashboardLayout>
       <h5 className="text-muted px-0">Payments</h5>
 
-      {loading && !error && (
-        <div className="d-flex justify-content-center align-items-center h-100">
-          <Spinner />
-        </div>
-      )}
-      {error && !loading && (
-        <div className="d-flex justify-content-center align-items-center h-100">
-          <div className="text-center">
-            <p>There was an error</p>
-            <button className="btn btn-primary" onClick={fetchData}>
-              Reload
-            </button>
-          </div>
-        </div>
-      )}
+      <div className="bg-white p-3 mb-2 border rounded d-flex justify-content-between align-items-center">
+        <h6 className="mb-0">Payments</h6>
+        <div>
+          {loading && !error && (
+            <div className="d-flex justify-content-center align-items-center h-100">
+              <Spinner />
+            </div>
+          )}
 
+          {error && !loading && (
+            <div className="">
+              <MdDangerous size={20} className="text-danger" />
+              <a
+                type="button"
+                className="ms-2 text-black text-decoration-none"
+                onClick={fetchData}>
+                Reload
+              </a>
+            </div>
+          )}
+        </div>
+      </div>
       {payments && payments?.length > 0 && (
         <div className="card my-2">
           <div className="card-body justify-content-start overflow-auto p-4">

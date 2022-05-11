@@ -5,50 +5,51 @@ import {
   MdOutlineSettings,
   MdOutlinePayment,
   MdOutlineShoppingBag,
-  MdBikeScooter,
-  MdOutlineStore,
-  MdDashboard,
+  MdOutlineShoppingBasket,
+  MdOutlineDashboard,
 } from "react-icons/md";
 import { useRouter } from "next/router";
 import { useAuth } from "../hooks/auth/useAuth";
 
 const menus = [
-  { name: "Dashboard", link: "dashboard", icon: <MdDashboard size={16} /> },
   {
-    name: "Businesses",
-    link: "businesses",
-    icon: <MdOutlineStore size={18} />,
+    name: "Dashboard",
+    link: "dashboard",
+    icon: <MdOutlineDashboard size={14} />,
   },
+
+  { name: "Orders", link: "orders", icon: <MdOutlineShoppingBag size={14} /> },
   {
-    name: "Riders",
-    link: "riders",
-    icon: <MdBikeScooter size={16} />,
+    name: "Products",
+    link: "products",
+    icon: <MdOutlineShoppingBasket size={16} />,
   },
-  { name: "Orders", link: "orders", icon: <MdOutlineShoppingBag size={16} /> },
-  { name: "Payments", link: "payments", icon: <MdOutlinePayment size={16} /> },
-  { name: "Settings", link: "account", icon: <MdOutlineSettings size={16} /> },
+  { name: "Payments", link: "payments", icon: <MdOutlinePayment size={14} /> },
+  { name: "Settings", link: "account", icon: <MdOutlineSettings size={14} /> },
 ];
 
 const AsideContent = () => {
   const { user, auth } = useAuth();
   const router = useRouter();
+
   //handle login
   const handleLogout = async (e) => {
     e.preventDefault();
     await auth.signOut();
     router.push("/");
   };
+
   return (
     <>
-      <div className="mb-3 border-bottom py-2">
+      <div className="mb-3 border-bottom">
         <p className="small text-muted mb-2">Profile</p>
         <div className="ps-3">
           <h5>{user?.fullName}</h5>
           <p className="small mb-0">Joined</p>
-          <p className="small">12th April 1622</p>
+          <p className="small">12th April 2022</p>
         </div>
       </div>
-      <div className="mb-3 border-bottom">
+      <div className="my-3 border-bottom pb-2">
         <p className="small text-muted mb-2">Menu</p>
         {menus?.map((menu) => (
           <span key={menu.name}>
@@ -58,7 +59,7 @@ const AsideContent = () => {
                   router?.pathname.includes(menu.link)
                     ? "active fw-bold"
                     : "text-black fw-normal"
-                } mb-1 py-1`}
+                } py-0`}
                 type="button"
                 role="tab"
                 aria-selected="true">
@@ -77,7 +78,7 @@ const AsideContent = () => {
         aria-selected="true"
         onClick={handleLogout}>
         <span className="me-md-1">
-          <MdOutlineLogout size={16} />
+          <MdOutlineLogout size={14} />
         </span>
         <span className="m-2 d-md-block">Log out</span>
       </a>
