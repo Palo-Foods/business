@@ -1,6 +1,5 @@
 import React from "react";
 import Link from "next/link";
-import { useAuth } from "../../hooks/auth/useAuth";
 import { useStates } from "../../hooks/useStates";
 import TextArea from "../ui/Description";
 import Select from "../ui/Select";
@@ -8,7 +7,7 @@ import TextInput from "../ui/TextInput";
 import ImagePlaceHolder from "./ImagePlaceHolder";
 import { usePostPutDelete } from "../../hooks/crud/usePostPutDelete";
 
-function AddProductForm({ product }) {
+function AddProductForm({ product, setShow }) {
   //get rider in store
   const {
     setName,
@@ -161,7 +160,7 @@ function AddProductForm({ product }) {
             />
           </div>
 
-          <ImagePlaceHolder />
+          <ImagePlaceHolder itemImage={product?.itemImage} />
           <div className="mt-4 d-flex justify-content-between">
             <Link href="/products">
               <a className="btn btn-outline-primary me-2 w-100">Cancel</a>
