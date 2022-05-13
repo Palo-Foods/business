@@ -7,7 +7,7 @@ function Password({ text, type, setInput, setText, id, classes }) {
   return (
     <div className="input-group mb-3">
       <span
-        className="input-group-text border-end-0 bg-white px-2"
+        className="input-group-text border-end-0 bg-white ps-2 pe-0"
         id="basic-addon2">
         <MdLock size={20} className="text-muted" />
       </span>

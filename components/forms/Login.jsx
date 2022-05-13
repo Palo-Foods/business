@@ -16,7 +16,7 @@ export default function LoginForm() {
     e.preventDefault();
 
     const data = { email, password };
-    const url = "api/v1.1.1/users/login/managers";
+    const url = "api/v1.1.1/users/login/businesses";
     await auth.signInWithEmailAndPassword(url, data);
     console.log(user);
     user?.email && router.push("/dashboard");

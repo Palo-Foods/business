@@ -7,22 +7,25 @@ import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { read } from "../../functions/crud/FETCH";
 import { useStates } from "../useStates";
+import { useSessionStorage } from "../useSession";
 
 export const useFetch = (url, data, setData) => {
   const { loading, setLoading, error, setError } = useStates();
   const dispatch = useDispatch();
 
+  const { setSession, item } = useSessionStorage(url);
+
   //1. fetch data
   async function fetchData() {
-    setError("")
-    setData([])
+    setError("");
+    setData([]);
     setLoading(true);
     const response = await read(url);
     setLoading(false);
 
     if (response?.statusCode === 200) {
       console.log("response", response);
-      dispatch(setData(response?.data));
+      setSession(url, response?.data);
     } else {
       //navigate and logout on user not authenticated
       setError("error");
@@ -30,12 +33,14 @@ export const useFetch = (url, data, setData) => {
   }
 
   useEffect(() => {
-    //1. check if managers exist
-    if (data?.length === 0) {
-      //if not, fetch data
+    //1. check if session exist
+    if (!item) {
       fetchData();
+    } else {
+       console.log("item", item);
+      dispatch(setData(item));
     }
-  }, []);
+  }, [item]);
 
   return { loading, error, fetchData };
 };

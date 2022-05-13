@@ -7,8 +7,8 @@ import Phone from "../../components/ui/Phone";
 import TextInput from "../../components/ui/TextInput";
 import { useStates } from "../../hooks/useStates";
 
-function AccountForm({ user }) {
-  const { auth, loading, message } = useAuth();
+function AccountForm() {
+  const { auth, loading, message, user } = useAuth();
 
   const { fullName, phone, setPhone, email, setEmail, setFullName, setInput, router } =
     useStates(user);

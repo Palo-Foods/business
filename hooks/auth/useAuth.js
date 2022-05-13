@@ -10,7 +10,7 @@ import { useSessionStorage } from "../useSession";
 import { useStates } from "../useStates";
 
 export const useAuth = () => {
-  const [user, setUser, clearSession] = useSessionStorage("user", null);
+  const {user, setUser, clearSession} = useSessionStorage("user", null);
   const {
     loading,
     setLoading,

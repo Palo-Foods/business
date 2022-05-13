@@ -6,7 +6,7 @@ import { verifyUser } from "../verification";
 export default authenticate(async (req, res) => {
   //verify user
   const { role, userId } = await verifyUser(req);
-
+  console.log(role);
   const method = req.method;
 
   const collection = "products";

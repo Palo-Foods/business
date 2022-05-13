@@ -8,6 +8,7 @@ export const useSessionStorage = (key) => {
     if (typeof session == "string") {
       const data = JSON.parse(session);
       setItem(data);
+      return item;
     }
   };
 
@@ -26,5 +27,5 @@ export const useSessionStorage = (key) => {
     getSessionStorage();
   };
 
-  return [item, setSession, clearSession];
+  return { item, setSession, clearSession };
 };

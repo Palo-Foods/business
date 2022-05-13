@@ -4,10 +4,10 @@ import { useStates } from "../../hooks/useStates";
 import TextArea from "../ui/Description";
 import Select from "../ui/Select";
 import TextInput from "../ui/TextInput";
-import ImagePlaceHolder from "./ImagePlaceHolder";
+import FilePicker from "../media/FilePicker";
 import { usePostPutDelete } from "../../hooks/crud/usePostPutDelete";
 
-function AddProductForm({ product, setShow }) {
+function AddProductForm({ product }) {
   //get rider in store
   const {
     setName,
@@ -21,11 +21,13 @@ function AddProductForm({ product, setShow }) {
     description,
     setDescription,
     setInput,
-    uploadedImage
+    itemImage,
+    setItemImage,
   } = useStates(product);
 
   //get sign up hook
-  const { loading, error, setError, message, postPutDeleteData } = usePostPutDelete();
+  const { loading, error, setError, message, postPutDeleteData } =
+    usePostPutDelete();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -36,10 +38,7 @@ function AddProductForm({ product, setShow }) {
       price,
       discount,
       description,
-      itemImage: {
-        public_id: uploadedImage?.public_id,
-        url: uploadedImage?.url,
-      },
+      itemImage,
     };
 
     if (!data?.itemImage?.url) {
@@ -159,10 +158,15 @@ function AddProductForm({ product, setShow }) {
               id="type"
             />
           </div>
-
-          <ImagePlaceHolder itemImage={product?.itemImage} />
+          <p className="mb-1">Add product image</p>
+          <FilePicker
+            itemImage={product?.itemImage}
+            setItemImage={setItemImage}
+            type="photo"
+            typeOfUpload="product"
+          />
           <div className="mt-4 d-flex justify-content-between">
-            <Link href="/products">
+            <Link href="/[route]/[page]" as="/dashboard/products">
               <a className="btn btn-outline-primary me-2 w-100">Cancel</a>
             </Link>
             {!product ? (

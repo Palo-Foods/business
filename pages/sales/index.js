@@ -14,10 +14,9 @@ import {
 } from "react-icons/md";
 import { useStates } from "../../hooks/useStates";
 
-function DashboardPage() {
-  const { router } = useStates();
+function SalesPage() {
   return (
-    <DashboardLayout>
+    <>
       <div className="d-flex justify-content-between align-items-center mb-2">
         <h6 className="text-muted mb-0">Sales overview</h6>
         <div className="form-group">
@@ -155,8 +154,8 @@ function DashboardPage() {
           </div>
         </div>
       </div>
-    </DashboardLayout>
+    </>
   );
 }
 
-export default DashboardPage;
+export default SalesPage;

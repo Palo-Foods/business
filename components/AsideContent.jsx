@@ -7,6 +7,7 @@ import {
   MdOutlineShoppingBag,
   MdOutlineShoppingBasket,
   MdOutlineDashboard,
+  MdOutlinePhotoAlbum
 } from "react-icons/md";
 import { useRouter } from "next/router";
 import { useAuth } from "../hooks/auth/useAuth";
@@ -14,7 +15,7 @@ import { useAuth } from "../hooks/auth/useAuth";
 const menus = [
   {
     name: "Dashboard",
-    link: "dashboard",
+    link: "home",
     icon: <MdOutlineDashboard size={14} />,
   },
 
@@ -23,6 +24,11 @@ const menus = [
     name: "Products",
     link: "products",
     icon: <MdOutlineShoppingBasket size={16} />,
+  },
+  {
+    name: "Media",
+    link: "media",
+    icon: <MdOutlinePhotoAlbum size={16} />,
   },
   { name: "Payments", link: "payments", icon: <MdOutlinePayment size={14} /> },
   { name: "Settings", link: "account", icon: <MdOutlineSettings size={14} /> },
@@ -53,10 +59,10 @@ const AsideContent = () => {
         <p className="small text-muted mb-2">Menu</p>
         {menus?.map((menu) => (
           <span key={menu.name}>
-            <Link href={`/${menu.link}`}>
+            <Link href="/[route]/[page]" as={`/dashboard/${menu.link}`}>
               <a
                 className={`nav-link ms-md-0 d-flex align-items-center my-0 ${
-                  router?.pathname.includes(menu.link)
+                  router?.query.page?.includes(menu.link)
                     ? "active fw-bold"
                     : "text-black fw-normal"
                 } py-0`}

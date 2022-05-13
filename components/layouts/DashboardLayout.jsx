@@ -25,12 +25,13 @@ function DashboardLayout(props) {
 
       <div className="container-fluid">
         <div className="row h-100">
-          <div className="d-none d-lg-block col-lg-2 bg-white border-end py-3 vh-100">
+          <div className="d-none d-lg-block col-lg-2 bg-white border-end py-3 vh-100 sticky-sidebar">
             <AsideContent />
           </div>
-          <div className="col-lg-10 mb-5 px-0">
+          <div className="col-lg-10 p-0">
             <Header />
-            <div className="p-3">{props.children}</div>
+
+            {props.children}
           </div>
         </div>
       </div>

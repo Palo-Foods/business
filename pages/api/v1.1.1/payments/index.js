@@ -28,7 +28,7 @@ export default authenticate(async (req, res) => {
 
   try {
     //1. check if authorized to sign up, using match, role
-    if (role !== ("business" || "manager")) {
+    if (role !== "business") {
       statusCode401(res);
       return;
     }
@@ -41,7 +41,7 @@ export default authenticate(async (req, res) => {
 
     //3. find all riders
     const projection = {
-      projection: { orders: 1, createdAt: moment().format("MMM Do YY") },
+      projection: { payments: 1, createdAt: moment().format("MMM Do YY") },
     }; //use date and time to insert orders
 
     await get(collection, userId, res, projection);

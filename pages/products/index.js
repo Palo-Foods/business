@@ -1,15 +1,13 @@
 import React, { useState } from "react";
-import DashboardLayout from "../../components/layouts/DashboardLayout";
 import Spinner from "../../components/ui/Spinner";
 import Link from "next/link";
-import { MdAdd, MdDangerous } from "react-icons/md";
+import { MdAdd, MdDangerous, MdShoppingBasket } from "react-icons/md";
 import { useSelector } from "react-redux";
 import { selectProducts, setProducts } from "../../slices/navSlice";
 import DeleteModal from "../../components/modals/DeleteModal";
 import Search from "../../components/ui/Search";
 import { useStates } from "../../hooks/useStates";
 import { useFilter } from "../../hooks/useFilter";
-import { useAuth } from "../../hooks/auth/useAuth";
 import { useFetch } from "../../hooks/crud/useFetch";
 import ShowModal from "../../components/modals/ShowModal";
 
@@ -17,7 +15,6 @@ const searched = (keyword) => (item) =>
   item?.fullName?.toLowerCase().includes(keyword);
 
 function ProductsPage() {
-  const { auth } = useAuth();
   const url = "/api/v1.1.1/products";
 
   const products = useSelector(selectProducts);
@@ -33,39 +30,41 @@ function ProductsPage() {
   const { loading, error, fetchData } = useFetch(url, products, setProducts);
 
   return (
-    <DashboardLayout>
-      <div className="d-flex justify-content-between align-items-center mt-2 px-0 mb-3">
-        <h5 className="text-muted mb-0 h5">All your products</h5>
-        <Link href="/products/add-product">
+    <>
+      <div className="d-flex justify-content-between align-items-center mt-2 mb-3">
+        <h5 className="text-muted mb-0">All your products</h5>
+        <Link href="/[route]/[page]" as="/dashboard/add-to-products">
           <a className="btn btn-outline-primary d-flex justify-content-start align-items-center">
-            <MdAdd size={18} className="fw-bold me-md-2" /> <span className="d-none d-md-block"> Add Product</span>
+            <MdAdd size={18} className="me-md-2" />{" "}
+            <span className="d-none d-md-block"> Add Product</span>
           </a>
         </Link>
       </div>
 
-      <div className="bg-white p-3 mb-2 border rounded d-flex justify-content-between align-items-center">
-        <h6 className="mb-0">Products</h6>
-        <div>
-          {loading && !error && (
-            <div className="d-flex justify-content-center align-items-center h-100">
-              <Spinner />
-            </div>
-          )}
+      <div>
+        <div className="bg-white p-3 mb-2 border rounded d-flex justify-content-between align-items-center">
+          <h6 className="mb-0">Products</h6>
+          <div>
+            {loading && !error && (
+              <div className="d-flex justify-content-center align-items-center h-100">
+                <Spinner />
+              </div>
+            )}
 
-          {error && !loading && (
-            <div className="">
-              <MdDangerous size={20} className="text-danger" />
-              <a
-                type="button"
-                className="ms-2 text-black text-decoration-none"
-                onClick={fetchData}>
-                Reload
-              </a>
-            </div>
-          )}
+            {error && !loading && (
+              <div className="">
+                <MdDangerous size={20} className="text-danger" />
+                <a
+                  type="button"
+                  className="ms-2 text-black text-decoration-none"
+                  onClick={fetchData}>
+                  Reload
+                </a>
+              </div>
+            )}
+          </div>
         </div>
       </div>
-
       {products && products?.length > 0 && (
         <>
           <div className="card">
@@ -138,12 +137,6 @@ function ProductsPage() {
               </table>
             </div>
           </div>
-          {!loading && !error && products && products?.length === 0 && (
-            <div className="text-center">
-              <MdBikeScooter size={100} className="text-muted my-4" />
-              <p>There are no products</p>
-            </div>
-          )}
           <DeleteModal
             type="product"
             item={item}
@@ -165,7 +158,13 @@ function ProductsPage() {
           />
         </>
       )}
-    </DashboardLayout>
+      {products && !loading && !error && products?.length === 0 && (
+        <div className="text-center">
+          <MdShoppingBasket size={100} className="text-muted my-4" />
+          <p>There are no products</p>
+        </div>
+      )}
+    </>
   );
 }
 

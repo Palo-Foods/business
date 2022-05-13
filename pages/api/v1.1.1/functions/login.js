@@ -31,8 +31,6 @@ export const login = async (req, res, collection) => {
     }
   );
 
-  console.log("email", results?.email);
-
   //3. compare the results password to the req password
   if (results?.email) {
     const match = await compare(password, results?.password);

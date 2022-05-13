@@ -8,6 +8,9 @@ export const get = async (collection, userId, res, projection) => {
     { _id: ObjectId(userId) },
     projection
   );
+  if (results === null) {
+    return statusCode200(res, [], "OK");
+  }
   console.log("products", results);
   if (results?._id) {
     return statusCode200(res, results, "OK");

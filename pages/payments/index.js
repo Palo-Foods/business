@@ -9,9 +9,9 @@ import { selectPayments, setOrder, setPayments } from "../../slices/navSlice";
 import Search from "../../components/ui/Search";
 
 const searched = (keyword) => (item) =>
-  item?.name?.toLowerCase().includes(keyword);
+  item?.id?.toLowerCase().includes(keyword);
 
-function OrdersPage() {
+function PaymentsPage() {
   const url = "/api/v1.1.1/users/get-all/payments";
   const payments = useSelector(selectPayments);
 
@@ -30,11 +30,11 @@ function OrdersPage() {
   };
 
   return (
-    <DashboardLayout>
-      <h5 className="text-muted px-0">Payments</h5>
+    <>
+      <h5 className="text-muted px-0 mb-4">Payments</h5>
 
       <div className="bg-white p-3 mb-2 border rounded d-flex justify-content-between align-items-center">
-        <h6 className="mb-0">Payments</h6>
+        <h6 className="mb-0 me-2">Payments</h6>
         <div>
           {loading && !error && (
             <div className="d-flex justify-content-center align-items-center h-100">
@@ -98,8 +98,8 @@ function OrdersPage() {
           <p>There are no payments</p>
         </div>
       )}
-    </DashboardLayout>
+    </>
   );
 }
 
-export default OrdersPage;
+export default PaymentsPage;

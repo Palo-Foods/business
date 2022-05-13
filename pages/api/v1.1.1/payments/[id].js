@@ -31,7 +31,7 @@ export default authenticate(async (req, res) => {
 
   const collection = "orders";
 
-  const condition = { _id: ObjectId(userId), "orders.orderId": id };
+  const condition = {_id: ObjectId(userId), "orders.orderId": id }
 
   try {
     //1. check if authorized to sign up, using match, role
