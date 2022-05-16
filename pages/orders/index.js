@@ -1,5 +1,4 @@
-import React, { useEffect, useState } from "react";
-import DashboardLayout from "../../components/layouts/DashboardLayout";
+import React, { useState } from "react";
 import Spinner from "../../components/ui/Spinner";
 import {
   MdShoppingBag,
@@ -9,8 +8,8 @@ import {
 } from "react-icons/md";
 import { useFetch } from "../../hooks/crud/useFetch";
 import { useRouter } from "next/router";
-import { useDispatch, useSelector } from "react-redux";
-import { selectOrders, setOrder, setOrders } from "../../slices/navSlice";
+import { useDispatch } from "react-redux";
+import {  setOrder } from "../../slices/navSlice";
 import Search from "../../components/ui/Search";
 
 const searched = (keyword) => (item) =>
@@ -19,15 +18,13 @@ const searched = (keyword) => (item) =>
 function OrdersPage() {
   const url = "/api/v1.1.1/orders";
 
-  const orders = useSelector(selectOrders);
-
   const [keyword, setKeyword] = useState("");
 
   const router = useRouter();
 
   const dispatch = useDispatch();
 
-  const { loading, error, fetchData } = useFetch(url, orders, setOrders);
+  const { data, loading, error, fetchData } = useFetch(url);
 
   /* const [item, setItem] = useState("");
 
@@ -124,9 +121,9 @@ function OrdersPage() {
         <div className="bg-white p-3 mb-2 border rounded d-flex justify-content-between align-items-center">
           <h6 className="mb-0">Recent orders</h6>
           <div>
-            {loading && !error && <Spinner />}
+            {loading && <Spinner />}
 
-            {error && !loading && (
+            {error && (
               <>
                 <MdDangerous size={20} className="text-danger" />
                 <a
@@ -140,7 +137,7 @@ function OrdersPage() {
           </div>
         </div>
       </div>
-      {orders && orders?.length > 0 && (
+      {data && data?.length > 0 && (
         <div className="card">
           <div className="card-body justify-content-start overflow-auto p-4">
             <Search
@@ -158,7 +155,7 @@ function OrdersPage() {
                 </tr>
               </thead>
               <tbody>
-                {orders?.filter(searched(keyword)).map((order) => (
+                {data?.filter(searched(keyword)).map((order) => (
                   <tr
                     key={order?._id}
                     style={{ cursor: "pointer" }}
@@ -177,7 +174,7 @@ function OrdersPage() {
         </div>
       )}
 
-      {orders && !loading && !error && orders?.length === 0 && (
+      {data && data?.length === 0 && (
         <div className="text-center">
           <MdShoppingBag size={100} className="text-muted my-4" />
           <p>There are no orders</p>

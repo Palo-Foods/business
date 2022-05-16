@@ -2,8 +2,6 @@ import React, { useState } from "react";
 import Spinner from "../../components/ui/Spinner";
 import Link from "next/link";
 import { MdAdd, MdDangerous, MdShoppingBasket } from "react-icons/md";
-import { useSelector } from "react-redux";
-import { selectProducts, setProducts } from "../../slices/navSlice";
 import DeleteModal from "../../components/modals/DeleteModal";
 import Search from "../../components/ui/Search";
 import { useStates } from "../../hooks/useStates";
@@ -17,17 +15,15 @@ const searched = (keyword) => (item) =>
 function ProductsPage() {
   const url = "/api/v1.1.1/products";
 
-  const products = useSelector(selectProducts);
-
   const { type, setType } = useStates();
-
-  const { filteredData } = useFilter(products, type);
 
   const [keyword, setKeyword] = useState("");
 
   const [item, setItem] = useState("");
 
-  const { loading, error, fetchData } = useFetch(url, products, setProducts);
+  const { data, loading, error, fetchData } = useFetch(url);
+
+  const { filteredData } = useFilter(data, type);
 
   return (
     <>
@@ -45,13 +41,13 @@ function ProductsPage() {
         <div className="bg-white p-3 mb-2 border rounded d-flex justify-content-between align-items-center">
           <h6 className="mb-0">Products</h6>
           <div>
-            {loading && !error && (
+            {loading && (
               <div className="d-flex justify-content-center align-items-center h-100">
                 <Spinner />
               </div>
             )}
 
-            {error && !loading && (
+            {error && (
               <div className="">
                 <MdDangerous size={20} className="text-danger" />
                 <a
@@ -65,13 +61,13 @@ function ProductsPage() {
           </div>
         </div>
       </div>
-      {products && products?.length > 0 && (
+      {data && data?.length > 0 && (
         <>
           <div className="card">
             <div className="card-body justify-content-start overflow-auto p-4">
               <div className="d-md-flex justify-content-md-between my-md-2 mb-md-4">
                 <Search
-                  items={products}
+                  items={data}
                   keyword={keyword}
                   setKeyword={setKeyword}
                 />
@@ -114,17 +110,17 @@ function ProductsPage() {
                       .map((product) => (
                         <ProductTableRow
                           key={product?._id}
-                          products={product}
+                          product={product}
                           setItem={setItem}
                         />
                       ))}
                   {!filteredData &&
-                    products
+                    data
                       ?.filter(searched(keyword))
-                      .map((products) => (
+                      .map((product) => (
                         <ProductTableRow
-                          key={products?._id}
-                          products={products}
+                          key={product?._id}
+                          product={product}
                           setItem={setItem}
                         />
                       ))}
@@ -158,7 +154,7 @@ function ProductsPage() {
           />
         </>
       )}
-      {products && !loading && !error && products?.length === 0 && (
+      {data && data?.length === 0 && (
         <div className="text-center">
           <MdShoppingBasket size={100} className="text-muted my-4" />
           <p>There are no products</p>

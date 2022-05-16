@@ -1,33 +1,68 @@
 import React from "react";
-import { useAuth } from "../../hooks/auth/useAuth";
 import Alert from "../../components/ui/Alert";
 import Spinner from "../../components/ui/Spinner";
-
 import Phone from "../../components/ui/Phone";
 import TextInput from "../../components/ui/TextInput";
 import { useStates } from "../../hooks/useStates";
+import FilePicker from "../media/FilePicker";
+import { usePut } from "../../hooks/crud/usePut";
+import { useSessionStorage } from "../../hooks/useSession";
 
 function AccountForm() {
-  const { auth, loading, message, user } = useAuth();
+  const { putData, loading, message } = usePut();
+  const { item } = useSessionStorage("user");
+  console.log("user", item);
 
-  const { fullName, phone, setPhone, email, setEmail, setFullName, setInput, router } =
-    useStates(user);
+  const {
+    fullName,
+    phone,
+    setPhone,
+    email,
+    setEmail,
+    logo,
+    setLogo,
+    banner,
+    setBanner,
+    setFullName,
+    setInput,
+    router,
+  } = useStates(item);
 
   const handleEditAccount = async (e) => {
     e.preventDefault();
 
-    const data = { fullName, phone, email };
+    const data = { fullName, phone, email, logo, banner };
 
-    const url = `/api/v1.1.1/users/account/managers/${user?.id}`;
+    const url = `/api/v1.1.1/items/account/managers/${item?.id}`;
 
     //provide url, email, password, custom args
-    await auth.addUpdateDeleteUser(url, data, "PUT");
+    await putData(url, data, "PUT");
   };
-
-  console.log(user);
 
   return (
     <form className="row" onSubmit={handleEditAccount}>
+      <div className="mb-4 d-xl-flex justify-content-xl-start">
+        <div className="mb-3">
+          <p className="mb-1">Logo</p>
+          <FilePicker
+            image={logo}
+            setImage={setLogo}
+            type="photo"
+            width={100}
+            height={100}
+          />
+        </div>
+        <div>
+          <p className="mb-1">Banner</p>
+          <FilePicker
+            image={banner}
+            setImage={setBanner}
+            type="photo"
+            width={450}
+            height={150}
+          />
+        </div>
+      </div>
       <div className="form-group mb-4">
         <label htmlFor="fullName" className="mb-2">
           Enter name
@@ -76,7 +111,11 @@ function AccountForm() {
       )}
 
       <div className="d-flex justify-content-between mt-3">
-        <a className="btn btn-outline-primary w-100 me-2" onClick={() => router.back()}>Cancel</a>
+        <a
+          className="btn btn-outline-primary w-100 me-2"
+          onClick={() => router.back()}>
+          Cancel
+        </a>
         <button
           type="submit"
           className="btn btn-primary w-100"

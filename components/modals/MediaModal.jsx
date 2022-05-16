@@ -1,9 +1,8 @@
 import React, { useState } from "react";
 import FilesInMedia from "../media/FilesInMedia";
 import { MdClear } from "react-icons/md";
-import Uploader from "../media/Uploader";
 
-const MediaModal = ({ itemImage, setItemImage, typeOfUpload }) => {
+const MediaModal = ({ image, setImage }) => {
   const [show, setShow] = useState(false);
 
   const handleSubmit = (e) => {
@@ -24,25 +23,7 @@ const MediaModal = ({ itemImage, setItemImage, typeOfUpload }) => {
         role="document">
         <div className="modal-content">
           <div className="modal-header py-2 d-flex align-items-center pe-0">
-            <div className="d-flex justify-content-start">
-              <a
-                type="button"
-                className={`mb-0 h6 text-decoration-none ${
-                  !show ? "active" : "text-black"
-                }`}
-                onClick={() => setShow(false)}>
-                Media
-              </a>
-
-              <a
-                type="button"
-                className={`mb-0 h6 ms-4 text-decoration-none ${
-                  show ? "active" : "text-black"
-                }`}
-                onClick={() => setShow(true)}>
-                Upload media
-              </a>
-            </div>
+            <h6 className="mb-0 text-decoration-none">Media</h6>
             <button
               type="button"
               className="btn btn-default"
@@ -54,30 +35,12 @@ const MediaModal = ({ itemImage, setItemImage, typeOfUpload }) => {
           </div>
 
           <div className="modal-body">
-            {!show ? (
-              <FilesInMedia />
-            ) : (
-              <form onSubmit={handleSubmit}>
-                <Uploader typeOfUpload={typeOfUpload} />
-              </form>
-            )}
+            <FilesInMedia />
           </div>
           <div className="modal-footer text-muted d-md-flex justify-content-md-end">
-            {!show ? (
-              <a
-                type="submit"
-                className="btn btn-success me-3"
-                disabled={!itemImage}>
-                Select
-              </a>
-            ) : (
-              <a
-                type="submit"
-                className="btn btn-info me-3"
-                disabled={!itemImage}>
-                Upload
-              </a>
-            )}
+            <a type="submit" className="btn btn-success me-3" disabled={!image}>
+              Select
+            </a>
           </div>
         </div>
       </div>

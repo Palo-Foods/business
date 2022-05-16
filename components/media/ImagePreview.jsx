@@ -1,17 +1,27 @@
+import Image from "next/image";
 import React from "react";
 
-const ImagePreview = ({ src, width, height, className }) => {
+const ImagePreview = ({ src, className }) => {
   return (
-    <div className="d-flex justify-content-center align-items-center">
+    <div className="">
       <div
-        className="bg-light text-center d-flex justify-content-center align-items-center p-2 rounded"
-        style={{ width: width, height: height, border: "1px dashed grey" }}>
+        className="text-center d-flex justify-content-center align-items-center p-1 rounded overflow-auto"
+        style={{
+          objectFit: "contain",
+          objectPosition: "top",
+          width: 300,
+          height: 300,
+        }}>
         <img
           src={src}
-          width={width}
-          height={height}
-          alt=""
+          width="100%"
+          height="100%"
+          alt="image"
           className={className}
+          style={{
+            objectFit: "contain",
+            objectPosition: "top",
+          }}
         />
       </div>
     </div>

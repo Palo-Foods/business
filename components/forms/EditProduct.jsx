@@ -6,7 +6,7 @@ import Select from "../ui/Select";
 import TextInput from "../ui/TextInput";
 import FilePicker from "../media/FilePicker";
 import MediaModal from "../modals/MediaModal";
-import { usePost } from "../../hooks/crud/usePost";
+import { usePut } from "../../hooks/crud/usePut";
 
 function AddProductForm({ product }) {
   //get rider in store
@@ -22,12 +22,12 @@ function AddProductForm({ product }) {
     description,
     setDescription,
     setInput,
-    image,
-    setImage,
+    itemImage,
+    setItemImage,
   } = useStates(product);
 
   //get sign up hook
-  const { loading, statusCode, message, postData } = usePost();
+  const { loading, statusCode, message, putData } = usePut();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -38,16 +38,13 @@ function AddProductForm({ product }) {
       price,
       discount,
       description,
-      itemImage: image,
+      itemImage,
     };
 
-    const url = "/api/v1.1.1/products/add-product";
+    const url = `/api/v1.1.1/products/${product?._id}`;
 
     //provide url, email, password, custom args
-    await postData(url, data);
-
-    //if there is an update
-    statusCode === 200 && fetchData();
+    await putData(url, data);
   };
 
   return (
@@ -149,10 +146,10 @@ function AddProductForm({ product }) {
           </div>
           <p className="mb-1">Add product image</p>
           <FilePicker
-            image={image}
-            setImage={setImage}
-            width={180}
-            height={150}
+            image={itemImage}
+            setImage={setItemImage}
+            type="photo"
+            typeOfUpload="product"
           />
           <div className="mt-4 d-flex justify-content-between">
             <Link href="/[route]/[page]" as="/dashboard/products">

@@ -1,7 +1,7 @@
-import { ObjectId } from "bson";
+import { ObjectId } from "mongodb";
 import { connectToDatabase } from "../../../../lib/mongodb";
 
-export const deleteFromMedia = async (shopId, public_id) => {
+export const deleteFromMedia = async (businessId, public_id) => {
   const { db } = await connectToDatabase();
 
   const deleteMedia = {
@@ -10,7 +10,7 @@ export const deleteFromMedia = async (shopId, public_id) => {
   //upload to media
   const media = await db
     .collection("media")
-    .updateOne({ _id: ObjectId(shopId) }, deleteMedia, {
+    .updateOne({ _id: ObjectId(businessId) }, deleteMedia, {
       returnDocuments: true,
       upsert: true,
     });

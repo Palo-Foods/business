@@ -1,17 +1,21 @@
 import React, { useEffect, useRef, useState } from "react";
 import Resizer from "react-image-file-resizer";
-import DocumentPlaceHolder from "./DocumentPlaceholder";
 import DocumentPreview from "./DocumentPreview";
 import ImagePlaceHolder from "./ImagePlaceHolder";
 import ImagePreview from "./ImagePreview";
+import { MdAttachFile } from "react-icons/md";
 
-function Uploader({ typeOfUpload }) {
+function Uploader({ setImage }) {
   const fileInputRef = useRef();
   const [msg, setMsg] = useState();
   const [file, setFile] = useState("");
   const [preview, setPreview] = useState("");
 
+  //file info
+  const [size, setSize] = useState({});
+
   useEffect(() => {
+    console.log(file);
     if (file) {
       const reader = new FileReader();
       reader.onloadstart = () => {
@@ -25,7 +29,14 @@ function Uploader({ typeOfUpload }) {
       };
       reader.onloadend = () => {
         setMsg("loading done");
+        var image = new Image();
+        image.src = reader.result;
+        image.onload = () => {
+          setSize({ width: image.width, height: image.height });
+          console.log(image.sizes);
+        };
       };
+
       reader.readAsDataURL(file);
       //if filetype is image
       if (file.type.substr(0, 5) === "image") {
@@ -33,14 +44,15 @@ function Uploader({ typeOfUpload }) {
         //resize image
         Resizer.imageFileResizer(
           file,
-          100,
-          100,
+          "100%",
+          "100%",
           "JPEG",
           150,
           0,
           (uri) => {
-            console.log("uri", uri);
+            //console.log("uri", uri);
             setPreview({ url: uri, type: "image" });
+            setImage(uri);
           },
           "base64"
         );
@@ -60,79 +72,96 @@ function Uploader({ typeOfUpload }) {
   }, [file]);
 
   return (
-    <div
-      className="d-flex justify-content-center align-items-center"
-      style={{ height: "20rem" }}>
-      <div>
-        {preview?.type === "image" &&
-          ((typeOfUpload === "avatar" && (
-            <img
-              src={preview?.url}
-              width="100"
-              height="100"
-              className="rounded-circle py-2"
-            />
-          )) ||
-            (typeOfUpload === "product" && (
-              <ImagePreview
-                src={preview?.url}
-                width={200}
-                height={180}
-                className="py-2"
-              />
-            )) ||
-            (typeOfUpload === "banner" && (
-              <ImagePreview
-                src={preview?.url}
-                width="450"
-                height="150"
-                className="py-2"
-              />
-            )))}
+    <div className="row">
+      <div className="col-md-7">
+        {preview?.type === "image" && (
+          <ImagePreview src={preview?.url} className="rounded" />
+        )}
         {preview.type === "doc" && <DocumentPreview size={120} />}
+        {!preview && (
+          <label
+            htmlFor="uploader"
+            style={{ cursor: "pointer" }}
+            className="d-flex justify-content-center align-items-center h-100">
+            <input
+              ref={fileInputRef}
+              onChange={(e) => setFile(e.target.files[0])}
+              type="file"
+              id="uploader"
+              hidden
+            />
+
+            <ImagePlaceHolder text="Upload file" width={200} height={200} />
+          </label>
+        )}
+      </div>
+      <div className="border-start col-md-5">
+        <h6>File details</h6>
+        <div className="form-group my-3 mb-4">
+          <label htmlFor="fileName" className="h6">
+            File name
+          </label>
+          <input
+            type="text"
+            className="form-control"
+            value={file?.name}
+            onChange={(e) => setFile({ name: e.target?.value })}
+            id="fileName"
+            aria-describedby="helpId"
+            placeholder=""
+          />
+        </div>
+        <p className="mb-1 h6">Image size (Pixels)</p>
+        <div className="row mb-3">
+          <div className="col form-group">
+            <label htmlFor="width">Width</label>
+            <input
+              type="number"
+              className="form-control"
+              value={size.width}
+              onChange={(e) => setSize({ width: e.target.value })}
+              id="width"
+              aria-describedby="helpId"
+              placeholder=""
+              disabled
+            />
+          </div>
+          <div className="col form-group">
+            <label htmlFor="height">Height</label>
+            <input
+              type="text"
+              className="form-control"
+              value={size.height}
+              onChange={(e) => setSize({ height: e.target.value })}
+              id="height"
+              aria-describedby="helpId"
+              placeholder=""
+              disabled
+            />
+          </div>
+        </div>
+        <p className="mb-1 h6">File size</p>
+        <p>{file && file?.size / 1000} KB</p>
         {preview && (
-          <div className="text-center">
-            <a
-              type="button"
-              className="btn btn-light btn-sm my-3"
-              onClick={(e) => {
-                e.preventDefault();
-                fileInputRef.current.click();
-              }}>
-              Change
-            </a>
+          <div className="" style={{ bottom: 0 }}>
+            <label
+              htmlFor="uploader"
+              style={{ cursor: "pointer" }}
+              className="d-flex justify-content-center align-items-center">
+              <input
+                ref={fileInputRef}
+                onChange={(e) => setFile(e.target.files[0])}
+                type="file"
+                id="uploader"
+                hidden
+              />
+              <a type="button" className="btn btn-default bg-white btn-sm my-3">
+                <MdAttachFile size={18} /> Change image
+              </a>
+            </label>
           </div>
         )}
       </div>
-      <label htmlFor="uploader" style={{ cursor: "pointer" }}>
-        <input
-          ref={fileInputRef}
-          onChange={(e) => setFile(e.target.files[0])}
-          type="file"
-          id="uploader"
-          hidden
-        />
-        {!preview && (
-          <>
-            {typeOfUpload === "avatar" && (
-              <ImagePlaceHolder text="Upload avatar" width={150} height={100} />
-            )}
-            {typeOfUpload === "document" && (
-              <DocumentPlaceHolder text="upload file" size={100} />
-            )}
-            {typeOfUpload === "banner" && (
-              <ImagePlaceHolder text="Upload banner" width={450} height={150} />
-            )}
-            {typeOfUpload === "product" && (
-              <ImagePlaceHolder
-                text="Upload product image"
-                width={200}
-                height={180}
-              />
-            )}
-          </>
-        )}
-      </label>
     </div>
   );
 }

@@ -31,9 +31,16 @@ export const useStates = (dataFromStore) => {
   const [region, setRegion] = useState(dataFromStore?.region);
   const [show, setShow] = useState(true);
   const [numberOfPeople, setNumberOfPeople] = useState("");
+  const [data, setData] = useState("");
 
   const [uploadedImage, setUploadedImage] = useState("");
+  const [image, setImage] = useState("");
   const [itemImage, setItemImage] = useState(dataFromStore?.itemImage?.url);
+  const [avatar, setAvatar] = useState(dataFromStore?.avatar?.url);
+  const [document, setDocument] = useState(dataFromStore?.document?.url);
+  const [banner, setBanner] = useState(dataFromStore?.banner?.url);
+  const [logo, setLogo] = useState(dataFromStore?.logo?.url);
+
   const [price, setPrice] = useState(null);
   const [discount, setDiscount] = useState(null);
 
@@ -108,5 +115,17 @@ export const useStates = (dataFromStore) => {
     setItemImage,
     uploadedImage,
     setUploadedImage,
+    banner,
+    setBanner,
+    document,
+    setDocument,
+    avatar,
+    setAvatar,
+    logo,
+    setLogo,
+    image,
+    setImage,
+    data,
+    setData,
   };
 };

@@ -3,44 +3,28 @@
  * 2. Functions: read, fetch items,
  * 3. Parameters: url
  **/
-import { useEffect } from "react";
-import { useDispatch } from "react-redux";
+import { useEffect, useState } from "react";
 import { read } from "../../functions/crud/FETCH";
-import { useStates } from "../useStates";
-import { useSessionStorage } from "../useSession";
 
-export const useFetch = (url, data, setData) => {
-  const { loading, setLoading, error, setError } = useStates();
-  const dispatch = useDispatch();
+export const useFetch = (url) => {
+  const [data, setData] = useState();
+  const [error, setError] = useState("");
 
-  const { setSession, item } = useSessionStorage(url);
-
-  //1. fetch data
-  async function fetchData() {
-    setError("");
-    setData([]);
-    setLoading(true);
+  const fetchData = async () => {
+    setError(null)
     const response = await read(url);
-    setLoading(false);
-
-    if (response?.statusCode === 200) {
-      console.log("response", response);
-      setSession(url, response?.data);
+    const { statusText, statusCode, error, data } = response;
+    if (statusCode === 200) {
+      setData(data);
+      console.log("data", data);
     } else {
-      //navigate and logout on user not authenticated
-      setError("error");
+      setError(error)
     }
-  }
+  };
 
   useEffect(() => {
-    //1. check if session exist
-    if (!item) {
-      fetchData();
-    } else {
-       console.log("item", item);
-      dispatch(setData(item));
-    }
-  }, [item]);
+    fetchData();
+  }, []);
 
-  return { loading, error, fetchData };
+  return { loading: !data && !error, data, error, fetchData };
 };

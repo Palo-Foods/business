@@ -1,14 +1,13 @@
 import React from "react";
 import { MdOutlinePhoto } from "react-icons/md";
 
-function FilePicker({ image, setImage, width, height }) {
- 
+function FileUploadPicker({ image, setImage, width, height }) {
   return (
     <div className="">
       <div className="d-flex justify-content-start align-items-top">
         <a
           data-bs-toggle="modal"
-          data-bs-target="#mediaModal"
+          data-bs-target="#uploadMediaModal"
           type="button"
           className="me-3 bg-light d-flex justify-content-center align-items-center"
           style={{
@@ -35,4 +34,4 @@ function FilePicker({ image, setImage, width, height }) {
   );
 }
 
-export default FilePicker;
+export default FileUploadPicker;

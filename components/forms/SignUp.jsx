@@ -7,7 +7,7 @@ import Spinner from "../ui/Spinner";
 import TextInput from "../ui/TextInput";
 
 export const SignUpForm = () => {
-  const { auth, loading, statusCode, message } = useAuth();
+  const { signUp, loading, statusCode, message } = useAuth();
   const {
     fullName,
     setFullName,
@@ -26,7 +26,7 @@ export const SignUpForm = () => {
     const url = "/api/v1.0.0/account/signup";
 
     //provide url, email, password, custom args
-    await auth.createUserWithEmailAndPassword(url, email, password, custom);
+    await signUp(url, email, password, custom);
   };
 
   return (

@@ -1,13 +1,8 @@
 import React from "react";
 import Layout from "../components/layouts/Layout";
-import { useAuth } from "../hooks/auth/useAuth";
 import LoginForm from "../components/forms/Login";
 
 function LoginPage() {
-  const { user } = useAuth();
-
-  user?.data?.email && router.push("/dashboard");
-
   return (
     <Layout title="Login">
       <div className="d-flex justify-content-center align-items-center vh-100">

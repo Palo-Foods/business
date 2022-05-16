@@ -4,7 +4,9 @@
  * 3. Parameters: url, data
  **/
 
-export const loginSignUp = async (url: string, data: object) => {
+import { tryStatement } from "../utils/tryStatement";
+
+export const signup = async (url: string, data: object) => {
   const config = {
     method: "POST",
     headers: {
@@ -15,10 +17,5 @@ export const loginSignUp = async (url: string, data: object) => {
   };
 
   //2. return response and error
-  try {
-    const resp = await fetch(url, config);
-    return resp.json();
-  } catch (error) {
-    return error.message;
-  }
+  return (data = await tryStatement(url, config));
 };

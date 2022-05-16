@@ -46,7 +46,7 @@ export default authenticate(async (req, res) => {
 
     await get(collection, userId, res, projection);
 
-  } catch (err) {
+  } catch (error) {
     statusCode500(res, error);
   }
 });

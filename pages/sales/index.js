@@ -1,12 +1,10 @@
 import React from "react";
-import DashboardLayout from "../../components/layouts/DashboardLayout";
 import BarChart from "../../components/charts/Bar";
 import PieChart from "../../components/charts/PieChart";
 import {
   MdShoppingBag,
   MdOutlineInfo,
   MdOutlinePayment,
-  MdOutlineMoney,
   MdStarRate,
   MdStarOutline,
   MdStarHalf,

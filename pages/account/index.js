@@ -9,15 +9,15 @@ function EditAccountPage() {
 
   return (
     <>
-      <div className="col-md-6 mb-3">
+      <div className="col-md-7 mb-3">
         <h6 className="text-muted">Edit Account</h6>
         <div className="card my-2">
-          <div className="card-body my-3">
+          <div className="card-body m-md-3">
             <AccountForm user={user} />
           </div>
         </div>
       </div>
-      <div className="col-md-6">
+      <div className="col-md-5">
         <h6 className="text-muted">Documents</h6>
         <div className="card my-2">
           <div className="card-header border-0 bg-white px-md-4 pt-4 pb-0 d-flex justify-content-between">

@@ -1,20 +1,24 @@
 import cloudinary from "cloudinary";
-import { verify } from "jsonwebtoken";
-import { secret_key } from "../../../../lib/secret";
 import { authenticate } from "../authentication";
+import {
+  statusCode200,
+  statusCode401,
+  statusCode403,
+  statusCode404,
+  statusCode405,
+  statusCode500,
+} from "../status/codes";
+import { verifyUser } from "../verification";
 import { pushToMedia } from "./pushtoMedia";
 
 export default authenticate(async (req, res) => {
+  //verify user
+  const { role, userId } = await verifyUser(req);
+
   //1. get method
   const method = req.method;
-  // get api key
-  const { authorization } = req.headers;
 
-  const { data } = verify(authorization, secret_key);
-
-  const { id } = data;
-
-  const { imgUrl } = JSON.parse(JSON.parse(req.body));
+  const { imgUrl } = JSON.parse(req.body);
 
   cloudinary.config({
     cloud_name: process.env.CLOUDINARY_NAME,
@@ -23,29 +27,42 @@ export default authenticate(async (req, res) => {
   });
 
   try {
-    if (method === "POST") {
-      let response = await cloudinary.uploader.upload(imgUrl, {
-        public_id: `${Date.now()}`,
-        resource_type: "auto",
-      });
+    //1. check if authorized to sign up, using match, role
+    if (role !== "business") {
+      statusCode401(res);
+      return;
+    }
 
-      if (response?.public_id) {
-        //push to media
-        await pushToMedia(id, response?.public_id, response?.url);
-        res
-          .status(200)
-          .json({ status: 200, statusText: "OK", data: { response } });
+    //2. check for method
+    //if method does not exist
+    if (method !== "POST") {
+      statusCode405(res);
+      return;
+    }
+
+    let response = await cloudinary.uploader.upload(imgUrl, {
+      public_id: `${Date.now()}`,
+      resource_type: "auto",
+    });
+
+    if (response?.public_id) {
+      //push to media
+      const result = await pushToMedia(
+        userId,
+        response?.public_id,
+        response?.url
+      );
+      console.log("result", result);
+      if (result === "success") {
+        statusCode200(res, {}, "OK");
+      } else {
+        statusCode403(res, "Uploading to your media folder failed");
       }
     } else {
-      res.status(400).json({ status: 400, statusText: "bad request method" });
+      statusCode404(res, "Uploading to cloud failed");
     }
   } catch (error) {
-    res
-      .status(500)
-      .json({
-        status: 500,
-        statusText: "Internal server error",
-        error: error.message,
-      });
+    console.log(error.message);
+    statusCode500(res, error);
   }
 });

@@ -1,32 +1,34 @@
 import React from "react";
 import Spinner from "../ui/Spinner";
 import { MdClear, MdDelete, MdCheckCircle } from "react-icons/md";
-import { useAuth } from "../../hooks/auth/useAuth";
 import { useStates } from "../../hooks/useStates";
+import { useDelete } from "../../hooks/crud/useDelete";
 
-function DeleteModal({ item, url, setItem, fetchData, router, type }) {
-  const { auth, statusCode, message } = useAuth();
-  const { setLoading, loading, setError } = useStates();
+function DeleteModal({ item, url, setItem }) {
+  console.log(item);
+
+  const { deleteUserData, statusCode, message } = useDelete();
+
+  const { setLoading, loading, setError, router } = useStates();
 
   const deleteItem = async () => {
     const uri = `${url}/${item?._id}`;
     const data = {};
-
-    await auth.addUpdateDeleteUser(
+    setLoading(true);
+    await deleteUserData(
       uri,
-      data, //no data is sent cos we are deleting the item
-      "DELETE"
+      data //no data is sent cos we are deleting the item
     );
-
-    statusCode === 200 && fetchData();
+    setLoading(false);
+    console.log("done");
+    statusCode === 200 && router.reload();
   };
-   statusCode === 200 && fetchData();
+  statusCode === 200 && router.reload();
 
   const clearAnything = () => {
     setLoading("");
     setError("");
     setItem(null);
-    router.replace(type.includes("ess") ? type + "es" : type + "s");
     message = "";
     statusCode = "";
   };
@@ -82,13 +84,15 @@ function DeleteModal({ item, url, setItem, fetchData, router, type }) {
             </div>
           </div>
           <div className="modal-footer border-0 d-flex justify-content-center pb-3 pt-0">
-            <button
-              type="button"
-              className="btn btn-light px-4 mx-3"
-              data-bs-dismiss="modal"
-              onClick={clearAnything}>
-              {statusCode === 200 ? "Close" : "No"}
-            </button>
+            {statusCode && (
+              <button
+                type="button"
+                className="btn btn-light px-4 mx-3"
+                data-bs-dismiss="modal"
+                onClick={clearAnything}>
+                Close
+              </button>
+            )}
             {statusCode !== 200 && (
               <button
                 disabled={loading}

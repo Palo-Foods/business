@@ -18,6 +18,8 @@ const initialState = {
   stripePayload: null,
   signUpData: null,
   updated: false,
+  file: null,
+  files: [],
 };
 
 export const navSlice = createSlice({
@@ -72,6 +74,12 @@ export const navSlice = createSlice({
     setRiders: (state, action) => {
       state.riders = action.payload;
     },
+    setFile: (state, action) => {
+      state.file = action.payload;
+    },
+    setFiles: (state, action) => {
+      state.files = action.payload;
+    },
     setUpdated: (state, action) => {
       state.updated = action.payload;
     },
@@ -98,6 +106,8 @@ export const {
   setRiders,
   setRider,
   setUpdated,
+  setFile,
+  setFiles,
 } = navSlice.actions;
 
 //Selectors, makes the data available
@@ -117,6 +127,8 @@ export const selectPayment = (state) => state.nav.payment;
 export const selectPayments = (state) => state.nav.payments;
 export const selectRider = (state) => state.nav.rider;
 export const selectRiders = (state) => state.nav.riders;
+export const selectFile = (state) => state.nav.file;
+export const selectFiles = (state) => state.nav.files;
 export const selectUpdated = (state) => state.nav.updated;
 
 export default navSlice.reducer;

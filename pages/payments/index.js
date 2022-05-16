@@ -1,19 +1,17 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { useRouter } from "next/router";
 import { MdOutlinePayment, MdDangerous } from "react-icons/md";
-import DashboardLayout from "../../components/layouts/DashboardLayout";
 import Spinner from "../../components/ui/Spinner";
 import { useFetch } from "../../hooks/crud/useFetch";
-import { useDispatch, useSelector } from "react-redux";
-import { selectPayments, setOrder, setPayments } from "../../slices/navSlice";
+import { useDispatch } from "react-redux";
+import { setOrder } from "../../slices/navSlice";
 import Search from "../../components/ui/Search";
 
 const searched = (keyword) => (item) =>
   item?.id?.toLowerCase().includes(keyword);
 
 function PaymentsPage() {
-  const url = "/api/v1.1.1/users/get-all/payments";
-  const payments = useSelector(selectPayments);
+  const url = "/api/v1.1.1/payments";
 
   const [keyword, setKeyword] = useState("");
 
@@ -21,7 +19,7 @@ function PaymentsPage() {
 
   const dispatch = useDispatch();
 
-  const { loading, error, fetchData } = useFetch(url, payments, setPayments);
+  const { data, loading, error, fetchData } = useFetch(url);
 
   const handleNavigation = (payments) => {
     //set product to store
@@ -36,13 +34,13 @@ function PaymentsPage() {
       <div className="bg-white p-3 mb-2 border rounded d-flex justify-content-between align-items-center">
         <h6 className="mb-0 me-2">Payments</h6>
         <div>
-          {loading && !error && (
+          {loading && (
             <div className="d-flex justify-content-center align-items-center h-100">
               <Spinner />
             </div>
           )}
 
-          {error && !loading && (
+          {error && (
             <div className="">
               <MdDangerous size={20} className="text-danger" />
               <a
@@ -55,7 +53,7 @@ function PaymentsPage() {
           )}
         </div>
       </div>
-      {payments && payments?.length > 0 && (
+      {data && data?.length > 0 && (
         <div className="card my-2">
           <div className="card-body justify-content-start overflow-auto p-4">
             <Search
@@ -92,7 +90,7 @@ function PaymentsPage() {
           </div>
         </div>
       )}
-      {!loading && !error && payments && payments?.length === 0 && (
+      {data && data?.length === 0 && (
         <div className="text-center">
           <MdOutlinePayment size={100} className="text-muted my-4" />
           <p>There are no payments</p>

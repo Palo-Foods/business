@@ -1,45 +1,87 @@
-import React, { useState } from "react";
-import dynamic from "next/dynamic";
-import { MdDelete } from "react-icons/md";
+import React from "react";
+import { MdDelete, MdDangerous } from "react-icons/md";
 import { useStates } from "../../hooks/useStates";
 import DeleteModal from "../../components/modals/DeleteModal";
-import ImagesInMedia from "../../components/media/FilesInMedia";
+import FilesInMedia from "../../components/media/FilesInMedia";
+import { useSelector } from "react-redux";
+import { selectFile } from "../../slices/navSlice";
+import { useFetch } from "../../hooks/crud/useFetch";
+import FileUploadPicker from "../../components/media/FileUploadPicker";
+import UploadMediaModal from "../../components/modals/UploadMediaModal";
+import Spinner from "../../components/ui/Spinner";
 
 function AddFilePage() {
-  const { itemImage, setItemImage } = useStates();
-  const [display, setDisplay] = useState(false);
+  const url = "/api/v1.1.1/media";
+
+  const { image, setImage } = useStates();
+
+  const file = useSelector(selectFile);
+
+  const { data, loading, error, fetchData } = useFetch(url);
 
   return (
     <>
       <h5>Media</h5>
       <div className="my-3 vh-50">
         <div className="card vh-50">
-          <div className="card-header p-0 d-flex justify-content-between w-100">
-            <a type="button" className="h6 text-decoration-none mb-0 p-4">
+          <div className="card-header d-flex justify-content-between align-items-center w-100">
+            <h6 className="text-decoration-none mb-0 py-3">
               Files
-            </a>
+            </h6>
+            <div>
+              {loading && <Spinner />}
+
+              {error && (
+                <div className="">
+                  <MdDangerous size={20} className="text-danger" />
+                  <a
+                    type="button"
+                    className="ms-2 text-black text-decoration-none"
+                    onClick={fetchData}>
+                    Reload
+                  </a>
+                </div>
+              )}
+            </div>
           </div>
+
           <div className="card-body p-3" style={{ height: "30rem" }}>
-            <ImagesInMedia />
+            {data && (
+              <FilesInMedia
+                files={data}
+                loading={loading}
+                error={error}
+                fetchData={fetchData}
+              />
+            )}
+            <FileUploadPicker
+              image={image}
+              setImage={setImage}
+              type="photo"
+              width={100}
+              height={100}
+            />
+            <UploadMediaModal image={image} setImage={setImage} />
           </div>
+
           <div className="card-footer text-muted d-flex justify-content-end">
-            <a
+            <button
               type="button"
-              disabled={!itemImage}
+              disabled={!file}
               className="btn btn-danger me-3 my-2"
-              onClick={() => setItem(itemImage)}>
+              data-bs-toggle="modal"
+              data-bs-target="#deleteModal">
               <MdDelete size={18} className="mb-1" />
               <span className="ms-2">Delete</span>
-            </a>
+            </button>
           </div>
         </div>
       </div>
       <DeleteModal
         type="media"
-        item={itemImage}
-        setItem={setItemImage}
-        url="/api/v1.1.1/media"
-        //fetchData={fetchData}
+        item={file}
+        setItem={setImage}
+        url="/api/v1.1.1/media/deleteFromMedia"
       />
     </>
   );

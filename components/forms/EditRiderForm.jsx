@@ -1,17 +1,16 @@
 import React from "react";
 import Link from "next/link";
-import Password from "../ui/Password";
-import Phone from "../ui/Phone";
-import Select from "../ui/Select";
-import TextInput from "../ui/TextInput";
+import Password from "../../components/ui/Password";
+import Phone from "../../components/ui/Phone";
+import Select from "../../components/ui/Select";
+import TextInput from "../../components/ui/TextInput";
 import { useStates } from "../../hooks/useStates";
-import { useAuth } from "../../hooks/auth/useAuth";
-import Spinner from "../ui/Spinner";
-import Alert from "../ui/Alert";
-import { setBusinesses } from "../../slices/navSlice";
-import { useFetch } from "../../hooks/crud/useFetch";
+import Spinner from "../../components/ui/Spinner";
+import Alert from "../../components/ui/Alert";
+import { usePut } from "../../hooks/crud/usePut";
 
-function AddBusinessForm({ business, edit }) {
+function AddRiderForm({ rider, edit }) {
+  //get rider in store
   const {
     fullName,
     setName,
@@ -28,61 +27,34 @@ function AddBusinessForm({ business, edit }) {
     setInput,
     region,
     setRegion,
-  } = useStates(business);
+  } = useStates(rider);
 
   //get sign up hook
-  const { auth, loading, statusCode, message } = useAuth();
+  const { putData, loading, statusCode, message } = usePut();
 
-  const businessesData = []; //set to empty array. We don't want to use it in the custom hook
-
-  const { fetchData } = useFetch(
-    `${business?.name ? "/api/v1.1.1/users/get-all/businesses" : ""}`,
-    businessesData,
-    setBusinesses
-  );
-
-  const handleAddBusiness = async (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     const data = {
       fullName,
       name,
-      phone,
-      email,
-      type,
-      region,
-      password: !business && password,
-    };
-
-    const updateData = {
-      fullName,
-      name,
       email,
       phone,
       type,
       region,
     };
 
-    const url = `/api/v1.1.1/users/${
-      business ? "/manage/businesses/" + business?._id : "register/businesses"
-    }`;
+    const url = `/api/v1.1.1/users/manage/riders/${rider?._id}`;
 
     //provide url, email, password, custom args
-    await auth.addUpdateDeleteUser(
-      url,
-      business?.name ? updateData : data,
-      business?.name ? "PUT" : "POST"
-    );
-
-    //if there is an update
-    statusCode === 200 && fetchData();
+    await putData(url, data);
   };
 
   return (
-    <form className="row" onSubmit={handleAddBusiness}>
-      <div className="col-md-6 form-group">
-        <label htmlFor="businessName" className="mb-2 h6">
-          Enter business name
+    <form className="row" onSubmit={handleSubmit}>
+      <div className="col-md-6 form-group mb-4">
+        <label htmlFor="riderName" className="mb-2 h6">
+          Enter company name
         </label>
         <TextInput
           type="text"
@@ -107,8 +79,21 @@ function AddBusinessForm({ business, edit }) {
         />
       </div>
       <div className="col-md-6 form-group mb-4">
+        <label htmlFor="type" className="mb-2 h6">
+          Select business type
+        </label>
+        <Select
+          text={type}
+          setInput={setInput}
+          setText={setType}
+          options={["Individual", "Courier Company"]}
+          classes=""
+          id="type"
+        />
+      </div>
+      <div className="col-md-6 form-group mb-4">
         <label htmlFor="email" className="mb-2 h6">
-          Enter business email
+          Enter rider email
         </label>
         <TextInput
           type="email"
@@ -121,9 +106,9 @@ function AddBusinessForm({ business, edit }) {
       </div>
       <div className="col-md-6 form-group mb-4">
         <label htmlFor="phone" className="mb-2 h6">
-          Enter business phone
+          Enter rider phone
         </label>
-        <Phone setText={setPhone} text={phone} />
+        <Phone setText={setPhone} text={phone} classes="" />
       </div>
       <div className="col-md-6 form-group mb-4">
         <label htmlFor="region" className="mb-2 h6">
@@ -138,31 +123,17 @@ function AddBusinessForm({ business, edit }) {
           id="region"
         />
       </div>
-      <div className="col-md-6 form-group mb-4">
-        <label htmlFor="type" className="mb-2 h6">
-          Select business type
-        </label>
-        <Select
-          text={type}
-          setInput={setInput}
-          setText={setType}
-          options={["Restaurant", "Groceries", "Liquor", "Pharmacy"]}
-          classes=""
-          id="type"
-        />
-      </div>
-      {!business && (
+      {!rider && (
         <div className="col-md-6 form-group mb-3">
           <label htmlFor="password" className="mb-2 h6">
             Enter password (keep it)
           </label>
           <Password
+            type="password"
             text={password}
             setInput={setInput}
             setText={setPassword}
             classes=""
-            type="password"
-            id="password"
           />
         </div>
       )}
@@ -177,13 +148,12 @@ function AddBusinessForm({ business, edit }) {
                 : "info"
             }
             message={message}
-            onClick={undefined}
           />
         </div>
       )}
 
       <div className="text-end">
-        {!business && (
+        {!rider && (
           <button
             type="submit"
             className="btn btn-primary"
@@ -197,10 +167,15 @@ function AddBusinessForm({ business, edit }) {
               !password ||
               loading
             }>
-            {loading && <Spinner className="me-2" />} <span>Submit</span>
+            {loading && (
+              <span className="me-2">
+                <Spinner />
+              </span>
+            )}
+            Submit
           </button>
         )}
-        {business && (
+        {rider && (
           <button
             type="submit"
             className="btn btn-primary"
@@ -213,12 +188,11 @@ function AddBusinessForm({ business, edit }) {
               !region ||
               loading
             }>
-            {loading && <Spinner />}{" "}
-            <span className="ms-2">Update business</span>
+            {loading && <Spinner />} <span className="ms-2">Update rider</span>
           </button>
         )}
         {!edit && (
-          <Link href="/businesses">
+          <Link href="/riders">
             <a className="btn btn-light ms-3">Go back</a>
           </Link>
         )}
@@ -227,4 +201,4 @@ function AddBusinessForm({ business, edit }) {
   );
 }
 
-export default AddBusinessForm;
+export default AddRiderForm;

@@ -1,22 +1,23 @@
 /**
- * 1. Read data from the backend that comes through this http request function
+ * 1. Send data to the backend
  * 2. Functions: resolve()
- * 3. Parameters: url
+ * 3. Parameters: url, data, method
  * 4. Token: authToken
  **/
 import { tryStatement } from "../utils/tryStatement";
 
-export const read = async (url) => {
+export const post = async (url, data) => {
   const sessionData = sessionStorage.getItem("user");
   const token = JSON.parse(sessionData);
   const authToken = token?.authToken;
 
   const config = {
-    method: "GET",
+    method: "POST",
     headers: {
       ContentType: "application/json",
       Authorization: `Bearer ${sessionData && authToken}`,
     },
+    body: JSON.stringify(data && data),
     timeout: 5000,
   };
 

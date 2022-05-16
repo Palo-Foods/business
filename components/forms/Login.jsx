@@ -1,28 +1,23 @@
 import React from "react";
 import TextInput from "../../components/ui/TextInput";
 import Password from "../../components/ui/Password";
-import { useAuth } from "../../hooks/auth/useAuth";
+import { useLogin } from "../../hooks/auth/useLogin";
 import { useStates } from "../../hooks/useStates";
-import { useRouter } from "next/router";
 import Spinner from "../../components/ui/Spinner";
 import Alert from "../../components/ui/Alert";
 
 export default function LoginForm() {
-  const router = useRouter();
-  const { auth, loading, statusCode, message, user } = useAuth();
+  const { login, loading, statusCode, message } = useLogin();
   const { email, password, setInput, setEmail, setPassword } = useStates("");
+
   //handle login
   const handleLogin = async (e) => {
     e.preventDefault();
 
     const data = { email, password };
     const url = "api/v1.1.1/users/login/businesses";
-    await auth.signInWithEmailAndPassword(url, data);
-    console.log(user);
-    user?.email && router.push("/dashboard");
+    await login(url, data);
   };
-
-  user?.email && router.push("/dashboard");
 
   return (
     <form className="my-3 mx-2" onSubmit={handleLogin}>
@@ -51,7 +46,7 @@ export default function LoginForm() {
           classes=""
         />
       </div>
-      {message && (
+      {statusCode && (
         <Alert
           type={
             statusCode === 200

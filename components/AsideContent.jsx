@@ -9,8 +9,9 @@ import {
   MdOutlineDashboard,
   MdOutlinePhotoAlbum
 } from "react-icons/md";
-import { useRouter } from "next/router";
-import { useAuth } from "../hooks/auth/useAuth";
+import { useSessionStorage } from "../hooks/useSession";
+import { useLogout } from "../hooks/auth/useLogout";
+import { useStates } from "../hooks/useStates";
 
 const menus = [
   {
@@ -35,13 +36,16 @@ const menus = [
 ];
 
 const AsideContent = () => {
-  const { user, auth } = useAuth();
-  const router = useRouter();
+  const { user } = useSessionStorage()
+
+  const { logOut } = useLogout()
+
+  const { router } = useStates();
 
   //handle login
   const handleLogout = async (e) => {
     e.preventDefault();
-    await auth.signOut();
+    await logOut();
     router.push("/");
   };
 

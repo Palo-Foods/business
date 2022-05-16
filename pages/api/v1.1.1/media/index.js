@@ -1,59 +1,56 @@
-import { connectToDatabase } from "../../../../lib/mongodb";
-import { secret_key } from "../../../../lib/secret";
-import { authenticate } from "../authentication";
 import { ObjectId } from "mongodb";
-import { decode, verify } from "jsonwebtoken";
-import { compare } from "bcrypt";
+import { authenticate } from "../authentication";
+import { findOne } from "../db/find";
+import { get } from "../functions/get";
+import {
+  statusCode200,
+  statusCode401,
+  statusCode404,
+  statusCode405,
+  statusCode500,
+} from "../status/codes";
+import { verifyUser } from "../verification";
 
-export default authenticate(async (req, res, next) => {
-  const { db } = await connectToDatabase();
-  //1. get method
+export default authenticate(async (req, res) => {
+  //verify user
+  const { role, userId } = await verifyUser(req);
+  console.log(role);
   const method = req.method;
-  // get api key
-  const { authorization } = req.headers;
-  const auth = authorization.substring(7);
 
-  const { data } = verify(auth, secret_key);
-  const { apiKey, id } = data;
+  const collection = "media";
 
   try {
-    if (method === "GET") {
-      const response = await db
-        .collection("shop")
-        .findOne({ _id: ObjectId(id) }, { projection: { apiKey: 1 } });
+    //1. check if authorized to sign up, using match, role
+    if (role !== "business") {
+      statusCode401(res);
+      return;
+    }
 
-      //check to see if apiKey matches
-      //decode token
-      var decoded = decode(response.apiKey);
-      //check to see if apiKey matches
-      const match = compare(apiKey, decoded);
+    //2. check for method
+    //if method does not exist
+    if (method !== "GET") {
+      statusCode405(res);
+      return;
+    }
 
-      if (match) {
-        //get orders
-        const media = await db
-          .collection("media")
-          .find()
-          .sort({ createdAt: 1 })
-          .toArray();
+    const projection = { projection: { media: 1 } };
 
-        //get products that has been purchased more
+    const results = await findOne(
+      collection,
+      { _id: ObjectId(userId) },
+      projection
+    );
 
-        res
-          .status(200)
-          .json({ status: 200, statusText: "OK", data: { media } });
-      } else {
-        res.status(401).json({ status: 200, statusText: "Provide api key" });
-      }
+    if (results === null) {
+      return statusCode200(res, [], "OK");
+    }
+
+    if (results?._id) {
+      return statusCode200(res, results?.media, "OK");
     } else {
-      //invalid method call
-      res.status(401).json({ status: 200, statusText: "Invalid method" });
+      return statusCode404(res);
     }
   } catch (error) {
-    //server error
-    res.status(500).json({
-      status: 200,
-      statusText: "Internal server error",
-      error: error.message,
-    });
+    statusCode500(res, error);
   }
 });

@@ -5,13 +5,11 @@ import Phone from "../../components/ui/Phone";
 import Select from "../../components/ui/Select";
 import TextInput from "../../components/ui/TextInput";
 import { useStates } from "../../hooks/useStates";
-import { setRiders } from "../../slices/navSlice";
-import { useAuth } from "../../hooks/auth/useAuth";
 import Spinner from "../../components/ui/Spinner";
 import Alert from "../../components/ui/Alert";
-import { useFetch } from "../../hooks/crud/useFetch";
+import { usePost } from "../../hooks/crud/usePost";
 
-function AddRiderForm({ rider, edit }) {
+function AddRiderForm() {
   //get rider in store
   const {
     fullName,
@@ -29,18 +27,10 @@ function AddRiderForm({ rider, edit }) {
     setInput,
     region,
     setRegion,
-  } = useStates(rider);
+  } = useStates();
 
   //get sign up hook
-  const { auth, loading, statusCode, message } = useAuth();
-
-  const ridersData = [];
-
-  const { fetchData } = useFetch(
-    "/api/v1.1.1/users/get-all/riders",
-    ridersData,
-    setRiders
-  );
+  const { postData, loading, statusCode, message } = usePost();
 
   const handleAddRider = async (e) => {
     e.preventDefault();
@@ -52,36 +42,14 @@ function AddRiderForm({ rider, edit }) {
       email,
       type,
       region,
-      password: !rider && password,
+      password,
     };
 
-    const updateData = {
-      fullName,
-      name,
-      email,
-      phone,
-      type,
-      region,
-    };
-    console.log(updateData);
-
-    const url = `/api/v1.1.1/users/${
-      rider ? "/manage/riders/" + rider?._id : "register/riders"
-    }`;
+    const url = "/api/v1.1.1/users/ register/riders";
 
     //provide url, email, password, custom args
-    await auth.addUpdateDeleteUser(
-      url,
-      rider ? updateData : data,
-      rider ? "PUT" : "POST"
-    );
-
-    //if there is an update
-    statusCode === 200 && fetchData();
+    await postData(url, data);
   };
-
-  //if there is an update
-  statusCode === 200 && fetchData();
 
   return (
     <form className="row" onSubmit={handleAddRider}>

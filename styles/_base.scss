@@ -3,7 +3,7 @@ body {
   background-color: #ededed !important;
   font-weight: 400 !important;
   font-size: 0.9rem !important;
-  overflow:auto !important;
+  overflow: auto !important;
   padding-right: 0 !important;
 }
 
@@ -149,13 +149,18 @@ input {
   height: 17px !important;
 }
 
-th, td {
+th,
+td {
   padding-top: 1rem !important;
   padding-bottom: 1rem !important;
 }
 
 tr {
-  background-color: #fff!important;
-  border-bottom-width: 5px!important;
-  border-bottom-color: #ededed!important;
+  background-color: #fff !important;
+  border-bottom-width: 5px !important;
+  border-bottom-color: #ededed !important;
+}
+
+.form-check-input:checked label {
+    border: 2px solid #ff4136 !important;
 }
