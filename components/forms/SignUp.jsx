@@ -1,5 +1,5 @@
 import React from "react";
-import { useAuth } from "../../hooks/auth/useAuth";
+import { useSignUp } from "../../hooks/auth/useSignup";
 import { useStates } from "../../hooks/useStates";
 import Alert from "../ui/Alert";
 import Password from "../ui/Password";
@@ -7,7 +7,7 @@ import Spinner from "../ui/Spinner";
 import TextInput from "../ui/TextInput";
 
 export const SignUpForm = () => {
-  const { signUp, loading, statusCode, message } = useAuth();
+  const { signUp, loading, statusCode, message } = useSignUp();
   const {
     fullName,
     setFullName,

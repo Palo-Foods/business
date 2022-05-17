@@ -1,10 +1,10 @@
 import React from "react";
 import Link from "next/link";
-import { useStates } from "../../hooks/useStates";
-import { useAuth } from "../../hooks/auth/useAuth";
+//import { useStates } from "../../hooks/useStates";
+//import { useAuth } from "../../hooks/auth/useAuth";
 
 function OrderPage() {
-  const { router } = useStates();
+/*   const { router } = useStates();
 
    //get signup hook
   const { auth, loading, statusCode, message, postPutDeleteData } = useAuth();
@@ -18,7 +18,7 @@ function OrderPage() {
       action,
       action === "accept" ? "PUT" : "DELETE"
     );
-  };
+  }; */
   return (
     <>
       <div className="d-flex justify-content-start">
@@ -27,7 +27,7 @@ function OrderPage() {
             <h5 className="mt-2">Orders</h5>
           </a>
         </Link>
-        <h5 className="mt-2 text-muted">/ Order ID: #{router?.query?.page}</h5>
+        <h5 className="mt-2 text-muted">/ Order ID: #{/* {router?.query?.page} */}</h5>
       </div>
       <div>
         <div className="card mt-2 p-3">
@@ -67,7 +67,7 @@ function OrderPage() {
           </div>
           <div className="card-footer bg-white text-end border-0">
             <button
-              onClick={() => handleProcessing("decline")}
+             
               type="submit"
               className="btn btn-danger me-2 mb-3 mb-md-0">
               Decline
@@ -75,7 +75,7 @@ function OrderPage() {
             <button
               type="submit"
               className="btn btn-success me-2"
-              onClick={() => handleProcessing("accept")}>
+            >
               Process
             </button>
           </div>
