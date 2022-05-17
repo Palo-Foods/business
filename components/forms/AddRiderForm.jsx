@@ -68,7 +68,7 @@ function AddRiderForm() {
       </div>
       <div className="col-md-6 form-group mb-4">
         <label htmlFor="fullName" className="mb-2 h6">
-          Enter  of owner
+          Enter of owner
         </label>
         <TextInput
           type="text"
@@ -124,20 +124,20 @@ function AddRiderForm() {
           id="region"
         />
       </div>
-      {!rider && (
-        <div className="col-md-6 form-group mb-3">
-          <label htmlFor="password" className="mb-2 h6">
-            Enter password (keep it)
-          </label>
-          <Password
-            type="password"
-            text={password}
-            setInput={setInput}
-            setText={setPassword}
-            classes=""
-          />
-        </div>
-      )}
+
+      <div className="col-md-6 form-group mb-3">
+        <label htmlFor="password" className="mb-2 h6">
+          Enter password (keep it)
+        </label>
+        <Password
+          type="password"
+          text={password}
+          setInput={setInput}
+          setText={setPassword}
+          classes=""
+        />
+      </div>
+
       {message && (
         <div className="px-3">
           <Alert
@@ -154,44 +154,27 @@ function AddRiderForm() {
       )}
 
       <div className="text-end">
-        {!rider && (
-          <button
-            type="submit"
-            className="btn btn-primary"
-            disabled={
-              !fullName ||
-              !name ||
-              !email ||
-              !phone ||
-              !type ||
-              !region ||
-              !password ||
-              loading
-            }>
-            {loading && (
-              <span className="me-2">
-                <Spinner />
-              </span>
-            )}
-            Submit
-          </button>
-        )}
-        {rider && (
-          <button
-            type="submit"
-            className="btn btn-primary"
-            disabled={
-              !fullName ||
-              !name ||
-              !email ||
-              !phone ||
-              !type ||
-              !region ||
-              loading
-            }>
-            {loading && <Spinner />} <span className="ms-2">Update rider</span>
-          </button>
-        )}
+        <button
+          type="submit"
+          className="btn btn-primary"
+          disabled={
+            !fullName ||
+            !name ||
+            !email ||
+            !phone ||
+            !type ||
+            !region ||
+            !password ||
+            loading
+          }>
+          {loading && (
+            <span className="me-2">
+              <Spinner />
+            </span>
+          )}
+          Submit
+        </button>
+
         {!edit && (
           <Link href="/riders">
             <a className="btn btn-light ms-3">Go back</a>
