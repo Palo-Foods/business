@@ -7,7 +7,7 @@ import {
   MdOutlineShoppingBag,
   MdOutlineShoppingBasket,
   MdOutlineDashboard,
-  MdOutlinePhotoAlbum
+  MdOutlinePhotoAlbum,
 } from "react-icons/md";
 import { useSessionStorage } from "../hooks/useSession";
 import { useLogout } from "../hooks/auth/useLogout";
@@ -36,9 +36,9 @@ const menus = [
 ];
 
 const AsideContent = () => {
-  const { user } = useSessionStorage()
+  const { user } = useSessionStorage();
 
-  const { logOut } = useLogout()
+  const { logOut } = useLogout();
 
   const { router } = useStates();
 
@@ -47,6 +47,10 @@ const AsideContent = () => {
     e.preventDefault();
     await logOut();
     router.push("/");
+  };
+
+  const handleRoute = (page) => {
+    router.push("/[route]/[page]", `/dashboard/${page}`);
   };
 
   return (
@@ -63,8 +67,9 @@ const AsideContent = () => {
         <p className="small text-muted mb-2">Menu</p>
         {menus?.map((menu) => (
           <span key={menu.name}>
-            <Link href="/[route]/[page]" as={`/dashboard/${menu.link}`}>
+          
               <a
+              onClick={() => handleRoute(menu.link)}
                 className={`nav-link ms-md-0 d-flex align-items-center my-0 ${
                   router?.query.page?.includes(menu.link)
                     ? "active fw-bold"
@@ -72,11 +77,12 @@ const AsideContent = () => {
                 } py-0`}
                 type="button"
                 role="tab"
-                aria-selected="true">
+                aria-selected="true"
+                data-bs-dismiss="offcanvas">
                 <span className="me-md-1">{menu?.icon}</span>
                 <span className="m-2">{menu.name}</span>
               </a>
-            </Link>
+            
           </span>
         ))}
       </div>
