@@ -18,17 +18,6 @@ function FileUploadPicker({ image, setImage, width, height }) {
           }}>
           <MdOutlinePhoto size={30} className="text-muted" color="#d5d6d7" />
         </a>
-
-        {image && (
-          <a>
-            <img
-              src={image}
-              alt="item-image"
-              className="img-fluid"
-              style={{ height: "objectFit" }}
-            />
-          </a>
-        )}
       </div>
     </div>
   );

@@ -19,6 +19,7 @@ export default authenticate(async (req, res) => {
   const method = req.method;
 
   const { imgUrl } = JSON.parse(req.body);
+  console.log("imgUrl", imgUrl);
 
   cloudinary.config({
     cloud_name: process.env.CLOUDINARY_NAME,

@@ -29,43 +29,43 @@ function Uploader({ setImage }) {
       };
       reader.onloadend = () => {
         setMsg("loading done");
-        var image = new Image();
-        image.src = reader.result;
-        image.onload = () => {
-          setSize({ width: image.width, height: image.height });
-          console.log(image.sizes);
-        };
-      };
 
-      reader.readAsDataURL(file);
-      //if filetype is image
-      if (file.type.substr(0, 5) === "image") {
-        console.log("filetype", file.type);
-        //resize image
-        Resizer.imageFileResizer(
-          file,
-          "100%",
-          "100%",
-          "JPEG",
-          150,
-          0,
-          (uri) => {
-            //console.log("uri", uri);
-            setPreview({ url: uri, type: "image" });
-            setImage(uri);
-          },
-          "base64"
-        );
-      } else {
-        if (file.type.includes("application")) {
+        if (file.type.substr(0, 5) === "image") {
+          var image = new Image();
+          image.src = reader.result;
+          image.onload = () => {
+            setSize({ width: image.width, height: image.height });
+            console.log(image.sizes);
+
+            Resizer.imageFileResizer(
+              file,
+              "100%",
+              "100%",
+              "JPEG",
+              150,
+              0,
+              (uri) => {
+                //console.log("uri", uri);
+                setPreview({ url: uri, type: "image" });
+                setImage(uri);
+                console.log(uri);
+              },
+              "base64"
+            );
+          };
+        } else {
+          const doc = reader.result;
+          setImage(doc);
+          console.log("doc", doc);
           //set uri to src o a doc
           const pdf = file.type.includes("pdf");
           const src = pdf ? "" : ""; //if pdf use pdf image
 
           setPreview({ url: src, type: "doc" });
-          console.log("filetype", file.type);
         }
-      }
+      };
+
+      reader.readAsDataURL(file);
     } else {
       setMsg("upload an image file");
     }

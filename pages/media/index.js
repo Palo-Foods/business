@@ -25,9 +25,7 @@ function AddFilePage() {
       <div className="my-3 vh-50">
         <div className="card vh-50">
           <div className="card-header d-flex justify-content-between align-items-center w-100">
-            <h6 className="text-decoration-none mb-0 py-3">
-              Files
-            </h6>
+            <h6 className="text-decoration-none mb-0 py-3">Files</h6>
             <div>
               {loading && <Spinner />}
 
@@ -45,13 +43,14 @@ function AddFilePage() {
             </div>
           </div>
 
-          <div className="card-body p-3" style={{ height: "30rem" }}>
+          <div
+            className="card-body p-3 d-flex justify-content-start"
+            style={{ height: "30rem" }}>
             {data && (
               <FilesInMedia
+                image={image}
+                setImage={setImage}
                 files={data}
-                loading={loading}
-                error={error}
-                fetchData={fetchData}
               />
             )}
             <FileUploadPicker
@@ -61,13 +60,12 @@ function AddFilePage() {
               width={100}
               height={100}
             />
-            <UploadMediaModal image={image} setImage={setImage} />
           </div>
-
+          <UploadMediaModal image={image} setImage={setImage} />
           <div className="card-footer text-muted d-flex justify-content-end">
             <button
               type="button"
-              disabled={!file}
+              disabled={!image?.url}
               className="btn btn-danger me-3 my-2"
               data-bs-toggle="modal"
               data-bs-target="#deleteModal">

@@ -1,6 +1,5 @@
 import React from "react";
 import { useDispatch } from "react-redux";
-import { setFile } from "../../slices/navSlice";
 
 function FilesInMedia({ files, image, setImage }) {
   const dispatch = useDispatch();
@@ -8,11 +7,13 @@ function FilesInMedia({ files, image, setImage }) {
   return (
     <>
       {files && files?.length > 0 && (
-        <div className="d-flex justify-content-start">
+        <div className="d-md-flex justify-content-md-start">
           {files &&
             files?.map((file) => (
               <>
-                <div className="form-check form-check-inline ms-3">
+                <div
+                  key={file?.url}
+                  className="form-check form-check-inline me-3 mb-3">
                   <label className="form-check-label" htmlFor={file?.url}>
                     <input
                       className="form-check-input"
@@ -21,16 +22,18 @@ function FilesInMedia({ files, image, setImage }) {
                       id={file?.url}
                       value={file?.public_id}
                       onChange={(e) =>
-                        dispatch(
-                          setImage({
-                            name: "image of id: " + file?.public_id,
-                            _id: e.target.value,
-                            url: file?.url,
-                          })
-                        )
+                        setImage({
+                          name: "image of id: " + file?.public_id,
+                          _id: e.target.value,
+                          url: file?.url,
+                        })
                       }
                     />
-                    <img src={file?.url} width="100" height="100" />
+                    {file?.url.includes("pdd") ? (
+                      ""
+                    ) : (
+                      <img src={file?.url} width="100" height="100" />
+                    )}
                   </label>
                 </div>
               </>

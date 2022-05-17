@@ -38,7 +38,7 @@ function AddProductForm({ product }) {
       price,
       discount,
       description,
-      itemImage: image,
+      itemImage: image?.url,
     };
 
     const url = "/api/v1.1.1/products/add-product";
