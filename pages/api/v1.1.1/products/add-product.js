@@ -50,6 +50,8 @@ export default authenticate(async (req, res) => {
       createdAt: moment(date).format("lll"),
     };
 
+    console.log(item)
+
     const data = {
       $push: { products: item },
     };

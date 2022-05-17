@@ -8,7 +8,7 @@ import { loginUser } from "../../functions/auth/login.ts";
 import { useSessionStorage } from "../useSession";
 import { useStates } from "../useStates";
 
-export const useLogin = () => {
+export const useLogin = (url) => {
   const { setSession } = useSessionStorage("user", null);
   const {
     loading,
@@ -23,10 +23,11 @@ export const useLogin = () => {
   } = useStates();
 
   //2. login user unto the platform
-  const login = async (url, data) => {
+  const login = async (data) => {
     setLoading(true);
     setMessage("");
     setError("");
+    setStatusCode(null)
 
     //1. send user data to database
     const response = await loginUser(url, data);

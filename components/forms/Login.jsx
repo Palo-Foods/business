@@ -7,7 +7,8 @@ import Spinner from "../../components/ui/Spinner";
 import Alert from "../../components/ui/Alert";
 
 export default function LoginForm() {
-  const { login, loading, statusCode, message } = useLogin();
+   const url = "api/v1.1.1/users/login/businesses";
+  const { login, loading, statusCode, message } = useLogin(url);
   const { email, password, setInput, setEmail, setPassword } = useStates("");
 
   //handle login
@@ -15,8 +16,8 @@ export default function LoginForm() {
     e.preventDefault();
 
     const data = { email, password };
-    const url = "api/v1.1.1/users/login/businesses";
-    await login(url, data);
+   
+    await login(data);
   };
 
   return (
@@ -63,7 +64,8 @@ export default function LoginForm() {
           type="submit"
           className="btn btn-primary"
           disabled={!email || !password || loading}>
-          {loading && <Spinner />} <span className="ms-2">Login</span>
+          {loading && <Spinner className="ms-2" />}
+          {!loading && <span>Login</span>}
         </button>
       </div>
     </form>

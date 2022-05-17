@@ -33,7 +33,7 @@ function AccountForm() {
 
     const data = { fullName, phone, email, logo, banner };
 
-    const url = `/api/v1.1.1/items/account/managers/${item?.id}`;
+    const url = `/api/v1.1.1/users/account/businesses/${item?.id}`;
 
     //provide url, email, password, custom args
     await putData(url, data, "PUT");
