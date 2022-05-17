@@ -151,6 +151,7 @@ function AddProductForm({ product }) {
           <FilePicker
             image={image}
             setImage={setImage}
+            type="photo"
             width={180}
             height={150}
           />
@@ -176,7 +177,6 @@ function AddProductForm({ product }) {
           </div>
         </div>
       </form>
-      <MediaModal setImage={setImage} image={image} />
     </div>
   );
 }

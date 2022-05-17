@@ -1,11 +1,11 @@
 import React from "react";
-import { MdDocument } from "react-icons/md";
+import { MdPictureAsPdf } from "react-icons/md";
 
-const DocumentPreview = ({ size }) => {
+const DocumentPreview = () => {
   return (
-    <div className="d-flex justify-content-center align-items-center">
-      <div className="bg-light text-center d-flex justify-content-center align-items-center">
-        <MdDocument size={size} />
+    <div className="d-flex justify-content-center align-items-center h-100">
+      <div className="d-flex justify-content-center align-items-center h-100">
+        <MdPictureAsPdf size={120} />
       </div>
     </div>
   );

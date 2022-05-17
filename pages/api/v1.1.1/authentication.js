@@ -1,4 +1,5 @@
 import { verify } from "jsonwebtoken";
+import { statusCode401 } from "./status/codes";
 
 export const authenticate = (fn) => async (req, res) => {
   const { authorization } = req.headers;
@@ -8,8 +9,6 @@ export const authenticate = (fn) => async (req, res) => {
     if (!err && decoded) {
       return await fn(req, res);
     }
-    res
-      .status(401)
-      .json({ status: 401, statusText: "Sorry you are not authenticated" });
+    statusCode401(res, "Sorry you are not authenticated");
   });
 };

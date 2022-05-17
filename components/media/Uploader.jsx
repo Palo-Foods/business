@@ -1,9 +1,9 @@
 import React, { useEffect, useRef, useState } from "react";
 import Resizer from "react-image-file-resizer";
-import DocumentPreview from "./DocumentPreview";
 import ImagePlaceHolder from "./ImagePlaceHolder";
 import ImagePreview from "./ImagePreview";
 import { MdAttachFile } from "react-icons/md";
+import DocumentPreview from "./DocumentPreview";
 
 function Uploader({ setImage }) {
   const fileInputRef = useRef();
@@ -77,7 +77,7 @@ function Uploader({ setImage }) {
         {preview?.type === "image" && (
           <ImagePreview src={preview?.url} className="rounded" />
         )}
-        {preview.type === "doc" && <DocumentPreview size={120} />}
+        {preview.type === "doc" && <DocumentPreview />}
         {!preview && (
           <label
             htmlFor="uploader"

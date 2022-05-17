@@ -1,9 +1,13 @@
-import React, { useState } from "react";
+import React from "react";
 import FilesInMedia from "../media/FilesInMedia";
-import { MdClear } from "react-icons/md";
+import { MdClear, MdDangerous, MdPhotoAlbum } from "react-icons/md";
+import { useFetch } from "../../hooks/crud/useFetch";
+import Spinner from "../ui/Spinner";
 
-const MediaModal = ({ image, setImage }) => {
-  const [show, setShow] = useState(false);
+const MediaModal = ({image, setImage}) => {
+  const url = "/api/v1.1.1/media";
+
+  const { data, loading, error, fetchData } = useFetch(url);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -34,12 +38,35 @@ const MediaModal = ({ image, setImage }) => {
             </button>
           </div>
 
-          <div className="modal-body">
-            <FilesInMedia />
+          <div className="modal-body" style={{ height: "30rem" }}>
+            <div className="w-100 d-flex justify-content-center align-items-center h-100">
+              {loading && <Spinner />}
+              {error && (
+                <div className="">
+                  <MdDangerous size={20} className="text-danger" />
+                  <a
+                    type="button"
+                    className="ms-2 text-black text-decoration-none"
+                    onClick={fetchData}>
+                    Reload
+                  </a>
+                </div>
+              )}
+            </div>
+            {data && <FilesInMedia files={data} image={image} setImage={setImage} />}
+            {data && data?.length === 0 && (
+              <div className="text-center">
+                <MdPhotoAlbum size={100} className="text-muted my-4" />
+                <p>There are no products</p>
+              </div>
+            )}
           </div>
           <div className="modal-footer text-muted d-md-flex justify-content-md-end">
-            <a type="submit" className="btn btn-success me-3" disabled={!image}>
-              Select
+            <a
+              type="submit"
+              className="btn btn-success me-3"
+              data-bs-dismiss="modal">
+              Close
             </a>
           </div>
         </div>

@@ -1,10 +1,11 @@
 import React from "react";
 import { MdOutlinePhoto } from "react-icons/md";
+import MediaModal from "../modals/MediaModal"
 
 function FilePicker({ image, setImage, width, height }) {
  
   return (
-    <div className="">
+    <>
       <div className="d-flex justify-content-start align-items-top">
         <a
           data-bs-toggle="modal"
@@ -31,7 +32,8 @@ function FilePicker({ image, setImage, width, height }) {
           </a>
         )}
       </div>
-    </div>
+      <MediaModal setImage={setImage} image={image} />
+    </>
   );
 }
 
