@@ -72,10 +72,12 @@ function Uploader({ setImage }) {
   }, [file]);
 
   return (
-    <div className="row">
-      <div className="col-md-7">
+    <div className="row h-100">
+      <div className="col-sm-6 col-lg-7">
         {preview?.type === "image" && (
-          <ImagePreview src={preview?.url} className="rounded" />
+          <div className="d-flex justify-content-center">
+            <ImagePreview src={preview?.url} className="rounded" />
+          </div>
         )}
         {preview.type === "doc" && <DocumentPreview />}
         {!preview && (
@@ -94,8 +96,25 @@ function Uploader({ setImage }) {
             <ImagePlaceHolder text="Upload file" width={200} height={200} />
           </label>
         )}
+        {preview && (
+            <label
+              htmlFor="uploader"
+              style={{ cursor: "pointer" }}
+              className="d-flex justify-content-center align-items-center">
+              <input
+                ref={fileInputRef}
+                onChange={(e) => setFile(e.target.files[0])}
+                type="file"
+                id="uploader"
+                hidden
+              />
+              <a type="button" className="btn btn-light btn-sm my-3">
+                <MdAttachFile size={18} /> Change image
+              </a>
+            </label>
+        )}
       </div>
-      <div className="border-start col-md-5">
+      <div className="border-md-start col-sm-6 col-lg-5 mt-3">
         <h6>File details</h6>
         <div className="form-group my-3 mb-4">
           <label htmlFor="fileName" className="h6">
@@ -142,25 +161,6 @@ function Uploader({ setImage }) {
         </div>
         <p className="mb-1 h6">File size</p>
         <p>{file && file?.size / 1000} KB</p>
-        {preview && (
-          <div className="" style={{ bottom: 0 }}>
-            <label
-              htmlFor="uploader"
-              style={{ cursor: "pointer" }}
-              className="d-flex justify-content-center align-items-center">
-              <input
-                ref={fileInputRef}
-                onChange={(e) => setFile(e.target.files[0])}
-                type="file"
-                id="uploader"
-                hidden
-              />
-              <a type="button" className="btn btn-default bg-white btn-sm my-3">
-                <MdAttachFile size={18} /> Change image
-              </a>
-            </label>
-          </div>
-        )}
       </div>
     </div>
   );

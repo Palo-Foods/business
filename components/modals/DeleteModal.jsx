@@ -7,9 +7,17 @@ import { useDelete } from "../../hooks/crud/useDelete";
 function DeleteModal({ item, url, setItem }) {
   console.log(item);
 
-  const { deleteUserData, statusCode, message } = useDelete();
+  const {
+    deleteUserData,
+    statusCode,
+    message,
+    setMessage,
+    setError,
+    setLoading,
+    loading,
+  } = useDelete();
 
-  const { setLoading, loading, setError, router } = useStates();
+  const { router } = useStates();
 
   const deleteItem = async () => {
     const uri = `${url}/${item?._id}`;
@@ -26,9 +34,10 @@ function DeleteModal({ item, url, setItem }) {
   statusCode === 200 && router.reload();
 
   const clearAnything = () => {
-    setLoading("");
-    setError("");
+    setLoading(false);
+    setError(null);
     setItem(null);
+    setMessage(null)
     message = "";
     statusCode = "";
   };
@@ -48,9 +57,10 @@ function DeleteModal({ item, url, setItem }) {
             <button
               type="button"
               className="btn btn-default my-2 "
-              data-bs-dismiss="modal">
+              data-bs-dismiss="modal"
+              onClick={clearAnything}>
               <span className="bg-light rounded-circle p-2">
-                <MdClear size={20} className="" onClick={clearAnything} />
+                <MdClear size={20} className="" />
               </span>
             </button>
           </div>

@@ -69,7 +69,7 @@ const MediaModal = ({ image, setImage }) => {
           <div className="modal-footer text-muted d-md-flex justify-content-md-end">
             <a
               type="submit"
-              className="btn btn-success me-3"
+              className="btn btn-danger me-3"
               data-bs-dismiss="modal">
               Close
             </a>

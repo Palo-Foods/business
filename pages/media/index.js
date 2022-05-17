@@ -77,7 +77,7 @@ function AddFilePage() {
       </div>
       <DeleteModal
         type="media"
-        item={file}
+        item={image}
         setItem={setImage}
         url="/api/v1.1.1/media/deleteFromMedia"
       />
