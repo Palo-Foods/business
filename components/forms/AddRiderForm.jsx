@@ -68,7 +68,7 @@ function AddRiderForm() {
       </div>
       <div className="col-md-6 form-group mb-4">
         <label htmlFor="fullName" className="mb-2 h6">
-          Enter name of owner
+          Enter  of owner
         </label>
         <TextInput
           type="text"
