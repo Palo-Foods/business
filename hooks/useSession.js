@@ -5,7 +5,7 @@ export const useSessionStorage = (key) => {
 
   const getSessionStorage = async () => {
     const session = sessionStorage.getItem(key);
-    console.table("session", JSON.parse(session));
+    //console.table("session", JSON.parse(session));
     if (typeof session == "string") {
       const data = await JSON.parse(session);
       return data;
@@ -17,7 +17,7 @@ export const useSessionStorage = (key) => {
       // You can await here
       const data = await getSessionStorage();
       if (data) {
-        console.log("data", data);
+        //console.log("data", data);
         setItem(data);
       }
       // ...

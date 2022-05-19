@@ -1,5 +1,6 @@
 import React from "react";
-import FilesInMedia from "../media/FilesInMedia";
+import dynamic from "next/dynamic";
+const FilesInMedia = dynamic(() => import("../media/FilesInMedia"));
 import { MdClear, MdDangerous, MdPhotoAlbum } from "react-icons/md";
 import { useFetch } from "../../hooks/crud/useFetch";
 import Spinner from "../ui/Spinner";

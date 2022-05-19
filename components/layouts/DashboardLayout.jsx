@@ -22,7 +22,10 @@ function DashboardLayout(props) {
         />
       </Head>
       <Script src="/bootstrap.bundle.min.js" />
-
+     {/*  <Script
+        src={`https://maps.googleapis.com/maps/api/js?key=${process.env.GOOGLE_MAPS_API_KEY}Y&libraries=places`}
+        strategy="lazyOnload"
+      /> */}
       <div className="container-fluid">
         <div className="row h-100">
           <div className="d-none d-lg-block col-lg-2 bg-white border-end py-3 vh-100 sticky-sidebar">
