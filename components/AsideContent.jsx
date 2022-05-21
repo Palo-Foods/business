@@ -36,7 +36,7 @@ const menus = [
 ];
 
 const AsideContent = () => {
-  const { user } = useSessionStorage();
+  const { item } = useSessionStorage("user");
 
   const { logOut } = useLogout();
 
@@ -58,7 +58,7 @@ const AsideContent = () => {
       <div className="mb-3 border-bottom">
         <p className="small text-muted mb-2">Profile</p>
         <div className="ps-3">
-          <h5>{user?.fullName}</h5>
+          <h5>{item?.fullName}</h5>
           <p className="small mb-0">Joined</p>
           <p className="small">12th April 2022</p>
         </div>

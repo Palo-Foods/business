@@ -12,7 +12,7 @@ function FilesInMedia({ files, image, setImage }) {
         <div className="row">
           {files &&
             files?.map((file) => (
-              <div key={file?.url} className="col-6 col-md-4 mb-3">
+              <div key={file?.url} className="col-6 col-sm-4 col-md-3 col-lg-2 mb-3">
                 <div className="form-check form-check-inline">
                   <label
                     className="form-check-label"
