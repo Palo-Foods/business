@@ -5,6 +5,7 @@ import { useStates } from "../../hooks/useStates";
 import { useDelete } from "../../hooks/crud/useDelete";
 
 function DeleteModal({ item, url, setItem }) {
+  console.log("item", item);
   const {
     deleteUserData,
     statusCode,
@@ -18,7 +19,7 @@ function DeleteModal({ item, url, setItem }) {
   const { router } = useStates();
 
   const deleteItem = async () => {
-    const uri = `${url}/${item?._id}`;
+    const uri = `${url}/${item?.category ? item?.id : item?._id}`;
     const data = {};
     setLoading(true);
     await deleteUserData(
@@ -26,15 +27,14 @@ function DeleteModal({ item, url, setItem }) {
       data //no data is sent cos we are deleting the item
     );
     setLoading(false);
-    statusCode === 200 && router.reload();
   };
-  statusCode === 200 && router.reload();
 
   const clearAnything = () => {
     setLoading(false);
     setError(null);
     setItem(null);
-    setMessage(null)
+    setMessage(null);
+    router.back()
     message = "";
     statusCode = "";
   };

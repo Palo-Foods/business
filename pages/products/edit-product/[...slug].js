@@ -11,7 +11,7 @@ function Product(product) {
   console.log(product);
   return (
     <DashboardLayout>
-      <div className="px-3 d-flex justify-content-start align-items-center">
+      <div className="px-3 mt-3 d-flex justify-content-start align-items-center">
         <Link href="/[route]/[page]" as="/dashboard/products">
           <a className="me-2 text-decoration-none">
             <h6 className="mt-2">Products</h6>
@@ -26,18 +26,29 @@ function Product(product) {
   );
 }
 
+const removeUndefinedForNextJsSerializing = (props) =>
+  Object.fromEntries(
+    Object.entries(props).filter(([, value]) => value !== undefined)
+  );
+
 export const getServerSideProps = async (context) => {
   const { db } = await connectToDatabase();
   const response = await db.collection("products").findOne({
     _id: ObjectID(context?.params?.slug[0]),
   });
 
+  if (!response) {
+    return {
+      notFound: true,
+    };
+  }
+
   const product = response?.products?.find(
     (product) => product.id === context.params.slug[1]
   );
 
   return {
-    props: { product },
+    props: removeUndefinedForNextJsSerializing({ product }),
   };
 };
 

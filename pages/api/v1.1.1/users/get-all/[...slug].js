@@ -56,5 +56,7 @@ export default authenticate(async (req, res) => {
     statusCode200(res, results, "OK");
   } catch (error) {
     statusCode500(res, error);
+  } finally {
+    res.end();
   }
 });

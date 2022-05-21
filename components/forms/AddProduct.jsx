@@ -41,7 +41,7 @@ function AddProductForm({ product }) {
       itemImage: image,
     };
 
-    console.log(data)
+    console.log(data);
 
     const url = "/api/v1.1.1/products/add-product";
 
@@ -122,7 +122,6 @@ function AddProductForm({ product }) {
           </div>
 
           {statusCode && (
-            <div className="px-3">
               <Alert
                 type={
                   statusCode === 201
@@ -133,25 +132,15 @@ function AddProductForm({ product }) {
                 }
                 message={message}
               />
-            </div>
           )}
           <div className="mt-4 d-flex justify-content-between">
-            {!product ? (
-              <button
-                type="submit"
-                className="btn btn-primary px-5"
-                disabled={!name || !price || !category || !description}>
-                {loading && <Spinner className="ms-2" />}
-                {!loading && <span>Add item</span>}
-              </button>
-            ) : (
-              <button
-                type="submit"
-                className="btn btn-primary px-5"
-                disabled={!name || !price || !category || !description}>
-                {loading && <Spinner className="ms-2" />} Edit Item
-              </button>
-            )}
+            <button
+              type="submit"
+              className="btn btn-primary px-5"
+              disabled={!name || !price || !category || !description}>
+              {loading && <Spinner className="ms-2" />}
+              {!loading && <span>Add item</span>}
+            </button>
           </div>
         </div>
         <div className="col-md-5 col-lg-5 mx-auto">

@@ -29,7 +29,7 @@ const MediaModal = ({ image, setImage }) => {
         className="modal-dialog modal-dialog-centered modal-dialog-fullScreen modal-lg"
         role="document">
         <div className="modal-content">
-          <div className="modal-header py-2 d-flex align-items-center pe-0">
+          <div className="modal-header border-0 py-2 d-flex align-items-center pe-0">
             <h6 className="mb-0 text-decoration-none">Media</h6>
             <button
               type="button"
@@ -69,7 +69,7 @@ const MediaModal = ({ image, setImage }) => {
               </div>
             )}
           </div>
-          <div className="modal-footer text-muted d-md-flex justify-content-md-end">
+          <div className="modal-footer border-0 text-muted d-md-flex justify-content-md-end">
             <a
               type="submit"
               className="btn btn-danger me-3"

@@ -143,7 +143,8 @@ function EditProductForm({ productData }) {
               type="submit"
               className="btn btn-primary px-5"
               disabled={!name || !price || !category || !description}>
-              {loading && <Spinner className="ms-2" />} Edit Item
+              {loading && <Spinner className="ms-2" />}
+              {!loading && <span>Edit item</span>}
             </button>
           </div>
         </div>
@@ -172,7 +173,7 @@ function EditProductForm({ productData }) {
       </div>
       <DeleteModal
         type="product"
-        item={item}
+        item={item?.product}
         setItem={setItem}
         url="/api/v1.1.1/products"
         router={router}

@@ -25,7 +25,9 @@ export default authenticate(async (req, res) => {
       return;
     }
 
-    const projection = { projection: { products: { rating: 0, review: 0, extras: 0 } } };
+    const projection = {
+      projection: { products: { rating: 0, review: 0, extras: 0 } },
+    };
 
     await get(collection, userId, res, projection);
   } catch (error) {

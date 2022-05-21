@@ -74,5 +74,7 @@ export default authenticate(async (req, res) => {
     //3. find all riders
   } catch (error) {
     statusCode500(res, error);
+  } finally {
+    res.end();
   }
 });

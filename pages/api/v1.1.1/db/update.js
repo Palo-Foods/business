@@ -32,6 +32,6 @@ export const removeFromArray = async (collection, condition, set, filter) => {
   const { db } = await connectToDatabase();
   const result = await db
     .collection(collection)
-    .update(condition, set, filter);
+    .updateOne(condition, set, filter);
   return result;
 };
