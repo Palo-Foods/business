@@ -1,5 +1,5 @@
 import { ObjectId } from "mongodb";
-import { find, findOne } from "../db/find";
+import { findOne } from "../db/find";
 import { statusCode200, statusCode404 } from "../status/codes";
 
 export const get = async (collection, userId, res, projection) => {

@@ -106,7 +106,8 @@ function DeleteModal({ item, url, setItem }) {
                 type="button"
                 className="btn btn-primary px-4 mx-3"
                 onClick={deleteItem}>
-                {loading && <Spinner />} Yes
+                {loading && <Spinner className="ms-2" />}
+                {!loading && <span>Yes</span>}
               </button>
             )}
           </div>

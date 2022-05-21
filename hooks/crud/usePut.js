@@ -35,7 +35,7 @@ export const usePut = () => {
     setMessage(statusText);
 
     //if data has id, then update session storage for user
-    if (data.id) {
+    if (data?.id) {
       console.log("data", data)
       setSession("user", data);
     }

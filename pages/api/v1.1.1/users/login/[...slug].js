@@ -18,5 +18,7 @@ export default async (req, res) => {
     await login(req, res, collection);
   } catch (error) {
     statusCode500(res, error);
+  } finally {
+    res.end();
   }
 };

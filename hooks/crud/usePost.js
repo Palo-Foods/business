@@ -20,18 +20,19 @@ export const usePost = () => {
 
   //this function makes an https request
   //you can make a post, put or delete request to the server
-  const postData = async (url, data, method) => {
+  const postData = async (url, data) => {
     setLoading(true);
-    const response = await post(url, data, method);
+    const response = await post(url, data);
+    console.log("response", response);
     setLoading(false);
 
     const { statusText, statusCode, error } = response;
 
     //navigate and logout on user not authenticated
-    setError(error);
+     setError(error);
 
     setStatusCode(statusCode);
-    setMessage(statusText);
+    setMessage(statusText); 
   };
 
   return { loading, error, setError, statusCode, message, postData };

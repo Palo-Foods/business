@@ -9,7 +9,7 @@ function Search({ items, keyword, setKeyword }) {
 
   return (
     <>
-      <form className="form-inline my-2 my-lg-0">
+      <form className="form-inline my-lg-0">
         <div className="input-group">
           <div className="input-group-text border-end-0 bg-white">
             <MdSearch size={24} />

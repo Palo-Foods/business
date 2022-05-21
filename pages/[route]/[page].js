@@ -9,11 +9,12 @@ import ProductsPage from "../products";
 import AddProductPage from "../products/add-product";
 import SalesPage from "../sales";
 import AddFilePage from "../media";
+
 function Page() {
   const route = useRouter();
 
   return (
-    <div>
+    <>
       <DashboardLayout>
         <div className="container-fluid px-3 my-3">
           <div className="row">
@@ -28,7 +29,7 @@ function Page() {
           </div>
         </div>
       </DashboardLayout>
-    </div>
+    </>
   );
 }
 

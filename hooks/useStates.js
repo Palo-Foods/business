@@ -6,8 +6,9 @@ import { useDispatch } from "react-redux";
 import { useRouter } from "next/router";
 import { useSessionStorage } from "./useSession";
 
-export const useStates = (dataType) => {
-  const { item } = useSessionStorage(dataType);
+export const useStates = (incomingData) => {
+  console.log("incomingData", incomingData);
+  const { item } = useSessionStorage("user");
   const [auth, setAuth] = useState("");
   const [user, setUser] = useState("");
   const [loading, setLoading] = useState(false);
@@ -29,7 +30,7 @@ export const useStates = (dataType) => {
   const [type, setType] = useState("");
   const [options, setOptions] = useState("");
   const [agree, setAgree] = useState("");
-  const [region, setRegion] = useState("" || item?.region);
+  const [region, setRegion] = useState("");
   const [location, setLocation] = useState("");
   const [show, setShow] = useState(true);
   const [numberOfPeople, setNumberOfPeople] = useState("");
@@ -37,7 +38,7 @@ export const useStates = (dataType) => {
 
   const [uploadedImage, setUploadedImage] = useState("");
   const [image, setImage] = useState("");
-  const [itemImage, setItemImage] = useState("" || item?.itemImage?.url);
+  const [itemImage, setItemImage] = useState("");
   const [avatar, setAvatar] = useState("" || item?.avatar?.url);
   const [document, setDocument] = useState("" || item?.document?.url);
   const [banner, setBanner] = useState("" || item?.banner?.url);
@@ -49,14 +50,27 @@ export const useStates = (dataType) => {
   const router = useRouter();
 
   useEffect(() => {
-    setEmail(item?.email);
-    setFullName(item?.fullName);
-    setPhone(item?.phone);
-    setAddress(item?.location?.address);
-    setLogo(item?.logo?.url);
-    setBanner(item?.banner?.url);
-    setLocation(item?.location?.address);
-  }, [item]);
+    if (item) {
+      setEmail(item?.email);
+      setFullName(item?.fullName);
+      setPhone(item?.phone);
+      setAddress(item?.location?.address);
+      setLogo(item?.logo?.url);
+      setBanner(item?.banner?.url);
+      setLocation(item?.location?.address);
+    }
+
+    if (incomingData) {
+      console.log("incomingData", incomingData);
+      const { product } = incomingData;
+      setName(product?.name);
+      setImage(product?.itemImage);
+      setPrice(product?.price);
+      setDiscount(product?.discount);
+      setType(product?.category);
+      setDescription(product?.description);
+    }
+  }, [item, incomingData]);
 
   const dispatch = useDispatch();
 

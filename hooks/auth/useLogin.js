@@ -37,7 +37,7 @@ export const useLogin = (url) => {
     if (statusCode === 200) {
       console.log(response?.data)
       setLoading(false);
-      setSession("user", ...data);
+      setSession("user", data);
 
       setStatusCode(statusCode);
       setMessage(statusText);

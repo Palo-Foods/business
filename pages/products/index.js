@@ -5,25 +5,27 @@ import { MdAdd, MdDangerous, MdShoppingBasket } from "react-icons/md";
 import DeleteModal from "../../components/modals/DeleteModal";
 import Search from "../../components/ui/Search";
 import { useStates } from "../../hooks/useStates";
-import { useFilter } from "../../hooks/useFilter";
 import { useFetch } from "../../hooks/crud/useFetch";
-import ShowModal from "../../components/modals/ShowModal";
+import Select from "../../components/ui/Select";
+import ProductTableRow from "../../components/ProductTableRow";
+import { useCategoryFilter } from "../../hooks/useCategoryFilter";
 
 const searched = (keyword) => (item) =>
-  item?.fullName?.toLowerCase().includes(keyword);
+  item?.name?.toLowerCase().includes(keyword);
 
 function ProductsPage() {
   const url = "/api/v1.1.1/products";
 
-  const { type, setType } = useStates();
+  const { type, setType, setInput, router } = useStates();
 
   const [keyword, setKeyword] = useState("");
 
   const [item, setItem] = useState("");
 
   const { data, loading, error, fetchData } = useFetch(url);
+  console.log("data", data?.products);
 
-  const { filteredData } = useFilter(data, type);
+  const { filteredData } = useCategoryFilter(data?.products, type);
 
   return (
     <>
@@ -36,103 +38,107 @@ function ProductsPage() {
           </a>
         </Link>
       </div>
-
       <div>
-        <div className="bg-white p-3 mb-2 border rounded d-flex justify-content-between align-items-center">
-          <h6 className="mb-0">Products</h6>
-          <div>
-            {loading && (
-              <div className="d-flex justify-content-center align-items-center h-100">
-                <Spinner />
-              </div>
-            )}
-
-            {error && (
-              <div className="">
-                <MdDangerous size={20} className="text-danger" />
-                <a
-                  type="button"
-                  className="ms-2 text-black text-decoration-none"
-                  onClick={fetchData}>
-                  Reload
-                </a>
-              </div>
-            )}
+        <div className="card">
+          <div className="card-body d-flex justify-content-between">
+            <div className="d-flex justify-content-start align-items-center">
+              <h6 className="mb-0 me-2">Products</h6>
+              {data?.products && (
+                <Search
+                  items={data?.products}
+                  keyword={keyword}
+                  setKeyword={setKeyword}
+                  className="ms-3"
+                />
+              )}
+            </div>
+            <div>
+              {data?.products && (
+                <Select
+                  text={type}
+                  setInput={setInput}
+                  setText={setType}
+                  options={[
+                    "All",
+                    "Rice dishes",
+                    "Local dishes",
+                    "Pizza",
+                    "Sandwich",
+                    "Salad",
+                    "Beverage",
+                    "Soup",
+                  ]}
+                  classes="py-1"
+                  id="category"
+                />
+              )}
+            </div>
           </div>
         </div>
       </div>
-      {data && data?.length > 0 && (
-        <>
-          <div className="card">
-            <div className="card-body justify-content-start overflow-auto p-4">
-              <div className="d-md-flex justify-content-md-between my-md-2 mb-md-4">
-                <Search
-                  items={data}
-                  keyword={keyword}
-                  setKeyword={setKeyword}
-                />
 
-                <div className="mt-3 mt-md-0">
-                  <Select
-                    text={type}
-                    setInput={setInput}
-                    setText={setType}
-                    options={[
-                      "Rice dishes",
-                      "Local dishes",
-                      "Pizza",
-                      "Sandwich",
-                      "Salad",
-                      "Beverage",
-                      "Soup",
-                    ]}
-                    classes="py-1"
-                    id="category"
-                  />
-                </div>
-              </div>
-              <table className="table mt-3 table-responsive">
-                <thead>
-                  <tr className="text-start ps-0">
-                    <th className="text-start ps-0">Product name</th>
-                    <th className="text-nowrap d-none d-md-table-cell">
-                      Price
-                    </th>
-                    <th className="text-nowrap d-none d-md-table-cell">
-                      Category
-                    </th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {filteredData &&
-                    filteredData
-                      ?.filter(searched(keyword))
-                      .map((product) => (
-                        <ProductTableRow
-                          key={product?._id}
-                          product={product}
-                          setItem={setItem}
-                        />
-                      ))}
-                  {!filteredData &&
-                    data
-                      ?.filter(searched(keyword))
-                      .map((product) => (
-                        <ProductTableRow
-                          key={product?._id}
-                          product={product}
-                          setItem={setItem}
-                        />
-                      ))}
-                  {filteredData?.length === 0 && (
-                    <tr>
-                      There are no products from <b>{type} category</b>
-                    </tr>
-                  )}
-                </tbody>
-              </table>
+      {loading && (
+        <div className="d-flex justify-content-center align-items-center h-100 my-5">
+          <Spinner />
+        </div>
+      )}
+
+      {error && (
+        <div className="d-flex justify-content-center align-items-center h-100 my-5">
+          <MdDangerous size={20} className="text-danger" />
+          <a
+            type="button"
+            className="ms-2 text-black text-decoration-none"
+            onClick={fetchData}>
+            Reload
+          </a>
+        </div>
+      )}
+
+      {data && data?.products?.length > 0 && (
+        <div className="">
+          <table className="table mt-2 table-responsive">
+            <thead>
+              <tr className="text-start ps-0">
+                <th className="text-start">Product name</th>
+                <th className="text-nowrap d-none d-md-table-cell">Price</th>
+                <th className="text-nowrap d-none d-md-table-cell">
+                  Discounted price
+                </th>
+                <th className="text-nowrap d-none d-md-table-cell">Category</th>
+              </tr>
+            </thead>
+            <tbody>
+              {filteredData &&
+                filteredData
+                  ?.filter(searched(keyword))
+                  .map((product) => (
+                    <ProductTableRow
+                      key={product?.id}
+                      product={product}
+                      setItem={setItem}
+                      router={router}
+                    />
+                  ))}
+              {!filteredData &&
+                data?.products
+                  ?.filter(searched(keyword))
+                  .map((product) => (
+                    <ProductTableRow
+                      key={product?.id}
+                      product={product}
+                      setItem={setItem}
+                      router={router}
+                    />
+                  ))}
+            </tbody>
+          </table>
+          {filteredData?.length === 0 && (
+            <div>
+              There are no products from <b>{type} category</b>
             </div>
-          </div>
+          )}
+
           <DeleteModal
             type="product"
             item={item}
@@ -141,18 +147,7 @@ function ProductsPage() {
             fetchData={fetchData}
             router={router}
           />
-          <ShowModal
-            type="products"
-            item={item}
-            setItem={setItem}
-            edit={edit}
-            setEdit={setEdit}
-            router={router}
-            content={
-              <RiderModalContent edit={edit} setEdit={setEdit} item={item} />
-            }
-          />
-        </>
+        </div>
       )}
       {data && data?.length === 0 && (
         <div className="text-center">

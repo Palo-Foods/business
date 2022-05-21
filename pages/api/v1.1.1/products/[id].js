@@ -3,6 +3,7 @@ import { authenticate } from "../authentication";
 import { findOne } from "../db/find";
 import {
   statusCode200,
+  statusCode201,
   statusCode401,
   statusCode404,
   statusCode500,
@@ -46,7 +47,7 @@ export default authenticate(async (req, res) => {
 
       const product = results?.products?.find((id) => id === id);
 
-      if (results?._id) {
+      if (results?.id) {
         statusCode200(res, product);
       } else {
         statusCode404(res);
@@ -54,7 +55,7 @@ export default authenticate(async (req, res) => {
     }
 
     if (method === "PUT") {
-      const { name, price, discount, category, description, imgUrl } = body;
+      const { name, price, discount, category, description, itemImage } = body;
       const data = {
         $set: {
           "products.$[elem].name": name,
@@ -62,9 +63,7 @@ export default authenticate(async (req, res) => {
           "products.$[elem].discount": discount,
           "products.$[elem].category": category,
           "products.$[elem].description": description,
-          "products.$[elem].imgUrl": [
-            { public_id: imgUrl?.public_id, url: imgUrl?.url },
-          ],
+          "products.$[elem].itemImage": itemImage,
         },
       };
       //5. update data in business collection
@@ -77,16 +76,15 @@ export default authenticate(async (req, res) => {
           upsert: true,
         }
       );
-
-
-      if (results.matchedCount === 1) {
-        statusCode200(res);
+      console.log("results", results);
+      if (results.modifiedCount === 1) {
+        statusCode201(res, "Product updated");
       } else {
         statusCode404(res);
       }
     }
     if (method === "DELETE") {
-      const data = { $pull: { products: { id: id } } };
+      const set = { $pull: { products: { id: id } } };
 
       //delete account
       const response = await removeFromArray(
@@ -94,10 +92,10 @@ export default authenticate(async (req, res) => {
         {
           _id: ObjectId(userId),
         },
-        data
+        set
       );
       if (response.matchedCount === 1) {
-        statusCode200(res);
+        statusCode200(res, [], "Deleted data");
       } else {
         statusCode404(res);
       }
@@ -105,5 +103,7 @@ export default authenticate(async (req, res) => {
     //3. find all riders
   } catch (error) {
     statusCode500(res, error);
+  } finally {
+    res.end();
   }
 });

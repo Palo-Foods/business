@@ -30,7 +30,7 @@ function AccountForm() {
     id,
     location,
     setLocation,
-  } = useStates("user");
+  } = useStates();
 
   const handleEditAccount = async (e) => {
     e.preventDefault();
@@ -54,16 +54,15 @@ function AccountForm() {
     <>
       <form className="row" onSubmit={handleEditAccount}>
         <div className="mb-4">
-         
-            <p className="mb-1">Banner</p>
-            <FilePicker
-              image={banner}
-              setImage={setBanner}
-              type="photo"
-              width={300}
-              height={120}
-              id="banner"
-            />
+          <p className="mb-1">Banner</p>
+          <FilePicker
+            image={banner}
+            setImage={setBanner}
+            type="photo"
+            width={300}
+            height={120}
+            id="banner"
+          />
         </div>
         <div className="form-group mb-4 mt-2">
           <TextInput

@@ -44,8 +44,9 @@ export default authenticate(async (req, res) => {
     }; //use date and time to insert orders
 
     await get(collection, userId, res, projection);
-
   } catch (error) {
     statusCode500(res, error);
+  } finally {
+    res.end();
   }
 });

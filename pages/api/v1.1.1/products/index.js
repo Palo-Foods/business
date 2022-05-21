@@ -6,7 +6,7 @@ import { verifyUser } from "../verification";
 export default authenticate(async (req, res) => {
   //verify user
   const { role, userId } = await verifyUser(req);
-  console.log(role);
+
   const method = req.method;
 
   const collection = "products";
@@ -25,10 +25,12 @@ export default authenticate(async (req, res) => {
       return;
     }
 
-    const projection = { projection: { products: 1 } };
+    const projection = { projection: { products: { rating: 0, review: 0, extras: 0 } } };
 
     await get(collection, userId, res, projection);
   } catch (error) {
     statusCode500(res, error);
+  } finally {
+    res.end();
   }
 });

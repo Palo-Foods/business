@@ -20,11 +20,11 @@ export const findOneAndUpdate = async (
   return result;
 };
 
-export const insertToArray = async (collection, filter, update, options) => {
+export const insertToArray = async (collection, condition, set, options, upsert) => {
   const { db } = await connectToDatabase();
   const result = await db
     .collection(collection)
-    .updateOne(filter, update, options);
+    .updateOne(condition, set, options, upsert);
   return result;
 };
 

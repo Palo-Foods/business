@@ -50,7 +50,7 @@ export default authenticate(async (req, res) => {
       createdAt: moment(date).format("lll"),
     };
 
-
+    console.log("item", item);
     const data = {
       $push: { products: item },
     };
@@ -64,11 +64,11 @@ export default authenticate(async (req, res) => {
     );
 
     if (response.matchedCount === 1) {
-      statusCode201(res);
+      statusCode201(res, "data added");
     } else {
       statusCode404(res, "Adding data failed");
     }
   } catch (error) {
     statusCode500(res, error);
-  }
+  } 
 });

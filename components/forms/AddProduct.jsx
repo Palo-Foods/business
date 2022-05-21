@@ -1,12 +1,12 @@
 import React from "react";
-import Link from "next/link";
 import { useStates } from "../../hooks/useStates";
 import TextArea from "../ui/Description";
 import Select from "../ui/Select";
 import TextInput from "../ui/TextInput";
 import FilePicker from "../media/FilePicker";
-import MediaModal from "../modals/MediaModal";
 import { usePost } from "../../hooks/crud/usePost";
+import Spinner from "../ui/Spinner";
+import Alert from "../ui/Alert";
 
 function AddProductForm({ product }) {
   //get rider in store
@@ -34,12 +34,14 @@ function AddProductForm({ product }) {
 
     const data = {
       name,
-      category,
+      category: type,
       price,
       discount,
       description,
       itemImage: image,
     };
+
+    console.log(data)
 
     const url = "/api/v1.1.1/products/add-product";
 
@@ -147,7 +149,7 @@ function AddProductForm({ product }) {
                 type="submit"
                 className="btn btn-primary px-5"
                 disabled={!name || !price || !category || !description}>
-                {loading && <SmallSpinner />} Edit Item
+                {loading && <Spinner className="ms-2" />} Edit Item
               </button>
             )}
           </div>

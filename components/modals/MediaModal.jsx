@@ -19,6 +19,8 @@ const MediaModal = ({ image, setImage }) => {
       className="modal fade"
       id="mediaModal"
       tabIndex="-1"
+      data-bs-backdrop="static"
+      data-bs-keyboard="false"
       role="dialog"
       aria-labelledby="modelTitleId"
       aria-hidden="true"
