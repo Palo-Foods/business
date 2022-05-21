@@ -36,7 +36,17 @@ export const login = async (req, res, collection) => {
     const match = await compare(password, results?.password);
     //4. if user exist, create jwt
     if (match) {
-      const { _id, email, apiKey, role, fullName, phone } = results;
+      const {
+        _id,
+        email,
+        apiKey,
+        role,
+        fullName,
+        phone,
+        location,
+        logo,
+        banner,
+      } = results;
       const jwt = createJwt({
         userId: _id,
         email,
@@ -46,10 +56,13 @@ export const login = async (req, res, collection) => {
       const data = {
         authToken: jwt,
         id: _id,
-        email: email,
-        fullName: fullName,
-        phone: phone,
-        role
+        email,
+        fullName,
+        phone,
+        role,
+        location,
+        logo,
+        banner,
       };
       return statusCode200(res, data, "Logged in successfully");
     } else {

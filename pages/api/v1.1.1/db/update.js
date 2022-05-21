@@ -17,7 +17,6 @@ export const findOneAndUpdate = async (
   const result = await db
     .collection(collection)
     .findOneAndUpdate(filter, update, projection);
-  console.log("findOneAndUpdate result", result);
   return result;
 };
 

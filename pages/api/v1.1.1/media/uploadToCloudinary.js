@@ -53,7 +53,6 @@ export default authenticate(async (req, res) => {
         response?.public_id,
         response?.url
       );
-      console.log("result", result);
       if (result === "success") {
         statusCode200(res, {}, "OK");
       } else {
@@ -63,7 +62,6 @@ export default authenticate(async (req, res) => {
       statusCode404(res, "Uploading to cloud failed");
     }
   } catch (error) {
-    console.log(error.message);
     statusCode500(res, error);
   }
 });

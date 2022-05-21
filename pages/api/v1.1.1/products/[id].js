@@ -55,7 +55,6 @@ export default authenticate(async (req, res) => {
 
     if (method === "PUT") {
       const { name, price, discount, category, description, imgUrl } = body;
-      console.log(name, price, discount, category, description, imgUrl);
       const data = {
         $set: {
           "products.$[elem].name": name,
@@ -79,7 +78,6 @@ export default authenticate(async (req, res) => {
         }
       );
 
-      console.log("results", results);
 
       if (results.matchedCount === 1) {
         statusCode200(res);
@@ -98,7 +96,6 @@ export default authenticate(async (req, res) => {
         },
         data
       );
-      console.log("response", response);
       if (response.matchedCount === 1) {
         statusCode200(res);
       } else {

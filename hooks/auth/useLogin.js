@@ -23,30 +23,21 @@ export const useLogin = (url) => {
   } = useStates();
 
   //2. login user unto the platform
-  const login = async (data) => {
+  const login = async (userData) => {
     setLoading(true);
     setMessage("");
     setError("");
     setStatusCode(null)
 
     //1. send user data to database
-    const response = await loginUser(url, data);
-    console.log("response", response);
+    const response = await loginUser(url, userData);
 
-    const { statusCode, statusText } = response;
+    const { statusCode, statusText, data } = response;
 
     if (statusCode === 200) {
-      const { id, authToken, email, fullName, role, phone } = response?.data;
       console.log(response?.data)
       setLoading(false);
-      setSession("user", {
-        id,
-        authToken,
-        email,
-        fullName,
-        role,
-        phone,
-      });
+      setSession("user", ...data);
 
       setStatusCode(statusCode);
       setMessage(statusText);

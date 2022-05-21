@@ -16,7 +16,6 @@ function CropImage({ imageToUpload, setImageToUpload, setFinalImage }) {
         croppedAreaPixels,
         rotation
       );
-      console.log("donee", { croppedImage });
       setFinalImage(croppedImage);
       setImageToUpload(null);
     } catch (e) {

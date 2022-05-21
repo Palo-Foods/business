@@ -18,7 +18,6 @@ const cors = Cors({
 
 export default authenticate(async (req, res) => {
   const { slug } = req.query;
-  console.log("slug", slug)
 
   const collection = slug[0];
 
@@ -29,7 +28,6 @@ export default authenticate(async (req, res) => {
   // Run the middleware
   await runMiddleware(req, res, cors);
   //res.setHeader("Access-Control-Allow-Origin", "*");
-  console.log("verifying ", role, userId);
   try {
     //1. check if authorized to sign up, using match, role
     if (role !== "manager") {
@@ -46,7 +44,6 @@ export default authenticate(async (req, res) => {
 
     const condition =
       role === "admin" ? { adminId: userId } : { managerId: userId };
-    console.log("condition", condition);
 
     //3. find all riders
     const results = await findAll(collection, condition, {
@@ -56,7 +53,6 @@ export default authenticate(async (req, res) => {
         apiKey: 0,
       },
     });
-    console.log(results);
     statusCode200(res, results, "OK");
   } catch (error) {
     statusCode500(res, error);

@@ -23,8 +23,6 @@ export const verifyPhone = async (phoneNumber) => {
         headers,
       }
     );
-    console.log(result);
-    //console.log("phone", { status, statusText, code, message });
     //return { status, statusText };
   } catch (error) {
     console.log("error", error.message);

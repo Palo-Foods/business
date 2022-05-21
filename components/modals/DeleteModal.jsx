@@ -5,8 +5,6 @@ import { useStates } from "../../hooks/useStates";
 import { useDelete } from "../../hooks/crud/useDelete";
 
 function DeleteModal({ item, url, setItem }) {
-  console.log(item);
-
   const {
     deleteUserData,
     statusCode,
@@ -28,7 +26,6 @@ function DeleteModal({ item, url, setItem }) {
       data //no data is sent cos we are deleting the item
     );
     setLoading(false);
-    console.log("done");
     statusCode === 200 && router.reload();
   };
   statusCode === 200 && router.reload();

@@ -12,7 +12,7 @@ export const deleteData = async (url, data) => {
   const authToken = token?.authToken;
 
   const config = {
-    method: "PUT",
+    method: "DELETE",
     headers: {
       ContentType: "application/json",
       Authorization: `Bearer ${sessionData && authToken}`,

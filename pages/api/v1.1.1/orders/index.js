@@ -21,7 +21,6 @@ export default authenticate(async (req, res) => {
   await runMiddleware(req, res, cors);
   //verify user
   const { userId, role } = await verifyUser(req);
-  console.log(role);
   const method = req.method;
 
   const collection = "orders";

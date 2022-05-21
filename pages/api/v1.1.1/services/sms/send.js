@@ -18,7 +18,6 @@ export const sendSMS = async (message, receiver) => {
     };
 
     const response = await axios(config);
-console.log(response.data)
     return JSON.stringify(response.data);
   } catch (error) {
     return error.message;

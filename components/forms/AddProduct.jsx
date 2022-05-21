@@ -45,91 +45,62 @@ function AddProductForm({ product }) {
 
     //provide url, email, password, custom args
     await postData(url, data);
-
-    //if there is an update
-    statusCode === 200 && fetchData();
   };
 
   return (
     <div>
       <form onSubmit={handleSubmit} className="row">
-        <div className="col-md-6">
-          <div className="col-md-12 mb-3 form-group">
-            <label htmlFor="itemName" className="mb-1">
-              Item name
-            </label>
+        <div className="col-md-7">
+          <div className="col-md-12 mb-4 form-group">
             <TextInput
               type="text"
               text={name}
               setInput={setInput}
               setText={setName}
-              classes=""
+              classes="py-2"
               id="itemName"
+              placeholder="Item Name"
             />
           </div>
-          <div className="col-12 form-group mb-3">
-            <label htmlFor="description" className="mb-1">
-              Description
-            </label>
+          <div className="col-12 form-group mb-4">
             <TextArea
               text={description}
               setInput={setInput}
               setText={setDescription}
               classes=""
               id="description"
+              placeholder="Item Description"
+              rows="4"
             />
           </div>
 
           <div className="row d-sm-flex align-items-sm-center mb-3">
             <div className="col-md-6 mb-3 form-group">
-              <label htmlFor="price" className="mb-1">
-                Price
-              </label>
               <TextInput
                 type="number"
                 text={price}
                 setInput={setInput}
                 setText={setPrice}
-                classes=""
+                classes="py-2"
                 id="price"
+                placeholder="Price"
               />
             </div>
 
             <div className="col-md-6 mb-3 form-group">
-              <label htmlFor="discount" className="mb-1">
-                Discount(optional)
-              </label>
               <TextInput
                 type="number"
                 text={discount}
                 setInput={setInput}
                 setText={setDiscount}
-                classes=""
+                classes="py-2"
                 id="discount"
+                placeholder="Discounted price (optional)"
               />
             </div>
           </div>
 
-          {message && (
-            <div className="px-3">
-              <Alert
-                type={
-                  statusCode === 201
-                    ? "success"
-                    : statusCode === 500
-                    ? "danger"
-                    : "info"
-                }
-                message={message}
-              />
-            </div>
-          )}
-        </div>
-        <div className="col-md-6 col-lg-5 mx-auto">
-          <div className="col-md-12 form-group mb-4">
-            <label htmlFor="category" className="mb-1">
-              Select Category
-            </label>
+          <div className="col-md-12 form-group mb-5">
             <Select
               text={type}
               setInput={setInput}
@@ -143,28 +114,33 @@ function AddProductForm({ product }) {
                 "Beverage",
                 "Soup",
               ]}
-              classes=""
-              id="type"
+              classes="py-2"
+              id="category"
             />
           </div>
-          <p className="mb-1">Add product image</p>
-          <FilePicker
-            image={image}
-            setImage={setImage}
-            type="photo"
-            width={180}
-            height={150}
-          />
+
+          {statusCode && (
+            <div className="px-3">
+              <Alert
+                type={
+                  statusCode === 201
+                    ? "success"
+                    : statusCode === 500
+                    ? "danger"
+                    : "info"
+                }
+                message={message}
+              />
+            </div>
+          )}
           <div className="mt-4 d-flex justify-content-between">
-            <Link href="/[route]/[page]" as="/dashboard/products">
-              <a className="btn btn-outline-primary me-2 w-100">Cancel</a>
-            </Link>
             {!product ? (
               <button
                 type="submit"
-                className="btn btn-primary px-5 w-100"
+                className="btn btn-primary px-5"
                 disabled={!name || !price || !category || !description}>
-                {loading && <SmallSpinner />} Add item
+                {loading && <Spinner className="ms-2" />}
+                {!loading && <span>Add item</span>}
               </button>
             ) : (
               <button
@@ -175,6 +151,15 @@ function AddProductForm({ product }) {
               </button>
             )}
           </div>
+        </div>
+        <div className="col-md-5 col-lg-5 mx-auto">
+          <FilePicker
+            image={image}
+            setImage={setImage}
+            type="photo"
+            width={250}
+            height={200}
+          />
         </div>
       </form>
     </div>

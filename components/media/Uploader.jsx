@@ -15,7 +15,6 @@ function Uploader({ setImage }) {
   const [size, setSize] = useState({});
 
   useEffect(() => {
-    console.log(file);
     if (file) {
       const reader = new FileReader();
       reader.onloadstart = () => {
@@ -35,7 +34,6 @@ function Uploader({ setImage }) {
           image.src = reader.result;
           image.onload = () => {
             setSize({ width: image.width, height: image.height });
-            console.log(image.sizes);
 
             Resizer.imageFileResizer(
               file,
@@ -48,7 +46,6 @@ function Uploader({ setImage }) {
                 //console.log("uri", uri);
                 setPreview({ url: uri, type: "image" });
                 setImage(uri);
-                console.log(uri);
               },
               "base64"
             );
@@ -56,7 +53,6 @@ function Uploader({ setImage }) {
         } else {
           const doc = reader.result;
           setImage(doc);
-          console.log("doc", doc);
           //set uri to src o a doc
           const pdf = file.type.includes("pdf");
           const src = pdf ? "" : ""; //if pdf use pdf image

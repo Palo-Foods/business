@@ -2,7 +2,7 @@ import React from "react";
 import { MdOutlinePhoto } from "react-icons/md";
 import MediaModal from "../modals/MediaModal";
 
-function FilePicker({ image, setImage, width, height, id }) {
+function FileBannerPicker({ image, setImage, width, height }) {
   return (
     <>
       <div className="d-flex justify-content-start align-items-top">
@@ -16,8 +16,7 @@ function FilePicker({ image, setImage, width, height, id }) {
             height: height,
             borderRadius: 5,
             border: "1px dashed #d5d6d7",
-          }}
-          id={id}>
+          }}>
           {!image && (
             <MdOutlinePhoto size={30} className="text-muted" color="#d5d6d7" />
           )}
@@ -28,15 +27,14 @@ function FilePicker({ image, setImage, width, height, id }) {
                 alt="item-image"
                 className="img-fluid"
                 style={{ height: "objectFit" }}
-                id={id}
               />
             </a>
           )}
         </a>
       </div>
-      <MediaModal id={id} setImage={setImage} image={image} />
+      <MediaModal setImage={setImage} image={image} />
     </>
   );
 }
 
-export default FilePicker;
+export default FileBannerPicker;

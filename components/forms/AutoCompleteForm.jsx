@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { usePlacesWidget } from "react-google-autocomplete";
 
-const LocationSearchInput = ({ setLocation }) => {
+const LocationSearchInput = ({ setLocation, location, classes }) => {
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState({});
   const [error, setError] = useState();
@@ -11,7 +11,6 @@ const LocationSearchInput = ({ setLocation }) => {
     onPlaceSelected: async (place) => {
       setError(null);
       setLoading(true);
-      await place;
       setResult(place);
       setLoading(false);
     },
@@ -23,10 +22,21 @@ const LocationSearchInput = ({ setLocation }) => {
 
   useEffect(() => {
     if (ref) {
-      setLocation(ref.current.value);
+      if (result?.address_components) {
+        setLocation({
+          address: ref.current.value,
+          municipality: result?.address_components[1].long_name,
+          region: result?.address_components[2].long_name,
+        });
+      }
     } else {
       setError("There was an error");
       setLoading(false);
+    }
+
+    //set existing location
+    if (location && !result?.address_components) {
+      ref.current.value = location;
     }
     console.log(result);
   }, [result, ref]);
@@ -36,7 +46,7 @@ const LocationSearchInput = ({ setLocation }) => {
       <input
         type="text"
         ref={ref}
-        className="form-control w-100"
+        className={`form-control w-100 ${classes}`}
         placeholder="Store location"
       />
       {loading && (

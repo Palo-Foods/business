@@ -21,14 +21,12 @@ export default authenticate(async (req, res) => {
 
   const collection = slug[0];
 
-  //console.log(role, userId);
   const method = req.method;
 
   //JSON.parse(JSON.parse(req.body))
   const body = JSON.parse(req.body);
 
   //const collection = "businesses";
-  console.log("role", role);
 
   try {
     const role = "admin" || "manager";
@@ -62,10 +60,8 @@ export default authenticate(async (req, res) => {
       //use this as a callback unction when encrypting the password
       async function signUp(hash) {
         const data = getUserData(collection, body, hash, userId, role, apiKey);
-        console.log("data", data);
         //5. insert data into company collection
         const response = await insert(collection, data);
-        console.log("response", response);
 
         if (response.acknowledged) {
           statusCode201(res, "Data added");

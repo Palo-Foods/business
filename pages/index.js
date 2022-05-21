@@ -7,12 +7,11 @@ function LoginPage() {
     <Layout title="Login">
       <div className="d-flex justify-content-center align-items-center vh-100">
         <div className="col-sm-7 col-md-5 col-lg-4 col-xl-3">
-          <h5 className="text-center">Welcome, back!</h5>
-          <h6 className="text-center fw-normal my-2 text-muted">Manager login</h6>
-          <div className="card mt-4">
-            <div className="card-body">
+          <h3 className="text-center">
+            <span className="text-primary fw-bold">Palo</span> Business
+          </h3>
+          <div className="mt-4">
             <LoginForm />
-            </div>
           </div>
         </div>
       </div>

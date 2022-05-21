@@ -7,16 +7,12 @@ import TextInput from "../../components/ui/TextInput";
 import { useStates } from "../../hooks/useStates";
 import FilePicker from "../media/FilePicker";
 import { usePut } from "../../hooks/crud/usePut";
-import { useSessionStorage } from "../../hooks/useSession";
 const LocationSearchInput = dynamic(() => import("../forms/AutoCompleteForm"));
 
 //const LocationModal = dynamic(() => import("../modals/LocationModal"));
 
 function AccountForm() {
-  const { putData, loading, message } = usePut();
-  const { item } = useSessionStorage("user");
-  const [location, setLocation] = useState();
-  console.log("user", item);
+  const { putData, loading, message, statusCode } = usePut();
 
   const {
     fullName,
@@ -31,7 +27,10 @@ function AccountForm() {
     setFullName,
     setInput,
     router,
-  } = useStates(item);
+    id,
+    location,
+    setLocation,
+  } = useStates("user");
 
   const handleEditAccount = async (e) => {
     e.preventDefault();
@@ -42,13 +41,10 @@ function AccountForm() {
       email,
       logo,
       banner,
-      location: {
-        municipality: location?.address_components[1],
-        region: location?.address_components[2],
-      },
+      location,
     };
 
-    const url = `/api/v1.1.1/users/account/businesses/${item?.id}`;
+    const url = `/api/v1.1.1/users/account/businesses/${id}`;
 
     //provide url, email, password, custom args
     await putData(url, data, "PUT");
@@ -57,67 +53,57 @@ function AccountForm() {
   return (
     <>
       <form className="row" onSubmit={handleEditAccount}>
-        <div className="mb-4 d-xl-flex justify-content-xl-start">
-          <div className="mb-3">
-            <p className="mb-1">Logo</p>
-            <FilePicker
-              image={logo}
-              setImage={setLogo}
-              type="photo"
-              width={100}
-              height={100}
-            />
-          </div>
-          <div>
+        <div className="mb-4">
+         
             <p className="mb-1">Banner</p>
             <FilePicker
               image={banner}
               setImage={setBanner}
               type="photo"
-              width={450}
-              height={150}
+              width={300}
+              height={120}
+              id="banner"
             />
-          </div>
         </div>
-        <div className="form-group mb-4">
-          <label htmlFor="fullName" className="mb-2">
-            Enter name
-          </label>
+        <div className="form-group mb-4 mt-2">
           <TextInput
             type="text"
             text={fullName}
             setInput={setInput}
             setText={setFullName}
-            classes=""
+            classes="py-2 mb-2"
             id="fullName"
+            placeholder="Full Name"
           />
         </div>
         <div className="form-group mb-4">
-          <label htmlFor="email" className="mb-2">
-            Enter email
-          </label>
           <TextInput
             type="email"
             text={email}
             setInput={setInput}
             setText={setEmail}
-            classes=""
+            classes="py-2 mb-2"
             id="email"
+            placeholder="Email"
           />
         </div>
-        <div className="form-group mb-4">
-          <label htmlFor="phone" className="mb-2">
-            Enter phone
-          </label>
-          <Phone setText={setPhone} text={phone} classes="" id="phone" />
+        <div className="form-group mb-4 mt-1">
+          <Phone
+            setText={setPhone}
+            text={phone}
+            classes="py-2 mb-2"
+            id="phone"
+            placeholder="545110328"
+          />
         </div>
-        <div className="form-group mb-2">
-          <label htmlFor="location" className="mb-2">
-            Enter Location
-          </label>
-          <LocationSearchInput setLocation={setLocation} />
+        <div className="form-group my-3">
+          <LocationSearchInput
+            setLocation={setLocation}
+            location={location}
+            classes="py-2 mb-2"
+          />
         </div>
-       {/*  <p>
+        {/*  <p>
           or
           <a
             type="button"
@@ -127,7 +113,7 @@ function AccountForm() {
             Select on map
           </a>
         </p> */}
-        {message && (
+        {statusCode && (
           <div className="px-3">
             <Alert
               type={
@@ -142,7 +128,7 @@ function AccountForm() {
           </div>
         )}
 
-        <div className="d-flex justify-content-between mt-3">
+        <div className="d-flex justify-content-between my-3">
           <a
             type="button"
             className="btn btn-outline-primary w-100 me-2"
@@ -157,7 +143,7 @@ function AccountForm() {
           </button>
         </div>
       </form>
-    {/*   <LocationModal location={location} setLocation={setLocation} /> */}
+      {/*   <LocationModal location={location} setLocation={setLocation} /> */}
     </>
   );
 }

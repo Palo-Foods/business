@@ -71,8 +71,6 @@ export default authenticate(async (req, res) => {
         }
       );
 
-      console.log("results", results);
-
       if (results.matchedCount === 1) {
         statusCode200(res);
       } else {

@@ -35,13 +35,11 @@ export default authenticate(async (req, res) => {
 
     //2. check for method, if POST, GET, DELETE, PUT
     if (method === "GET") {
-      console.log("productId", productId);
       //await get(collection, userId, res, id);
       const results = await findOne(collection, { _id: ObjectId(userId) });
 
       //get product
       const product = results?.products?.find((id) => id === productId);
-      console.log("extras", product);
       if (product?.id) {
         statusCode200(res, product?.extras);
       } else {

@@ -23,28 +23,24 @@ export default function LoginForm() {
   return (
     <form className="my-3 mx-2" onSubmit={handleLogin}>
       <div className="mb-3">
-        <label htmlFor="email" className="form-label fw-normal">
-          Enter email address
-        </label>
         <TextInput
           type="email"
           text={email}
           setInput={setInput}
           setText={setEmail}
-          classes=""
+          classes="py-2"
           id="email"
+          placeholder="Email address"
         />
       </div>
       <div className="mb-4">
-        <label htmlFor="password" className="form-label fw-normal">
-          Enter a password
-        </label>
         <Password
           type="password"
           text={password}
           setInput={setInput}
           setText={setPassword}
-          classes=""
+          classes="py-2"
+          placeholder="Password"
         />
       </div>
       {statusCode && (
@@ -62,7 +58,7 @@ export default function LoginForm() {
       <div className="d-grid">
         <button
           type="submit"
-          className="btn btn-primary"
+          className="btn btn-primary rounded-pill"
           disabled={!email || !password || loading}>
           {loading && <Spinner className="ms-2" />}
           {!loading && <span>Login</span>}

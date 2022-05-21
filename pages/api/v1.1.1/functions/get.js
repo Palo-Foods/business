@@ -11,7 +11,6 @@ export const get = async (collection, userId, res, projection) => {
   if (results === null) {
     return statusCode200(res, [], "OK");
   }
-  console.log("products", results);
   if (results?._id) {
     return statusCode200(res, results, "OK");
   } else {

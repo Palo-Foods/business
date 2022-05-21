@@ -45,12 +45,10 @@ export async function onboardingEmail(fullName, userEmail, password, url) {
   if (response.includes("250 OK")) {
     return "Email sent";
   } else {
-    console.log("Sending email failed");
     return "Sending email failed";
   }
 }
 
 onboardingEmail().catch((error) => {
-  console.log(error)
   return error;
 });

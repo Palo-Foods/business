@@ -12,11 +12,9 @@ export const VerifyPhoneCode = async (code, phoneNumber) => {
   post("https://sms.arkesel.com/api/otp/verify", data, { headers })
     .then((response) => {
       const { status, statusText } = response;
-      console.log("phone", { status, statusText });
       return response;
     })
     .catch((error) => {
-      console.log("error", error.message);
       return error.message;
     });
 };

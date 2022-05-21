@@ -34,5 +34,5 @@ export const useDelete = () => {
     setMessage(statusText);
   };
 
-  return { loading, error, setError, statusCode, message,setMessage, deleteUserData };
+  return { loading,setLoading, error, setError, statusCode, message,setMessage, deleteUserData };
 };

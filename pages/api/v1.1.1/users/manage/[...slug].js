@@ -1,5 +1,10 @@
 import { authenticate } from "../../authentication";
-import { statusCode401, statusCode405, statusCode500 } from "../../status/codes";
+import {
+  statusCode200,
+  statusCode401,
+  statusCode405,
+  statusCode500,
+} from "../../status/codes";
 import { verifyUser } from "../../verification";
 import { get } from "../../functions/get";
 import { put } from "../../functions/put";
@@ -45,7 +50,7 @@ export default authenticate(async (req, res) => {
     }
 
     //2. check for method, if POST, GET, DELETE, PUT
-    
+
     if (method === "GET") {
       await get(collection, res, id);
     }
@@ -57,7 +62,10 @@ export default authenticate(async (req, res) => {
         },
       };
 
-      await put(collection, id, res, set);
+      const response = await put(collection, id, res, set);
+      if (response === "success") {
+        return statusCode200(res, {}, "Data updated");
+      }
     }
 
     if (method === "DELETE") {

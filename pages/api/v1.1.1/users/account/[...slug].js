@@ -1,11 +1,18 @@
 import { authenticate } from "../../authentication";
-import { statusCode405, statusCode500 } from "../../status/codes";
+import {
+  statusCode200,
+  statusCode405,
+  statusCode500,
+} from "../../status/codes";
 import { verifyUser } from "../../verification";
 import { get } from "../../functions/get";
 import { put } from "../../functions/put";
 import { deleteItem } from "../../functions/delete";
 import Cors from "cors";
 import { runMiddleware } from "../../corsMiddleWare";
+import { findOne } from "../../db/find";
+import { ObjectId } from "mongodb";
+import { createJwt } from "../../jwt";
 
 // Initializing the cors middleware
 const cors = Cors({
@@ -22,7 +29,7 @@ export default authenticate(async (req, res) => {
   // Run the middleware
   await runMiddleware(req, res, cors);
   //verify user
-  const { role } = await verifyUser(req);
+  const { role, userId } = await verifyUser(req);
 
   const method = req.method;
 
@@ -37,7 +44,7 @@ export default authenticate(async (req, res) => {
     }
 
     //2. check for method, if POST, GET, DELETE, PUT
-    
+
     if (method === "GET") {
       await get(collection, res, id);
     }
@@ -49,7 +56,46 @@ export default authenticate(async (req, res) => {
         },
       };
 
-      await put(collection, id, res, set);
+      const response = await put(collection, id, res, set);
+      if (response === "success") {
+        const results = await findOne(
+          collection,
+          { _id: ObjectId(userId) },
+          {
+            projection: { megos: 0 },
+          }
+        );
+        const {
+          _id,
+          email,
+          apiKey,
+          role,
+          fullName,
+          phone,
+          location,
+          logo,
+          banner,
+        } = results;
+
+        const jwt = createJwt({
+          userId: _id,
+          email,
+          apiKey,
+          role,
+        });
+
+        const data = {
+          authToken: jwt,
+          id: _id,
+          email,
+          fullName,
+          phone,
+          location,
+          logo,
+          banner,
+        };
+        statusCode200(res, data, "Data updated");
+      }
     }
 
     if (method === "DELETE") {

@@ -16,7 +16,6 @@ export const useFetch = (url) => {
     const { statusText, statusCode, error, data } = response;
     if (statusCode === 200) {
       setData(data);
-      console.log("data", data);
     } else {
       setError(error || "error")
     }

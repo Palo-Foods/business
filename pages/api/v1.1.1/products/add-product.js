@@ -50,7 +50,6 @@ export default authenticate(async (req, res) => {
       createdAt: moment(date).format("lll"),
     };
 
-    console.log(item)
 
     const data = {
       $push: { products: item },
@@ -63,14 +62,13 @@ export default authenticate(async (req, res) => {
       data,
       { upsert: true }
     );
-    console.log(response);
+
     if (response.matchedCount === 1) {
       statusCode201(res);
     } else {
       statusCode404(res, "Adding data failed");
     }
   } catch (error) {
-    console.log(error.message);
     statusCode500(res, error);
   }
 });

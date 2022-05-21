@@ -41,7 +41,6 @@ export default authenticate(async (req, res) => {
 
     await cloudinary.uploader.destroy(id, async (err, result) => {
       if (err?.result === "not found") {
-        console.log(err);
         //remove to media
         const result = await deleteFromMedia(userId, id);
         if (result === "success") {

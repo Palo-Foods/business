@@ -14,8 +14,6 @@ export const pushToMedia = async (businessId, public_id, url) => {
       upsert: true,
     });
 
-  console.log("media results", media);
-
   if (media.acknowledged === true) {
     return "success";
   } else {

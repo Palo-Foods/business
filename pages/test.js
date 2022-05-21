@@ -27,7 +27,6 @@ function Test() {
       reader.readAsDataURL(file);
       //if filetype is image
       if (file.type.substr(0, 5) === "image") {
-        console.log("filetype", file.type);
         //resize image
         Resizer.imageFileResizer(
           file,
@@ -37,7 +36,6 @@ function Test() {
           150,
           0,
           (uri) => {
-            console.log("uri", uri);
             setImage({url: uri, type: 'image'});
           },
           "base64"

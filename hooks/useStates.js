@@ -1,50 +1,62 @@
 /**
  * 1. Pass state used to process http request
  **/
-import { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { useRouter } from "next/router";
+import { useSessionStorage } from "./useSession";
 
-export const useStates = (dataFromStore) => {
-  //console.log("use states", dataFromStore);
+export const useStates = (dataType) => {
+  const { item } = useSessionStorage(dataType);
   const [auth, setAuth] = useState("");
   const [user, setUser] = useState("");
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState("");
-  const [email, setEmail] = useState(dataFromStore?.email);
-  const [phone, setPhone] = useState(dataFromStore?.phone);
-  const [fullName, setFullName] = useState(dataFromStore?.fullName);
-  const [name, setName] = useState(dataFromStore?.name);
+  const [email, setEmail] = useState("");
+  const [phone, setPhone] = useState("");
+  const [fullName, setFullName] = useState("");
+  const [name, setName] = useState("");
   const [password, setPassword] = useState("");
   const [birthday, setBirthday] = useState("");
   const [city, setCity] = useState("");
-  const [address, setAddress] = useState(dataFromStore?.address);
+  const [address, setAddress] = useState("");
   const [joined, setJoined] = useState("");
   const [statusCode, setStatusCode] = useState();
   const [error, setError] = useState("");
   const [department, setDepartment] = useState("");
   const [text, setText] = useState("");
   const [description, setDescription] = useState("");
-  const [type, setType] = useState(dataFromStore?.type);
+  const [type, setType] = useState("");
   const [options, setOptions] = useState("");
   const [agree, setAgree] = useState("");
-  const [region, setRegion] = useState(dataFromStore?.region);
+  const [region, setRegion] = useState("" || item?.region);
+  const [location, setLocation] = useState("");
   const [show, setShow] = useState(true);
   const [numberOfPeople, setNumberOfPeople] = useState("");
   const [data, setData] = useState("");
 
   const [uploadedImage, setUploadedImage] = useState("");
   const [image, setImage] = useState("");
-  const [itemImage, setItemImage] = useState(dataFromStore?.itemImage?.url);
-  const [avatar, setAvatar] = useState(dataFromStore?.avatar?.url);
-  const [document, setDocument] = useState(dataFromStore?.document?.url);
-  const [banner, setBanner] = useState(dataFromStore?.banner?.url);
-  const [logo, setLogo] = useState(dataFromStore?.logo?.url);
+  const [itemImage, setItemImage] = useState("" || item?.itemImage?.url);
+  const [avatar, setAvatar] = useState("" || item?.avatar?.url);
+  const [document, setDocument] = useState("" || item?.document?.url);
+  const [banner, setBanner] = useState("" || item?.banner?.url);
+  const [logo, setLogo] = useState("" || item?.logo?.url);
 
   const [price, setPrice] = useState(null);
   const [discount, setDiscount] = useState(null);
 
   const router = useRouter();
+
+  useEffect(() => {
+    setEmail(item?.email);
+    setFullName(item?.fullName);
+    setPhone(item?.phone);
+    setAddress(item?.location?.address);
+    setLogo(item?.logo?.url);
+    setBanner(item?.banner?.url);
+    setLocation(item?.location?.address);
+  }, [item]);
 
   const dispatch = useDispatch();
 
@@ -127,5 +139,8 @@ export const useStates = (dataFromStore) => {
     setImage,
     data,
     setData,
+    id: item?.id,
+    location,
+    setLocation,
   };
 };
