@@ -21,7 +21,7 @@ function Search({ items, keyword, setKeyword }) {
             placeholder="Search..."
             aria-label="Search"
             disabled={!items?.length === 0}
-            className="form-control border-start-0"
+            className="form-control border-start-0 py-2"
             onKeyDown={(e) => e.key === "Enter" && e.preventDefault()}
           />
         </div>

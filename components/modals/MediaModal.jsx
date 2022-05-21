@@ -26,7 +26,7 @@ const MediaModal = ({ image, setImage }) => {
       aria-hidden="true"
       style={{ paddingRight: 0 }}>
       <div
-        className="modal-dialog modal-dialog-centered modal-dialog-fullScreen modal-lg"
+        className="modal-dialog modal-dialog-scrollable modal-dialog-centered modal-dialog-fullScreen modal-lg"
         role="document">
         <div className="modal-content">
           <div className="modal-header border-0 py-2 d-flex align-items-center pe-0">
@@ -41,7 +41,7 @@ const MediaModal = ({ image, setImage }) => {
             </button>
           </div>
 
-          <div className="modal-body" style={{ height: "30rem" }}>
+          <div className="modal-body">
             {loading && (
               <div className="w-100 d-flex justify-content-center align-items-center h-100">
                 <Spinner />

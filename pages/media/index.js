@@ -43,23 +43,19 @@ function AddFilePage() {
             </div>
           </div>
 
-          <div
-            className="card-body p-3 d-flex justify-content-start"
-            style={{ height: "30rem" }}>
+          <div className="card-body p-3">
             {data && (
-              <FilesInMedia
+              <FilesInMedia image={image} setImage={setImage} files={data} />
+            )}
+            <div className="col-6 col-md-4 mb-3">
+              <FileUploadPicker
                 image={image}
                 setImage={setImage}
-                files={data}
+                type="photo"
+                width={100}
+                height={100}
               />
-            )}
-            <FileUploadPicker
-              image={image}
-              setImage={setImage}
-              type="photo"
-              width={100}
-              height={100}
-            />
+            </div>
           </div>
           <UploadMediaModal image={image} setImage={setImage} />
           <div className="card-footer text-muted d-flex justify-content-end">

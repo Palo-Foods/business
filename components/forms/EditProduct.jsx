@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useStates } from "../../hooks/useStates";
 import { MdDelete } from "react-icons/md";
-import DeleteModal from "../modals/DeleteModal"
+import DeleteModal from "../modals/DeleteModal";
 import TextArea from "../ui/Description";
 import Select from "../ui/Select";
 import TextInput from "../ui/TextInput";
@@ -29,7 +29,7 @@ function EditProductForm({ productData }) {
     router,
   } = useStates(productData);
 
-  const [item, setItem] = useState()
+  const [item, setItem] = useState();
 
   //get sign up hook
   const { loading, statusCode, message, putData } = usePut();
@@ -57,7 +57,7 @@ function EditProductForm({ productData }) {
   return (
     <>
       <form onSubmit={handleSubmit} className="row">
-        <div className="col-md-7">
+        <div className="col-sm-7">
           <div className="col-md-12 mb-4 form-group">
             <TextInput
               type="text"
@@ -125,7 +125,15 @@ function EditProductForm({ productData }) {
               id="category"
             />
           </div>
-
+          <p>Product image</p>
+          <FilePicker
+            image={image}
+            setImage={setImage}
+            type="photo"
+            width={250}
+            height={200}
+          />
+          <hr />
           {statusCode && (
             <Alert
               type={
@@ -138,7 +146,7 @@ function EditProductForm({ productData }) {
               message={message}
             />
           )}
-          <div className="mt-4">
+          <div className="my-4">
             <button
               type="submit"
               className="btn btn-primary px-5"
@@ -148,14 +156,8 @@ function EditProductForm({ productData }) {
             </button>
           </div>
         </div>
-        <div className="col-md-5 col-lg-5 mx-auto">
-          <FilePicker
-            image={image}
-            setImage={setImage}
-            type="photo"
-            width={250}
-            height={200}
-          />
+        <div className="col-sm-5">
+          <h6>Extras</h6>
         </div>
       </form>
       <div className="mt-4">

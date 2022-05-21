@@ -40,37 +40,38 @@ function ProductsPage() {
       </div>
       <div>
         <div className="card">
-          <div className="card-body d-flex justify-content-between">
-            <div className="d-flex justify-content-start align-items-center">
-              <h6 className="mb-0 me-2">Products</h6>
+          <div className="card-body d-md-flex justify-content-md-between align-items-md-center">
+            <h6 className="mb-3 mb-md-0 me-2">Products</h6>
+            <div className="d-sm-flex justify-content-sm-between align-items-sm-center">
               {data?.products && (
-                <Search
-                  items={data?.products}
-                  keyword={keyword}
-                  setKeyword={setKeyword}
-                  className="ms-3"
-                />
+                <div className="me-sm-3 mb-3 mb-sm-0">
+                  <Search
+                    items={data?.products}
+                    keyword={keyword}
+                    setKeyword={setKeyword}
+                  />
+                </div>
               )}
-            </div>
-            <div>
               {data?.products && (
-                <Select
-                  text={type}
-                  setInput={setInput}
-                  setText={setType}
-                  options={[
-                    "All",
-                    "Rice dishes",
-                    "Local dishes",
-                    "Pizza",
-                    "Sandwich",
-                    "Salad",
-                    "Beverage",
-                    "Soup",
-                  ]}
-                  classes="py-1"
-                  id="category"
-                />
+                <div>
+                  <Select
+                    text={type}
+                    setInput={setInput}
+                    setText={setType}
+                    options={[
+                      "All",
+                      "Rice dishes",
+                      "Local dishes",
+                      "Pizza",
+                      "Sandwich",
+                      "Salad",
+                      "Beverage",
+                      "Soup",
+                    ]}
+                    classes="py-2"
+                    id="category"
+                  />
+                </div>
               )}
             </div>
           </div>
