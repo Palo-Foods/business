@@ -174,12 +174,6 @@ function AddRiderForm() {
           )}
           Submit
         </button>
-
-        {!edit && (
-          <Link href="/riders">
-            <a className="btn btn-light ms-3">Go back</a>
-          </Link>
-        )}
       </div>
     </form>
   );
