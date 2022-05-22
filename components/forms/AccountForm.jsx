@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import dynamic from "next/dynamic";
 import Alert from "../../components/ui/Alert";
 import Spinner from "../../components/ui/Spinner";
@@ -7,13 +7,14 @@ import TextInput from "../../components/ui/TextInput";
 import { useStates } from "../../hooks/useStates";
 import FilePicker from "../media/FilePicker";
 import { usePut } from "../../hooks/crud/usePut";
+import { useSessionStorage } from "../../hooks/useSession";
 const LocationSearchInput = dynamic(() => import("../forms/AutoCompleteForm"));
 
 //const LocationModal = dynamic(() => import("../modals/LocationModal"));
 
 function AccountForm() {
   const { putData, loading, message, statusCode } = usePut();
-
+  const { item } = useSessionStorage("location");
   const {
     fullName,
     phone,
@@ -31,6 +32,14 @@ function AccountForm() {
     location,
     setLocation,
   } = useStates();
+
+  //check if location exist in session
+  useEffect(() => {
+    if (item?.address) {
+      console.log("address", item?.address);
+      setLocation(item);
+    }
+  }, [item]);
 
   const handleEditAccount = async (e) => {
     e.preventDefault();
