@@ -25,7 +25,7 @@ export const useSessionStorage = (key) => {
     fetchData();
   }, []);
 
-  const setSession = (key, value) => {
+  const setSession = (value) => {
     sessionStorage.setItem(key, JSON.stringify(value));
     getSessionStorage();
   };

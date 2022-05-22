@@ -14,7 +14,7 @@ const LocationSearchInput = dynamic(() => import("../forms/AutoCompleteForm"));
 
 function AccountForm() {
   const { putData, loading, message, statusCode } = usePut();
-  const { item } = useSessionStorage("location");
+  const { item, setSession } = useSessionStorage("location");
   const {
     fullName,
     phone,
@@ -57,6 +57,7 @@ function AccountForm() {
 
     //provide url, email, password, custom args
     await putData(url, data, "PUT");
+    setSession(location);
   };
 
   return (
