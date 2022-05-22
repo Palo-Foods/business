@@ -24,22 +24,28 @@ const LocationSearchInput = ({ setLocation, location, classes }) => {
     if (ref) {
       if (result?.address_components) {
         setLocation({
+          coordinates: {
+            lat: result?.geometry?.location?.lat(),
+            lng: result?.geometry?.location?.lng(),
+          },
           address: ref.current.value,
-          municipality: result?.address_components[1].long_name,
-          region: result?.address_components[2].long_name,
+          town: result?.address_components[1].long_name,
+          municipality: result?.address_components[2].long_name,
+          region: result?.address_components[3].long_name,
         });
       }
     } else {
       setError("There was an error");
       setLoading(false);
     }
+  }, [result, ref]);
 
+  useEffect(() => {
     //set existing location
     if (location && !result?.address_components) {
-      ref.current.value = location;
+      ref.current.value = location?.address;
     }
-    console.log(result);
-  }, [result, ref]);
+  }, [location]);
 
   return (
     <>

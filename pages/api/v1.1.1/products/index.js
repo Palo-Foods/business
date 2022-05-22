@@ -26,7 +26,7 @@ export default authenticate(async (req, res) => {
     }
 
     const projection = {
-      projection: { products: { rating: 0, review: 0, extras: 0 } },
+      projection: { products: { category: 1, price: 1, discount: 1, name: 1, itemImage: 0 } },
     };
 
     await get(collection, userId, res, projection);
