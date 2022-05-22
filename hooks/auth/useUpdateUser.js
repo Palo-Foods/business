@@ -38,7 +38,7 @@ export const useUpdateUser = () => {
     if (statusCode === 201) {
       const { id, authToken, email, fullName, role, phone } = response?.data;
       setLoading(false);
-      setSession("user", {
+      setSession({
         id,
         authToken,
         email,

@@ -9,7 +9,7 @@ import { useSessionStorage } from "../useSession";
 import { useStates } from "../useStates";
 
 export const useLogin = (url) => {
-  const { setSession } = useSessionStorage("user", null);
+  const { setSession } = useSessionStorage("user");
   const {
     loading,
     setLoading,
@@ -37,7 +37,7 @@ export const useLogin = (url) => {
     if (statusCode === 200) {
       console.log(response?.data)
       setLoading(false);
-      setSession("user", data);
+      setSession(data);
 
       setStatusCode(statusCode);
       setMessage(statusText);
