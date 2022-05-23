@@ -9,9 +9,7 @@ import { findOne } from "../db/find";
 import { createJwt } from "../jwt";
 import { statusCode200, statusCode404, statusCode405 } from "../status/codes";
 
-export const login = async (req, res, collection) => {
-  //res.status(200).json({ ...JSON.parse(req.body) });
-  //const body = JSON.parse(JSON.parse(req.body));
+export const login = async (req, res) => {
   const { email, password } = JSON.parse(req.body);
   console.log(email, password);
 
@@ -24,7 +22,7 @@ export const login = async (req, res, collection) => {
   //2. find if user exist in db using email address
 
   const results = await findOne(
-    collection,
+    "businesses",
     { email: email },
     {
       projection: { megos: 0 },

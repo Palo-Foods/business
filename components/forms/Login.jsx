@@ -7,7 +7,7 @@ import Spinner from "../../components/ui/Spinner";
 import Alert from "../../components/ui/Alert";
 
 export default function LoginForm() {
-  const url = "api/v1.1.1/users/login/businesses";
+  const url = "api/v1.1.1/users/login";
   const { login, loading, statusCode, message } = useLogin(url);
   const { email, password, setInput, setEmail, setPassword } = useStates("");
 

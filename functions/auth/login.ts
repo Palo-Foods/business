@@ -17,5 +17,6 @@ export const loginUser = async (url: string, data: object) => {
   };
 
   //2. return response and error
-  return (data = await tryStatement(url, config));
+  const response = await tryStatement(url, config)
+  return response
 };

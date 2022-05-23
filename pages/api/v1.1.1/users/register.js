@@ -1,6 +1,6 @@
-import { insert } from "../../db/insert";
-import { authenticate } from "../../authentication";
-import { findOne } from "../../db/find";
+import { insert } from "../db/insert";
+import { authenticate } from "../authentication";
+import { findOne } from "../db/find";
 import {
   statusCode201,
   statusCode401,
@@ -8,9 +8,9 @@ import {
   statusCode404,
   statusCode405,
   statusCode500,
-} from "../../status/codes";
-import { encryptPassword } from "../../encrypt";
-import { verifyUser } from "../../verification";
+} from "../status/codes";
+import { encryptPassword } from "../encrypt";
+import { verifyUser } from "../verification";
 import { getUserData } from "./userData";
 
 export default authenticate(async (req, res) => {

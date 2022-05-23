@@ -21,7 +21,7 @@ function Product(product) {
       </div>
       <div className="p-3">
         <EditProductForm productData={product} />
-      </div>
+      </div> 
     </DashboardLayout>
   );
 }
@@ -34,21 +34,16 @@ const removeUndefinedForNextJsSerializing = (props) =>
 export const getServerSideProps = async (context) => {
   const { db } = await connectToDatabase();
   const response = await db.collection("products").findOne({
-    _id: ObjectID(context?.params?.slug[0]),
+    _id: ObjectID(context?.params?.slug[0])
   });
-
-  if (!response) {
-    return {
-      notFound: true,
-    };
-  }
 
   const product = response?.products?.find(
     (product) => product.id === context.params.slug[1]
   );
+  console.log("response", response);
 
   return {
-    props: removeUndefinedForNextJsSerializing({ product }),
+    props: product,
   };
 };
 

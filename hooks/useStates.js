@@ -65,13 +65,14 @@ export const useStates = (incomingData) => {
 
     if (incomingData) {
       console.log("incomingData", incomingData);
-      const { product } = incomingData;
-      setName(product?.name);
-      setImage(product?.itemImage);
-      setPrice(product?.price);
-      setDiscount(product?.discount);
-      setType(product?.category);
-      setDescription(product?.description);
+      const { name, price, category, discount, description, itemImage } =
+        incomingData;
+      setName(name);
+      setImage(itemImage);
+      setPrice(price);
+      setDiscount(discount);
+      setType(category);
+      setDescription(description);
     }
   }, [item, incomingData]);
 
@@ -163,6 +164,7 @@ export const useStates = (incomingData) => {
     setClosingHour,
     openingHour,
     setOpeningHour,
-    day, setDay
+    day,
+    setDay,
   };
 };
