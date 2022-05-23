@@ -7,7 +7,7 @@ import Spinner from "../../components/ui/Spinner";
 import Alert from "../../components/ui/Alert";
 
 export default function LoginForm() {
-   const url = "api/v1.1.1/users/login/businesses";
+  const url = "api/v1.1.1/users/login/businesses";
   const { login, loading, statusCode, message } = useLogin(url);
   const { email, password, setInput, setEmail, setPassword } = useStates("");
 
@@ -16,7 +16,7 @@ export default function LoginForm() {
     e.preventDefault();
 
     const data = { email, password };
-   
+
     await login(data);
   };
 
@@ -28,7 +28,7 @@ export default function LoginForm() {
           text={email}
           setInput={setInput}
           setText={setEmail}
-          classes="py-2"
+          classes=""
           id="email"
           placeholder="Email address"
         />
@@ -39,7 +39,7 @@ export default function LoginForm() {
           text={password}
           setInput={setInput}
           setText={setPassword}
-          classes="py-2"
+          classes=""
           placeholder="Password"
         />
       </div>

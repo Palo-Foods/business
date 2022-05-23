@@ -10,23 +10,35 @@ function FilePicker({ image, setImage, width, height, id }) {
           data-bs-toggle="modal"
           data-bs-target="#mediaModal"
           type="button"
-          className="bg-light d-flex justify-content-center align-items-center p-2"
-          style={{
-            width: "auto",
-            height: "100%",
-            borderRadius: 5,
-            border: "1px dashed #d5d6d7",
-          }}
           id={id}>
           {!image && (
-            <MdOutlinePhoto size={30} className="text-muted" color="#d5d6d7" />
+            <div
+              className="bg-light d-flex justify-content-center align-items-center p-2"
+              style={{
+                width,
+                height,
+                borderRadius: 5,
+                border: "1px dashed #d5d6d7",
+              }}>
+              <MdOutlinePhoto
+                size={30}
+                className="text-muted"
+                color="#d5d6d7"
+              />
+            </div>
           )}
           {image && (
             <img
               src={image?.url}
               alt="item-image"
               className="img-fluid"
-              style={{ objectFit: "contain" }}
+              style={{
+                width: "auto",
+                height: "100%",
+                borderRadius: 5,
+                border: "1px dashed #d5d6d7",
+                objectFit: "contain",
+              }}
               id={id}
             />
           )}

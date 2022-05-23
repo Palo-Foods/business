@@ -59,7 +59,7 @@ function AddProductForm({ product }) {
               text={name}
               setInput={setInput}
               setText={setName}
-              classes="py-2"
+              classes=""
               id="itemName"
               placeholder="Item Name"
             />
@@ -83,7 +83,7 @@ function AddProductForm({ product }) {
                 text={price}
                 setInput={setInput}
                 setText={setPrice}
-                classes="py-2"
+                classes=""
                 id="price"
                 placeholder="Price"
               />
@@ -95,14 +95,14 @@ function AddProductForm({ product }) {
                 text={discount}
                 setInput={setInput}
                 setText={setDiscount}
-                classes="py-2"
+                classes=""
                 id="discount"
                 placeholder="Discounted price (optional)"
               />
             </div>
           </div>
 
-          <div className="col-md-12 form-group mb-5">
+          <div className="col-md-12 form-group mb-4">
             <Select
               text={type}
               setInput={setInput}
@@ -116,22 +116,32 @@ function AddProductForm({ product }) {
                 "Beverage",
                 "Soup",
               ]}
-              classes="py-2"
+              classes=""
               id="category"
             />
           </div>
 
+          <div className="">
+            <FilePicker
+              image={image}
+              setImage={setImage}
+              type="photo"
+              width={250}
+              height={200}
+            />
+          </div>
+
           {statusCode && (
-              <Alert
-                type={
-                  statusCode === 201
-                    ? "success"
-                    : statusCode === 500
-                    ? "danger"
-                    : "info"
-                }
-                message={message}
-              />
+            <Alert
+              type={
+                statusCode === 201
+                  ? "success"
+                  : statusCode === 500
+                  ? "danger"
+                  : "info"
+              }
+              message={message}
+            />
           )}
           <div className="mt-4 d-flex justify-content-between">
             <button
@@ -142,15 +152,6 @@ function AddProductForm({ product }) {
               {!loading && <span>Add item</span>}
             </button>
           </div>
-        </div>
-        <div className="col-md-5 col-lg-5 mx-auto">
-          <FilePicker
-            image={image}
-            setImage={setImage}
-            type="photo"
-            width={250}
-            height={200}
-          />
         </div>
       </form>
     </div>

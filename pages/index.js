@@ -6,7 +6,7 @@ function LoginPage() {
   return (
     <Layout title="Login">
       <div className="d-flex justify-content-center align-items-center vh-100">
-        <div className="col-sm-7 col-md-5 col-lg-4 col-xl-3">
+        <div className="col-sm-6 col-md-4 col-lg-3">
           <h3 className="text-center">
             <span className="text-primary fw-bold">Palo</span> Business
           </h3>

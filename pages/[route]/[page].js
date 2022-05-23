@@ -16,7 +16,7 @@ function Page() {
   return (
     <>
       <DashboardLayout>
-        <div className="container-fluid px-3 my-3">
+        <div className="container-fluid my-3">
           <div className="row">
             {route?.query.page === "home" && <DashboardPage />}
             {route?.query.page === "orders" && <OrdersPage />}

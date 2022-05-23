@@ -35,6 +35,9 @@ export const useStates = (incomingData) => {
   const [show, setShow] = useState(true);
   const [numberOfPeople, setNumberOfPeople] = useState("");
   const [data, setData] = useState("");
+  const [openingHour, setOpeningHour] = useState("");
+  const [closingHour, setClosingHour] = useState("");
+  const [day, setDay] = useState("");
 
   const [uploadedImage, setUploadedImage] = useState("");
   const [image, setImage] = useState("");
@@ -156,5 +159,10 @@ export const useStates = (incomingData) => {
     id: item?.id,
     location,
     setLocation,
+    closingHour,
+    setClosingHour,
+    openingHour,
+    setOpeningHour,
+    day, setDay
   };
 };
