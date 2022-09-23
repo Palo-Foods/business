@@ -1,71 +1,73 @@
-import { authenticate } from "../../authentication";
-import { verifyUser } from "../../verification";
-import {
-  statusCode201,
-  statusCode401,
-  statusCode404,
-  statusCode405,
-  statusCode500,
-} from "../../status/codes";
-import { insertToArray } from "../../db/update";
 import { ObjectId } from "mongodb";
+import { authenticate } from "../authentication";
+import { verifyUser } from "../verification";
+
 import Cors from "cors";
-import { runMiddleware } from "../../corsMiddleWare";
+import { runMiddleware } from "../corsMiddleWare";
+import { connectToDatabase } from "../../../../lib/mongodb";
 
 // Initializing the cors middleware
 const cors = Cors({
-  methods: ["POST", "HEAD"],
+  methods: ["GET", "PUT", "DELETE", "HEAD"],
 });
 
 export default authenticate(async (req, res) => {
   // Run the middleware
   await runMiddleware(req, res, cors);
   //verify user
-  const { role, userId } = await verifyUser(req);
+  const { userId, role } = await verifyUser(req);
+  const {query, body, method} = req
 
-  const body = JSON.parse(req.body); //JSON.parse(JSON.parse(req.body));
+  const { id } = query;
 
-  const { id } = req.query;
+  const data = JSON.parse(body);
 
   try {
-    //1. check if authorized to sign up, using match, role
-    if (role !== "business") {
-      statusCode401(res);
-      return;
+    const { db } = await connectToDatabase()
+    
+    switch (method) {
+      case "GET":
+        const rate = await db.collection("products")
+          .findOne({ _id: ObjectId(userId), "rates.id": id })
+        
+        res.status(200).json(rate)
+        break;
+      
+      case "PUT":
+        const { name, price } = data;
+        const updateData = {
+          $set: {
+            "rates.$[elem].name": name,
+            "rates.$[elem].rate": price,
+            //"rates.$[elem].image": image,
+          },
+        };
+        //5. update data in business collection
+        const results = await db.collection("products").updateOne(
+          { _id: ObjectId(userId) },
+          updateData,
+          { arrayFilters: [{ "elem.id": id }] },
+          {upsert: true}
+        );
+        results.modifiedCount ? res.status(200).json({ msg: "Rate updated" })
+          : res.status(404).json({ msg: "Rate update failed" });
+        break;
+        
+      case "DELETE":
+        const deleteProduct = await db.collection("products")
+          .updateOne({ _id: ObjectId(userId) }, { $pull: { rates: { id: id } } })
+        
+        deleteProduct.matchedCount ? res.status(200).json({ msg: "rate deleted" })
+          : res.status(404).json({msg: "rate deletion failed" })
+        break
+      
+      default:
+        break;
     }
 
-    //2. check for method
-    //if method does not exist
-    if (method !== "POST") {
-      statusCode405(res);
-      return;
-    }
-
-    const { rate, name } = body;
-    //push to ratings
-    const set = {
-      $push: {
-        "products.$[elem].ratings": { id: rate, name },
-      },
-    };
-
-    const results = await insertToArray(
-      collection,
-      { _id: ObjectId(userId) },
-      set,
-      { arrayFilters: [{ "elem.id": id }] },
-      {
-        returnDocuments: true,
-        upsert: true,
-      }
-    );
-
-    if (results.matchedCount === 1) {
-      statusCode201(res, results);
-    } else {
-      statusCode404(res, "Adding data failed");
-    }
   } catch (error) {
-    statusCode500(res, error);
+    res.status(500).json({ msg: error.message})
+  } finally {
+    res.end();
   }
 });

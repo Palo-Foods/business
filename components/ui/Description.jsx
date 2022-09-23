@@ -1,6 +1,12 @@
 import React from "react";
 
-function TextArea({ text, setText, setInput, classes, rows, placeholder }) {
+function TextArea({
+  text,
+  setText,
+  setInput,
+  classes,
+  rows
+}) {
   return (
     <>
       <textarea
@@ -8,7 +14,7 @@ function TextArea({ text, setText, setInput, classes, rows, placeholder }) {
         value={text}
         onChange={setInput(setText)}
         rows={rows}
-        placeholder={placeholder}></textarea>
+        placeholder=""></textarea>
     </>
   );
 }

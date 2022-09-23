@@ -14,8 +14,6 @@ const ShowModal = ({ type, setItem, router, content, edit, setEdit }) => {
       className="modal fade"
       id="showModal"
       tabIndex="-1"
-      data-bs-backdrop="static"
-      data-bs-keyboard="false"
       role="dialog"
       aria-labelledby="modelTitleId"
       aria-hidden="true">
@@ -29,21 +27,21 @@ const ShowModal = ({ type, setItem, router, content, edit, setEdit }) => {
                 <span
                   className="bg-light rounded-circle p-2"
                   onClick={() => setEdit(false)}>
-                  <MdArrowBack size={18} />
+                  <MdArrowBack size={20} />
                 </span>
               </button>
             )}
-            <h5 className="ps-3">Product</h5>
-            <a
+            <h5 className="ps-3">{edit ? "Edit account" : "Account"}</h5>
+            <button
               type="button"
-              data-bs-dismiss="modal"
-              className="me-2 text-decoration-none text-black">
+              className="btn btn-default"
+              data-bs-dismiss="modal">
               <span
                 className="bg-light rounded-circle p-2"
                 onClick={handleClearItem}>
-                <MdClear size={18} />
+                <MdClear size={20} />
               </span>
-            </a>
+            </button>
           </div>
           <div className="modal-body my-3">{content}</div>
           {!edit && (

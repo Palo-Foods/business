@@ -1,38 +1,29 @@
+import { ObjectId } from "mongodb";
+import { connectToDatabase } from "../../../../lib/mongodb";
 import { authenticate } from "../authentication";
-import { get } from "../functions/get";
-import { statusCode401, statusCode405, statusCode500 } from "../status/codes";
 import { verifyUser } from "../verification";
 
 export default authenticate(async (req, res) => {
   //verify user
   const { role, userId } = await verifyUser(req);
 
-  const method = req.method;
-
-  const collection = "products";
+  const {method} = req
 
   try {
-    //1. check if authorized to sign up, using match, role
-    if (role !== "business") {
-      statusCode401(res);
-      return;
+    switch (method) {
+      case "GET":
+        const {db} = await connectToDatabase()
+        const products = await db.collection("products").find({_id: ObjectId(userId)}, {projection: {products: 1}}).toArray()
+        products._id ? res.status(200).json(products?.products)
+          : res.status(404).json([])
+        break;
+    
+      default: res.status(400).json({msg: "Invalid method"})
+        break;
     }
-
-    //2. check for method
-    //if method does not exist
-    if (method !== "GET") {
-      statusCode405(res);
-      return;
-    }
-
-    const projection = {
-      projection: { products: { category: 1, price: 1, discount: 1, name: 1, id: 1 } },
-    };
-
-    await get(collection, userId, res, projection);
   } catch (error) {
-    statusCode500(res, error);
+    res.status(500).json({msg: "Invalid method"})
   } finally {
-    res.end();
+    res.end()
   }
 });

@@ -1,85 +1,37 @@
-import { ObjectId } from "mongodb";
 import { authenticate } from "../authentication";
-import { find } from "../db/find";
-import {
-  statusCode200,
-  statusCode401,
-  statusCode404,
-  statusCode405,
-  statusCode500,
-} from "../status/codes";
-import { insertToArray } from "../db/update";
 import { verifyUser } from "../verification";
 
 import Cors from "cors";
 import { runMiddleware } from "../corsMiddleWare";
+import { connectToDatabase } from "../../../../lib/mongodb";
 
 // Initializing the cors middleware
 const cors = Cors({
-  methods: ["GET", "PUT", "POST", "HEAD"],
+  methods: ["GET", "HEAD"],
 });
 
 export default authenticate(async (req, res) => {
   // Run the middleware
   await runMiddleware(req, res, cors);
   //verify user
-  const { userId, role } = await verifyUser(req);
+  const { userId } = await verifyUser(req);
 
-  const method = req.method;
-
-  const { id } = req.query;
-
-  const collection = "orders";
-
-  const condition = { _id: ObjectId(userId), "orders.orderId": id };
+  const {method} = req
 
   try {
-    //1. check if authorized to sign up, using match, role
-    if (role !== "business") {
-      statusCode401(res);
-      return;
-    }
-
-    if (method === "POST") {
-      statusCode405(res);
-      return;
-    }
-
-    if (method === "GET") {
-      const results = await findOne(collection, condition, {});
-      if (results?.orderId) {
-        statusCode200(res, results);
-      } else {
-        statusCode404(res);
-      }
-    }
-
-    if (method === "PUT") {
-      const data = {
-        $set: {
-          "orders.$[elem].orderStatus": action,
-        },
-      };
-
-      const results = await insertToArray(
-        collection,
-        { _id: ObjectId(userId) },
-        data,
-        { arrayFilters: [{ "elem.orderId": id }] },
-        {
-          upsert: true,
-        }
-      );
-
-      console.log("results", results);
-
-      if (results.matchedCount === 1) {
-        statusCode200(res);
-      } else {
-        statusCode404(res);
-      }
+    switch (method) {
+      case "GET":
+        const { db } = await connectToDatabase()
+        const order = await db.collection("orders").findOne({ restaurantId: userId })
+        order?._id > 0 ? res.status(200).json(order) : res.status(404).json({})
+        break;
+    
+      default: res.status(400).json({msg: "Invalid method"}) 
+        break;
     }
   } catch (error) {
-    statusCode500(res, error);
+    res.status(500).json({msg: error.message})
+  } finally {
+    res.end();
   }
 });

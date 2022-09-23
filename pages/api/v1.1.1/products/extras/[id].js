@@ -1,112 +1,73 @@
-import { authenticate } from "../../authentication";
-import { verifyUser } from "../../verification";
-import {
-  statusCode200,
-  statusCode201,
-  statusCode401,
-  statusCode404,
-  statusCode405,
-  statusCode500,
-} from "../../status/codes";
-import { insertToArray, removeFromArray } from "../../db/update";
 import { ObjectId } from "mongodb";
+import { authenticate } from "../authentication";
+import { verifyUser } from "../verification";
+
+import Cors from "cors";
+import { runMiddleware } from "../corsMiddleWare";
+import { connectToDatabase } from "../../../../lib/mongodb";
+
+// Initializing the cors middleware
+const cors = Cors({
+  methods: ["GET", "PUT", "DELETE", "HEAD"],
+});
 
 export default authenticate(async (req, res) => {
+  // Run the middleware
+  await runMiddleware(req, res, cors);
   //verify user
-  const { role, userId } = await verifyUser(req);
+  const { userId, role } = await verifyUser(req);
+  const {query, body, method} = req
 
-  const method = req.method;
+  const { id } = query;
 
-  const { id } = req.query;
-
-  const { productId, name, price, category, subCategory } = JSON.parse(
-    req.body
-  );
-
-  const collection = "products";
+  const data = JSON.parse(body);
 
   try {
-    //1. check if authorized to sign up, using match, role
-    if (role !== "business") {
-      statusCode401(res);
-      return;
+    const { db } = await connectToDatabase()
+    
+    switch (method) {
+      case "GET":
+        const extra = await db.collection("products")
+          .findOne({ _id: ObjectId(userId), "extras.id": id })
+        
+        res.status(200).json(extra)
+        break;
+      
+      case "PUT":
+        const { name, price } = data;
+        const updateData = {
+          $set: {
+            "extras.$[elem].name": name,
+            "extras.$[elem].price": price,
+            //"extras.$[elem].image": image,
+          },
+        };
+        //5. update data in business collection
+        const results = await db.collection("products").updateOne(
+          { _id: ObjectId(userId) },
+          updateData,
+          { arrayFilters: [{ "elem.id": id }] },
+          {upsert: true}
+        );
+        results.modifiedCount ? res.status(200).json({ msg: "Extra updated" })
+          : res.status(404).json({ msg: "Extra update failed" });
+        break;
+        
+      case "DELETE":
+        const deleteProduct = await db.collection("products")
+          .updateOne({ _id: ObjectId(userId) }, { $pull: { extras: { id: id } } })
+        
+        deleteProduct.matchedCount ? res.status(200).json({ msg: "Extra deleted" })
+          : res.status(404).json({msg: "Extra deletion failed" })
+        break
+      
+      default:
+        break;
     }
 
-    //2. check for method
-    //if method does not exist
-    if (method === "POST") {
-      statusCode405(res);
-      return;
-    }
-
-    //2. check for method, if POST, GET, DELETE, PUT
-    if (method === "GET") {
-      //await get(collection, userId, res, id);
-      const results = await findOne(collection, { _id: ObjectId(userId) });
-
-      //get product
-      const product = results?.products?.find((id) => id === productId);
-
-      //get extra
-      const extra = product?.extras?.find((id) => id === id);
-
-      if (extra?._id) {
-        statusCode200(res, extra);
-      } else {
-        statusCode404(res);
-      }
-    }
-
-    if (method !== "DELETE") {
-      //push to extras
-      const data = {
-        $pull: { "products.$[elem].extras": { id: id } },
-      };
-
-      //delete account
-      const response = await removeFromArray(
-        collection,
-        {
-          _id: ObjectId(userId),
-        },
-        data,
-        { arrayFilters: [{ "elem.id": productId }] }
-      );
-
-      if (response.deletedCount === 1) {
-        statusCode200(res);
-      } else {
-        statusCode404(res);
-      }
-    }
-    if (method !== "PUT") {
-      //edit extra details
-      const set = {
-        $set: {
-          "extras.$[elem].name": name,
-          "extras.$[elem].price": price,
-          "extras.$[elem].category": category,
-          "extras.$[elem].subCategory": subCategory,
-        },
-      };
-
-      const response = await insertToArray(
-        collection,
-        { _id: ObjectId(userId) },
-        set,
-        { arrayFilters: [{ "elem.id": productId }] },
-        {
-          upsert: true,
-        }
-      );
-
-      if (response.matchedCount === 1) {
-        statusCode201(res, results);
-      } else {
-        statusCode404(res, "Adding data failed");
-      }
-    }
   } catch (error) {
-    statusCode500(res, error);
+    res.status(500).json({ msg: error.message})
+  } finally {
+    res.end();
   }
 });

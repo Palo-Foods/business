@@ -5,84 +5,62 @@ import {
   MdOutlineSettings,
   MdOutlinePayment,
   MdOutlineShoppingBag,
-  MdOutlineShoppingBasket,
-  MdOutlineDashboard,
-  MdOutlinePhotoAlbum,
+  MdBikeScooter,
+  MdOutlineStore,
+  MdDashboard,
 } from "react-icons/md";
-import { useSessionStorage } from "../hooks/useSession";
-import { useLogout } from "../hooks/auth/useLogout";
+import { useUser } from "../hooks/useUser";
 import { useStates } from "../hooks/useStates";
 
 const menus = [
+  { name: "Dashboard", link: "dashboard", icon: <MdDashboard size={14} /> },
   {
-    name: "Dashboard",
-    link: "home",
-    icon: <MdOutlineDashboard size={14} />,
+    name: "Businesses",
+    link: "businesses",
+    icon: <MdOutlineStore size={14} />,
   },
-
+  {
+    name: "Riders",
+    link: "riders",
+    icon: <MdBikeScooter size={14} />,
+  },
   { name: "Orders", link: "orders", icon: <MdOutlineShoppingBag size={14} /> },
-  {
-    name: "Products",
-    link: "products",
-    icon: <MdOutlineShoppingBasket size={16} />,
-  },
-  {
-    name: "Media",
-    link: "media",
-    icon: <MdOutlinePhotoAlbum size={16} />,
-  },
-  { name: "Payments", link: "payments", icon: <MdOutlinePayment size={14} /> },
+ /*  { name: "Payments", link: "payments", icon: <MdOutlinePayment size={14} /> }, */
   { name: "Settings", link: "account", icon: <MdOutlineSettings size={14} /> },
 ];
 
 const AsideContent = () => {
-  const { item } = useSessionStorage("user");
-
-  const { logOut } = useLogout();
-
-  const { router } = useStates();
-
-  //handle login
-  const handleLogout = async (e) => {
-    e.preventDefault();
-    await logOut();
-    router.push("/");
-  };
-
-  const handleRoute = (page) => {
-    router.push("/[route]/[page]", `/dashboard/${page}`);
-  };
-
+  const { user, signOut } = useUser("user");
+  const { router } = useStates()
+  
   return (
     <>
-      <div className="mb-3 border-bottom">
+      <div className="mb-3 border-bottom py-2">
         <p className="small text-muted mb-2">Profile</p>
         <div className="ps-3">
-          <h5>{item?.fullName}</h5>
-          <p className="small mb-0">Joined</p>
-          <p className="small">12th April 2022</p>
+          <p className="small mb-0">{user?.fullName}</p>
+          <p className="small mb-0 text-muted">Joined</p>
+          <p className="small">{user?.createdAt}</p>
         </div>
       </div>
-      <div className="my-3 border-bottom pb-2">
+      <div className="mb-3 border-bottom">
         <p className="small text-muted mb-2">Menu</p>
         {menus?.map((menu) => (
           <span key={menu.name}>
-          
+            <Link href={`/${menu.link}`}>
               <a
-              onClick={() => handleRoute(menu.link)}
                 className={`nav-link ms-md-0 d-flex align-items-center my-0 ${
-                  router?.query.page?.includes(menu.link)
+                  router?.pathname.includes(menu.link)
                     ? "active fw-bold"
                     : "text-black fw-normal"
-                } py-0`}
+                } mb-1 py-1`}
                 type="button"
                 role="tab"
-                aria-selected="true"
-                data-bs-dismiss="offcanvas">
+                aria-selected="true">
                 <span className="me-md-1">{menu?.icon}</span>
                 <span className="m-2">{menu.name}</span>
               </a>
-            
+            </Link>
           </span>
         ))}
       </div>
@@ -92,7 +70,7 @@ const AsideContent = () => {
         type="button"
         role="tab"
         aria-selected="true"
-        onClick={handleLogout}>
+        onClick={signOut}>
         <span className="me-md-1">
           <MdOutlineLogout size={14} />
         </span>

@@ -7,6 +7,7 @@ export const useFilter = (dataToFilter, condition) => {
   useEffect(() => {
     if (condition) {
       if (condition !== "All") {
+        console.log("it worked");
         //filter for region
         const newData = dataToFilter?.filter(
           (data) => data?.region === condition

@@ -2,74 +2,48 @@ import { authenticate } from "../authentication";
 import moment from "moment";
 import { verifyUser } from "../verification";
 import { v4 as uuidv4 } from "uuid";
-import {
-  statusCode201,
-  statusCode401,
-  statusCode404,
-  statusCode405,
-  statusCode500,
-} from "../status/codes";
 import { ObjectId } from "mongodb";
-import { insertToArray } from "../db/update";
+import { connectToDatabase } from "../../../../lib/mongodb";
 
 export default authenticate(async (req, res) => {
   //verify user
   const { role, userId } = await verifyUser(req);
 
-  const collection = "products";
+  const {body, method} = req
 
-  const method = req.method;
-
-  const body = JSON.parse(req.body);
+  const data = JSON.parse(body);
 
   try {
-    //1. check if authorized to sign up, using match, role
-    if (role !== "business") {
-      statusCode401(res);
-      return;
-    }
+    switch (method) {
+      case "POST":
+        //connect to database
+        const {db} = await connectToDatabase()
+        const date = new Date();
 
-    //2. check for method
-    //if method does not exist
-    if (method !== "POST") {
-      statusCode405(res);
-      return;
-    }
+        //create id for product
+        const id = uuidv4();
 
-    const date = new Date();
+        const item = {
+          id,
+          ...data,
+          extras: [],
+          rating: [],
+          review: [],
+          createdAt: moment(date).format("lll"),
+        };
 
-    //create id for product
-    const id = uuidv4();
-
-    const item = {
-      id,
-      ...body,
-      extras: [],
-      rating: [],
-      review: [],
-      createdAt: moment(date).format("lll"),
-    };
-
-    console.log("item", item);
-    const data = {
-      $push: { products: item },
-    };
-
-    //5. insert data into company collection
-    const response = await insertToArray(
-      collection,
-      { _id: ObjectId(userId) },
-      data,
-      { upsert: true }
-    );
-
-    if (response.matchedCount === 1) {
-      statusCode201(res, "data added");
-    } else {
-      statusCode404(res, "Adding data failed");
+        const response = await db.collection("products")
+          .updateOne({ _id: ObjectId(userId) }, { $push: { products: item } }, { upsert: true })
+        
+        response.matchedCount ? res.status(201).json({ msg: "Product added successfully" })
+          : res.status(404).json({ msg: "Adding product failed" }); 
+        break;
+    
+      default: res.status(400).json({ msg: "Invalid method" });
+        break;
     }
   } catch (error) {
-    statusCode500(res, error);
+    res.status(500).json({ msg: error.message });
   } finally {
     res.end();
   }

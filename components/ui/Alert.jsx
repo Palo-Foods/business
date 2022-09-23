@@ -8,12 +8,12 @@ const Alert = ({ message, type, onClick }) => {
       role="alert">
       <button
         type="button"
-        className="btn btn-default btn-sm p-1"
+        className="btn btn-default"
         data-bs-dismiss="alert"
         aria-label="Close">
         <MdClose className="ms-0" />
       </button>
-      <small>{message}</small>
+      {message}
     </div>
   );
 };

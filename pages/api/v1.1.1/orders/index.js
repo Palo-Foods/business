@@ -1,15 +1,10 @@
 import { authenticate } from "../authentication";
-import {
-  statusCode401,
-  statusCode405,
-  statusCode500,
-} from "../status/codes";
 import { verifyUser } from "../verification";
 
 import Cors from "cors";
 import { runMiddleware } from "../corsMiddleWare";
-import { get } from "../functions/get";
 import moment from "moment";
+import { connectToDatabase } from "../../../../lib/mongodb";
 
 // Initializing the cors middleware
 const cors = Cors({
@@ -20,32 +15,23 @@ export default authenticate(async (req, res) => {
   // Run the middleware
   await runMiddleware(req, res, cors);
   //verify user
-  const { userId, role } = await verifyUser(req);
-  const method = req.method;
+  const { userId } = await verifyUser(req);
 
-  const collection = "orders";
+  const {method} = req
 
   try {
-    //1. check if authorized to sign up, using match, role
-    if (role !== ("business" || "manager")) {
-      statusCode401(res);
-      return;
+    switch (method) {
+      case "GET":
+        const { db } = await connectToDatabase()
+        const orders = await db.collection("orders").find({ restaurantId: userId }).toarray()
+        orders?.length > 0 ? res.status(200).json(orders) : res.status(404).json([])
+        break;
+    
+      default: res.status(400).json({msg: "Invalid method"}) 
+        break;
     }
-
-    //get riders
-    if (method !== "GET") {
-      statusCode405(res);
-      return;
-    }
-
-    //3. find all riders
-    const projection = {
-      projection: { orders: 1, createdAt: moment().format("MMM Do YY") },
-    }; //use date and time to insert orders
-
-    await get(collection, userId, res, projection);
   } catch (error) {
-    statusCode500(res, error);
+    res.status(500).json({msg: error.message})
   } finally {
     res.end();
   }

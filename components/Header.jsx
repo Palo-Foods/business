@@ -1,15 +1,15 @@
 import React from "react";
 import Link from "next/link";
-import { MdNotifications, MdOutlineMenu } from "react-icons/md";
+import { MdNotifications, MdOutlineMenu, MdPerson } from "react-icons/md";
 import Aside from "./Aside";
 
 function Header() {
   return (
     <header>
-      <nav className="navbar navbar-expand-sm navbar-light bg-white border-bottom">
-        <div className="container-fluid px-3">
+      <nav className="navbar navbar-expand-sm navbar-light bg-white border-bottom py-1">
+        <div className="container-fluid">
           <a
-            className="text-black d-lg-none me-2"
+            className="me-3 text-black d-lg-none"
             data-bs-toggle="offcanvas"
             href="#offcanvasExample"
             role="button"
@@ -38,7 +38,7 @@ function Header() {
                   aria-haspopup="true"
                   aria-expanded="false">
                   <span className="ms-md-5 fw-bold position-relative">
-                    <MdNotifications size={20} className="text-black" />
+                    <MdNotifications size={14} className="text-black" />
                     <span className="position-absolute top-0 start-100 translate-middle">
                       <small
                         className="badge rounded-pill bg-danger text-white px-1 pb-1 fw-normal"
@@ -71,13 +71,14 @@ function Header() {
                   data-bs-toggle="dropdown"
                   aria-haspopup="true"
                   aria-expanded="false">
-                  <img
+                 {/*  <img
                     src="/images/profile.jpg"
-                    width={30}
-                    height={30}
+                    width={20}
+                    height={20}
                     className="rounded-circle img-fluid"
                     style={{ objectFit: "scale-down" }}
-                  />
+                  /> */}
+                  <MdPerson size={20} />
                 </a>
                 <div
                   className="dropdown-menu dropdown-menu-end"

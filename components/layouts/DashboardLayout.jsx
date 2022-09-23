@@ -4,6 +4,7 @@ import Head from "next/head";
 import Header from "../Header";
 import AsideContent from "../AsideContent";
 
+
 function DashboardLayout(props) {
   return (
     <>
@@ -22,19 +23,15 @@ function DashboardLayout(props) {
         />
       </Head>
       <Script src="/bootstrap.bundle.min.js" />
-     {/*  <Script
-        src={`https://maps.googleapis.com/maps/api/js?key=${process.env.GOOGLE_MAPS_API_KEY}Y&libraries=places`}
-        strategy="lazyOnload"
-      /> */}
+
       <div className="container-fluid">
         <div className="row h-100">
-          <div className="d-none d-lg-block col-lg-2 bg-white border-end py-3 vh-100 sticky-sidebar">
+          <div className="d-none d-lg-block col-lg-2 bg-white border-end py-3 vh-100">
             <AsideContent />
           </div>
-          <div className="col-lg-10 p-0">
+          <div className="col-lg-10 mb-5 px-0">
             <Header />
-
-            {props.children}
+            <div className="p-3">{props.children}</div>
           </div>
         </div>
       </div>
