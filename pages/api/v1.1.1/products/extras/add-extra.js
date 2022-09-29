@@ -15,7 +15,7 @@ export default authenticate(async (req, res) => {
 
   try {
     switch (method) {
-      case "PUT":
+      case "POST":
         const { db } = await connectToDatabase()
 
         const id = uuidv4();

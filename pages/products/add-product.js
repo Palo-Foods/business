@@ -1,30 +1,29 @@
-import React, { useEffect } from "react";
+import React from "react";
 import Link from "next/link";
-import { useStates } from "../../hooks/useStates";
-import AddProductForm from "../../components/forms/AddProduct";
+import DashboardLayout from "../../components/layouts/DashboardLayout";
+import AddProductForm from "../../components/forms/AddProductForm";
+import { useUser } from "../../hooks/useUser";
 
-function AddProductPage() {
-  const { show, setShow } = useStates();
+function AddBusinessPage() {
+  const {user} = useUser("user")
   return (
-    <>
-      {!!show && (
-        <>
-          <div className="d-flex justify-content-start align-items-center">
-            <Link href="/[route]/[page]" as="/dashboard/products">
-              <a className="me-2 text-decoration-none">
-                <h6 className="mt-2">Products</h6>
-              </a>
-            </Link>
-            <h6 className="mt-2 text-muted">/ Add Product</h6>
-          </div>
+    <DashboardLayout>
+      <nav class="breadcrumb">
+         <Link href="/products">
+          <a className="breadcrumb-item text-decoration-none">
+           Businesses
+          </a>
+        </Link>
+        <span class="breadcrumb-item active"> Add Product</span>
+      </nav>
 
-          <div className="mt-2">
-            <AddProductForm setShow={setShow} />
-          </div>
-        </>
-      )}
-    </>
+      <div className="card mt-2">
+        <div className="card-body my-3">
+          <AddProductForm user={user} />
+        </div>
+      </div>
+    </DashboardLayout>
   );
 }
 
-export default AddProductPage;
+export default AddBusinessPage;

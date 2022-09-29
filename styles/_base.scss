@@ -178,3 +178,11 @@ tr {
 .form-check-input:checked label {
   border: 2px solid #ff4136 !important;
 }
+
+.map-container {
+  height: 100%;
+}
+
+.autocomplete::placeholder {
+  color: "black"
+}

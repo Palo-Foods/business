@@ -6,12 +6,12 @@ import { verifyUser } from "../verification";
 
 export default authenticate(async function read(req, res){
   const { userId, role } = await verifyUser(req);
-
-  const {body, method} = req
+  const { method, body } = req
+  const data = JSON.parse(body)
+  console.log(data)
 
   try {
     const { db } = await connectToDatabase();
-
     switch (method) {
       case "GET":
         const user = await db
@@ -22,18 +22,17 @@ export default authenticate(async function read(req, res){
         break;
       
       case "PUT":
-      const data = JSON.parse(body);
-      const updateOne = await db
+        const response = await db
         .collection("businesses")
         .updateOne({ _id: ObjectId(userId) }, { $set: { ...data } });
       
 
-      if (updateOne?.modifiedCount) {
+      if (response?.acknowledged) {
         const results = await db
           .collection("businesses")
           .findOne({ _id: ObjectId(userId) }, { projection: { password: 0 } });
 
-         const { _id, role, email, fullName, verified, createdAt, phone, banner } = results;
+         const { _id, role, email, fullName, businessName, verified, createdAt, phone, location } = results;
 
         const jwt = createJwt(
           {
@@ -49,32 +48,32 @@ export default authenticate(async function read(req, res){
           role,
           email,
           fullName,
+          businessName,
+          location,
           id: _id,
           verified,
           phone,
-          createdAt,
-          banner
+          createdAt
         };
 
         res.status(200).json(data);
       } else {
         res.status(404).json({ msg: "Update failed" });
       }
-        break;
+        break
       
-      case "DELTE":
-        const response = await db
+      case "DELETE":
+          const deleteDate = await db
         .collection("businesses")
         .deleteOne({ _id: ObjectId(userId) });
 
-      if (response.deletedCount) {
+      if (deleteDate.deletedCount) {
         res.status(200).json({ msg: "Business was successfully deleted" });
       } else {
         res.status(400).json({ msg: "Business was not deleted" });
       }
-        break;
-      
-      default: res.status(400).json({ msg: "Invalid method"})
+        break
+      default: res.status(400).json({ msg: "Invalid method" });
         break;
     }
   } catch (error) {

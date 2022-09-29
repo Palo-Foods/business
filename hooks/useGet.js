@@ -38,18 +38,12 @@ export const useGet = (url) => {
   }, [sessionStorage, setError, setLoading, url]);
 
   useEffect(() => {
-    const isData = sessionStorage.getItem(url);
     async function getData() {
       await getItems();
     }
-
-    if (url && !isData) {
-      getData();
-      console.log("get-data")
-    } else {
-      setData(isData)
-    }
-  }, [getItems, sessionStorage, url]);
+    getData();
+     
+  }, [url]);
 
   return { loading, error, getItems, data, message, setMessage, status };
 };

@@ -2,6 +2,7 @@ import { useRouter } from "next/router";
 import { useState } from "react";
 
 export const useStates = () => {
+  const [fullName, setFullName] = useState("");
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
   const [email, setEmail] = useState("");
@@ -33,6 +34,10 @@ export const useStates = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
   const [isError, setIsError] = useState("");
+  const [image, setImage] = useState({ url: "", public_id: "" });
+  const [location, setLocation] = useState({
+    town: "", district: "", region: "", geometry: {}
+  })
 
   const router = useRouter();
 
@@ -100,5 +105,8 @@ export const useStates = () => {
     setWorkingHours,
     joinedOn,
     setJoinedOn,
+    image, setImage,
+    location, setLocation,
+    fullName, setFullName
   };
 };

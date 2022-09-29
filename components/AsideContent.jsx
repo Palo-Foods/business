@@ -3,9 +3,7 @@ import Link from "next/link";
 import { MdOutlineLogout } from "react-icons/md";
 import {
   MdOutlineSettings,
-  MdOutlinePayment,
   MdOutlineShoppingBag,
-  MdBikeScooter,
   MdOutlineStore,
   MdDashboard,
 } from "react-icons/md";
@@ -15,14 +13,9 @@ import { useStates } from "../hooks/useStates";
 const menus = [
   { name: "Dashboard", link: "dashboard", icon: <MdDashboard size={14} /> },
   {
-    name: "Businesses",
-    link: "businesses",
+    name: "Products",
+    link: "products",
     icon: <MdOutlineStore size={14} />,
-  },
-  {
-    name: "Riders",
-    link: "riders",
-    icon: <MdBikeScooter size={14} />,
   },
   { name: "Orders", link: "orders", icon: <MdOutlineShoppingBag size={14} /> },
  /*  { name: "Payments", link: "payments", icon: <MdOutlinePayment size={14} /> }, */
@@ -38,7 +31,7 @@ const AsideContent = () => {
       <div className="mb-3 border-bottom py-2">
         <p className="small text-muted mb-2">Profile</p>
         <div className="ps-3">
-          <p className="small mb-0">{user?.fullName}</p>
+          <p className="small mb-0">{user?.businessName}</p>
           <p className="small mb-0 text-muted">Joined</p>
           <p className="small">{user?.createdAt}</p>
         </div>

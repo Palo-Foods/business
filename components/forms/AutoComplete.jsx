@@ -1,27 +1,64 @@
-import React from "react";
-import { GooglePlacesAutocomplete } from "react-native-google-places-autocomplete";
+import { useEffect, useState } from "react";
+import { usePlacesWidget } from "react-google-autocomplete";
+import SmallSpinner from "../ui/Spinner";
 
-const GooglePlacesInput = () => {
+const PlaceAutoComplete = ({ setLocation }) => {
+  const [loading, setLoading] = useState("");
+  const [result, setResult] = useState({});
+  const [error, setError] = useState("");
+   const [loc, setLoc] = useState("");
+
+  const { ref } = usePlacesWidget({
+    apiKey: process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY,
+    onPlaceSelected: async (place) => {
+      setLoading(true);
+      setResult(place);
+      setLoading(false);
+    },
+    options: {
+      types: [],
+      componentRestrictions: { country: "gh" },
+    },
+  });
+
+  useEffect(() => {
+    if (ref.current.value?.length > 6) {
+      setLoading(true);
+      if (result) {
+        console.log(result)
+        setLoading(false);
+        setLocation({
+          loc: ref.current.value,
+          info: result?.address_components,
+        });
+        setLoc(ref);
+        if (loc.length >= 4) {
+          setLoading(true);
+          setTimeout(() => {
+            setLoading(false);
+          }, 10000);
+        }
+      } else {
+        setLoading(false); //location not found
+        setError("Location not found");
+      }
+    }
+  }, [result, ref]);
+
   return (
-    <GooglePlacesAutocomplete
-      placeholder="Search"
-      onPress={(data, details = null) => {
-        // 'details' is provided when fetchDetails = true
-        console.log(data, details);
-      }}
-      query={{
-        key: "YOUR API KEY",
-        language: "en",
-      }}
-      requestUrl={{
-        useOnPlatform: "web", // or "all"
-        url: `https://maps.googleapis.com/maps/api/js?key=${process.env.GOOGLE_MAPS_API_KEY}`, // or any proxy server that hits https://maps.googleapis.com/maps/api
-        headers: {
-          Authorization: `an auth token`, // if required for your proxy
-        },
-      }}
-    />
+    <>
+      <input
+        type="text"
+        ref={ref}
+        className="form-control w-100 mb-3"
+        placeholder="Location"
+      />
+      <small>
+        {loading && !error && <SmallSpinner />}
+        {error ? "Location not found" : ""}
+      </small>
+    </>
   );
 };
 
-export default GooglePlacesInput;
+export default PlaceAutoComplete;

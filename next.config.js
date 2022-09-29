@@ -1,7 +1,7 @@
 module.exports = {
   env: {
     MONGODB_URI:
-      "mongodb+srv://admin-palo:cOqHZo8Osm0bSGzN@cluster-palo-foods.j3b6f.mongodb.net/palofoods?retryWrites=true&w=majority",
+      "mongodb+srv://admin-palo:uMexTO37dgJ3OezS@cluster-palo-foods.j3b6f.mongodb.net/?retryWrites=true&w=majority",
     MONGODB_DB: "palofoods",
 
     NEXT_SECRET: "683caef9-86dd-4d69-bf0f-d152f0049d94",
@@ -15,12 +15,7 @@ module.exports = {
     CLOUDINARY_API_KEY: "628934891732292",
     CLOUDINARY_API_SECRET: "Cc9w0mgYrq5616bnz3VLuT8ZPzg",
 
-    GOOGLE_MAPS_API_KEY: "AIzaSyBGeHpwAD3ekyCtBEKUyzabCVVam7X-FJs",
-
-    STRIPE_PUBLISHED:
-      "pk_test_51KJ2r6GNtASg30ngItLdJq3MoLH1kOKIprhk7TcAnNVZGfaXNmwTclJhJ1Rion6VOhBE6aCkEKp3CZvBbqUjXrI900FOglfXRJ",
-    STRIPE_SECRET:
-      "sk_test_51KJ2r6GNtASg30ngmbe3bP0ddONCOvMUBWwhr5j7PDWPE9xVFeMxPxtyMS7F4ZYrLBCU09HFq1LK64IZqE448Zpy00LZdvXeNC",
+    NEXT_PUBLIC_GOOGLE_MAPS_API_KEY: "AIzaSyBGeHpwAD3ekyCtBEKUyzabCVVam7X-FJs",
 
     PAYSTACK_PUBLISHED: "pk_test_12bd7c0fceff86968394c08f13bb7b955149dc2c",
 

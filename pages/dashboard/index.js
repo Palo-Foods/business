@@ -15,8 +15,8 @@ import { useStates } from "../../hooks/useStates";
 
 function DashboardPage() {
   const { router } = useStates();
-  return (
-    <>
+  return (<DashboardLayout>
+     
       <div className="d-flex justify-content-between align-items-center mb-4">
         <h6 className="text-muted mb-0">Sales overview</h6>
         <div className="form-group">
@@ -27,68 +27,70 @@ function DashboardPage() {
           </select>
         </div>
       </div>
-
-      <div className="col-6 col-sm-4 col-md-4 mb-3">
-        <div className="card">
-          <div className="card-body pt-3 pt-md-2 pe-2">
-            <div className="text-end d-none d-md-block">
-              <MdOutlineInfo size={18} className="text-muted" />
-            </div>
-            <div className="d-flex justify-content-start align-items-center">
-              <div className="me-3  d-none d-sm-block">
-                <span className="mx-1 bg-info p-2 p-md-3 rounded-circle">
-                  <MdShoppingBag size={22} className="mb-1" />
-                </span>
+      <div className="col-12">
+        <div className="row">
+          <div className="col-6 col-sm-4 col-md-4 mb-3">
+            <div className="card">
+              <div className="card-body pt-3 pt-md-2 pe-2">
+                <div className="text-end d-none d-md-block">
+                  <MdOutlineInfo size={18} className="text-muted" />
+                </div>
+                <div className="d-flex justify-content-start align-items-center">
+                  <div className="me-3  d-none d-sm-block">
+                    <span className="mx-1 bg-info p-2 p-md-3 rounded-circle">
+                      <MdShoppingBag size={22} className="mb-1" />
+                    </span>
+                  </div>
+                  <div>
+                    <p className="text-muted mb-0">Total orders</p>
+                    <h1 className="h2 mb-0">30</h1>
+                  </div>
+                </div>
               </div>
-              <div>
-                <p className="text-muted mb-0">Total orders</p>
-                <h1 className="h2 mb-0">30</h1>
+            </div>
+          </div>
+          <div className="col-6 col-sm-4 col-md-4 mb-3">
+            <div className="card">
+              <div className="card-body pt-3 pt-md-2 pe-2">
+                <div className="text-end d-none d-md-block">
+                  <MdOutlineInfo size={18} className="text-muted" />
+                </div>
+                <div className="d-flex justify-content-start align-items-center">
+                  <div className="me-3  d-none d-sm-block">
+                    <span className="mx-1 bg-warning p-2 p-md-3 rounded-circle">
+                      <MdBikeScooter size={22} className="mb-1" />
+                    </span>
+                  </div>
+                  <div>
+                    <p className="text-muted mb-0">Deliveries</p>
+                    <h1 className="h2 mb-0">30</h1>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div className="col-6 col-sm-4 col-md-4 mb-3">
+            <div className="card">
+              <div className="card-body pt-3 pt-md-2 pe-2">
+                <div className="text-end d-none d-md-block">
+                  <MdOutlineInfo size={18} className="text-muted" />
+                </div>
+                <div className="d-flex justify-content-start align-items-center">
+                  <div className="me-3 d-none d-sm-block">
+                    <span className="mx-1 bg-light p-2 p-md-3 rounded-circle">
+                      <MdOutlinePayment size={22} className="mb-1" />
+                    </span>
+                  </div>
+                  <div>
+                    <p className="text-muted mb-0">Total sales</p>
+                    <h1 className="h2 mb-0">&#8373; 500</h1>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
         </div>
       </div>
-      <div className="col-6 col-sm-4 col-md-4 mb-3">
-        <div className="card">
-          <div className="card-body pt-3 pt-md-2 pe-2">
-            <div className="text-end d-none d-md-block">
-              <MdOutlineInfo size={18} className="text-muted" />
-            </div>
-            <div className="d-flex justify-content-start align-items-center">
-              <div className="me-3  d-none d-sm-block">
-                <span className="mx-1 bg-warning p-2 p-md-3 rounded-circle">
-                  <MdBikeScooter size={22} className="mb-1" />
-                </span>
-              </div>
-              <div>
-                <p className="text-muted mb-0">Deliveries</p>
-                <h1 className="h2 mb-0">30</h1>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div className="col-6 col-sm-4 col-md-4 mb-3">
-        <div className="card">
-          <div className="card-body pt-3 pt-md-2 pe-2">
-            <div className="text-end d-none d-md-block">
-              <MdOutlineInfo size={18} className="text-muted" />
-            </div>
-            <div className="d-flex justify-content-start align-items-center">
-              <div className="me-3 d-none d-sm-block">
-                <span className="mx-1 bg-light p-2 p-md-3 rounded-circle">
-                  <MdOutlinePayment size={22} className="mb-1" />
-                </span>
-              </div>
-              <div>
-                <p className="text-muted mb-0">Total sales</p>
-                <h1 className="h2 mb-0">&#8373; 500</h1>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
       <div className="col-12">
         <div className="row">
           <div className="col-md-6 mb-3">
@@ -154,7 +156,7 @@ function DashboardPage() {
           </div>
         </div>
       </div>
-    </>
+     </DashboardLayout>
   );
 }
 
