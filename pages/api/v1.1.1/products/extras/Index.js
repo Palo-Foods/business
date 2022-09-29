@@ -1,12 +1,5 @@
 import { authenticate } from "../../authentication";
 import { verifyUser } from "../../verification";
-import {
-  statusCode200,
-  statusCode401,
-  statusCode404,
-  statusCode405,
-  statusCode500,
-} from "../../status/codes";
 import { ObjectId } from "mongodb";
 import { connectToDatabase } from "../../../../../lib/mongodb";
 
@@ -16,12 +9,7 @@ export default authenticate(async (req, res) => {
 
   const method = req.method;
 
-  const { productId } = JSON.parse(req.body);
-
-  const collection = "products";
-
   try {
-    const {db} = await connectToDatabase()
      switch (method) {
       case "GET":
         const {db} = await connectToDatabase()
@@ -35,6 +23,6 @@ export default authenticate(async (req, res) => {
         break;
     }
   } catch (error) {
-    statusCode500(res, error);
+    res.status(500).json({msg: error.message})
   }
 });

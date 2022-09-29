@@ -1,10 +1,10 @@
 import { ObjectId } from "mongodb";
-import { authenticate } from "../authentication";
-import { verifyUser } from "../verification";
+import { authenticate } from "../../authentication";
+import { verifyUser } from "../../verification";
 
 import Cors from "cors";
-import { runMiddleware } from "../corsMiddleWare";
-import { connectToDatabase } from "../../../../lib/mongodb";
+import { runMiddleware } from "../../corsMiddleWare";
+import { connectToDatabase } from "../../../../../lib/mongodb";
 
 // Initializing the cors middleware
 const cors = Cors({
@@ -61,7 +61,7 @@ export default authenticate(async (req, res) => {
           : res.status(404).json({msg: "Extra deletion failed" })
         break
       
-      default:
+      default: res.status(400).json({ msg: "Invaid method"})
         break;
     }
 

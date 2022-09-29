@@ -1,7 +1,6 @@
 import { authenticate } from "../../authentication";
 import { verifyUser } from "../../verification";
 import { v4 as uuidv4 } from "uuid";
-import { insertToArray } from "../../db/update";
 import { ObjectId } from "mongodb";
 import { connectToDatabase } from "../../../../../lib/mongodb";
 
@@ -27,7 +26,7 @@ export default authenticate(async (req, res) => {
           : res.status(404).json({ msg: "Adding extra failed" }); 
         break;
     
-      default:
+      default: res.status(400).json({ msg: "Invaid method"})
         break;
     }
   } catch (error) {
