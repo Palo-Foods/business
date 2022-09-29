@@ -3,7 +3,7 @@ import { authenticate } from "../../authentication";
 import { verifyUser } from "../../verification";
 
 import Cors from "cors";
-import { runMiddleware } from "../corsMiddleWare";
+import { runMiddleware } from "../../corsMiddleWare";
 import { connectToDatabase } from "../../../../../lib/mongodb";
 
 // Initializing the cors middleware
