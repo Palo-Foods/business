@@ -1,6 +1,6 @@
 import React from 'react'
 import ApproveOrderModal from '../modals/ApproveOrderModal';
-import AssignRiderToOrderModal from '../modals/AssignRiderToOrderModal';
+//import AssignRiderToOrderModal from '../modals/AssignRiderToOrderModal';
 
 
 type OrderDetailProps = {
@@ -49,7 +49,7 @@ function OrderDetail(props: OrderDetailProps) {
       </div>
       </div>
       <ApproveOrderModal orderId={props.order._id} url={props?.url} />
-      <AssignRiderToOrderModal orderId={props.order._id} url={props?.url} />
+     {/*  <AssignRiderToOrderModal orderId={props.order._id} url={props?.url} /> */}
     </>
   )
 }
