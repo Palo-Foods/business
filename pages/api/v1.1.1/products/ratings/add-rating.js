@@ -1,7 +1,6 @@
 import { authenticate } from "../../authentication";
 import { verifyUser } from "../../verification";
 import { v4 as uuidv4 } from "uuid";
-import { insertToArray } from "../../db/update";
 import { ObjectId } from "mongodb";
 import { connectToDatabase } from "../../../../../lib/mongodb";
 
