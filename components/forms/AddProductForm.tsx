@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import TextInput from "./TextInput";
 import { useStates } from "../../hooks/useStates";
-import Uploader from "../Media/Uploader";
+import Uploader from "../media/Uploader";
 import Spinner from "../ui/Spinner";
 import { usePost } from "../../hooks/usePost";
 import { usePut } from "../../hooks/usePut";
@@ -55,16 +55,16 @@ function AddProductForm({ product, getItems, user }) {
       {msg && <p className="text-success">{msg}</p>}
       {err && <p className="text-danger">{err}</p>}
       <form className="row" onSubmit={handleAddproduct}>
-        <div>
+        <div className="mb-3">
            <Uploader setImage={setImage}>
                         <div className="position-relative">
                           <div className="position-relative">
                             <Image
                               src={image?.url || product?.image.url}
-                              width={70}
-                              height={70}
+                              width={80}
+                              height={80}
                               alt={user?.businessName}
-                              className="rounded-circle"
+                              className="rounded"
                             />
                           </div>
                           <div
@@ -76,7 +76,7 @@ function AddProductForm({ product, getItems, user }) {
                               top: 0,
                               bottom: 0,
                             }}
-                            className="d-flex justify-content-center align-items-center rounded-circle">
+                            className="d-flex justify-content-center align-items-center rounded">
                             <MdImage size={25} color={user?.avatar?.url ? "white" : ""}  />
                           </div>
                         </div>
@@ -96,7 +96,7 @@ function AddProductForm({ product, getItems, user }) {
         </div>
       <div className="col-md-6 form-group mb-4">
         <label htmlFor="description" className="mb-2">
-          Enter product phone
+          Enter product description
         </label>
         <TextInput type="text" value={description} setChange={setDescription} id="phone" placeholder={""} />
       </div>

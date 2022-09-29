@@ -6,7 +6,7 @@ import { useGet } from "../../hooks/useGet";
 import TableRow from "../../components/orders/OrderRow";
 import LoadingStatus from "../../components/LoadingStatus";
 
-function BusinessesPage() {
+function Productsage() {
  const {data, getItems, status}: any = useGet("/api/v1.1.1/products")
   return (
     <DashboardLayout>
@@ -32,7 +32,7 @@ function BusinessesPage() {
            <div className="my-4">
               <MdOutlineStore size={100} color="grey" />
             </div>
-          <p>There are no riders</p>
+          <p>There are no products</p>
         </div>
       }
 
@@ -44,9 +44,8 @@ function BusinessesPage() {
               <thead>
                   <tr className="text-start ps-0">
                     <th>#</th>
-                     <th className="">Business name</th>
-                  <th className="">Email</th>
-                    <th>Phone</th>
+                     <th className="">Product name</th>
+                  <th className="">Price</th>
                     <th></th>
                 </tr>
               </thead>
@@ -62,4 +61,4 @@ function BusinessesPage() {
   );
 }
 
-export default BusinessesPage;
+export default Productsage;

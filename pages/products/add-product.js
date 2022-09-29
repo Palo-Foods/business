@@ -4,14 +4,13 @@ import DashboardLayout from "../../components/layouts/DashboardLayout";
 import AddProductForm from "../../components/forms/AddProductForm";
 import { useUser } from "../../hooks/useUser";
 
-function AddBusinessPage() {
-  const {user} = useUser("user")
+function AddProductPage() {
   return (
     <DashboardLayout>
       <nav class="breadcrumb">
          <Link href="/products">
           <a className="breadcrumb-item text-decoration-none">
-           Businesses
+           Products
           </a>
         </Link>
         <span class="breadcrumb-item active"> Add Product</span>
@@ -19,11 +18,11 @@ function AddBusinessPage() {
 
       <div className="card mt-2">
         <div className="card-body my-3">
-          <AddProductForm user={user} />
+          <AddProductForm />
         </div>
       </div>
     </DashboardLayout>
   );
 }
 
-export default AddBusinessPage;
+export default AddProductPage;

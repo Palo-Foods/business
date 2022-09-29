@@ -1,5 +1,5 @@
 import React from 'react'
-import UploadLayout from '../Layouts/UploadLayout';
+import UploadLayout from '../layouts/UploadLayout';
 
 function Uploader({ children, setImage }) {
   const handleUpload = () => {
