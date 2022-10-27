@@ -7,6 +7,11 @@ body {
   padding-right: 0 !important;
 }
 
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
 input {
   background-color: #ededed;
 }
@@ -180,9 +185,70 @@ tr {
 }
 
 .map-container {
+  width: 100%;
   height: 100%;
+}
+.places-container {
+  position: absolute;
+  top: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 10;
+  width: 300px;
+}
+
+
+.combobox-input {
+  width: 100%;
+  padding: 0.5rem;
 }
 
 .autocomplete::placeholder {
   color: "black"
+}
+
+.places-container {
+  position: absolute;
+  top: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 10000 !important;
+}
+
+.select-container {
+  position: absolute;
+  bottom: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 10000 !important;
+  width: 300px;
+}
+
+.map-container {
+  width: 100%;
+  height: 50vh;
+}
+
+@media(max-width: 768px){
+  .map-container {
+    height: 100%;
+  }
+
+  .w-sm-100 {
+    width: 100%;
+  }
+}
+
+.places-container input {
+  border: 1px solid lightgrey;
+}
+
+.combobox-input {
+  width: 100%;
+  padding: 0.5rem;
+}
+
+
+[data-reach-combobox-popover] {
+  z-index: 1200;
 }

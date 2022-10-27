@@ -24,7 +24,7 @@ export default authenticate(async function read(req, res){
       case "PUT":
         const response = await db
         .collection("businesses")
-        .updateOne({ _id: ObjectId(userId) }, { $set: { ...data } });
+        .updateOne({ _id: ObjectId(userId) }, { $set: { ...data, updatedAt: new Date() } });
       
 
       if (response?.acknowledged) {
@@ -32,7 +32,7 @@ export default authenticate(async function read(req, res){
           .collection("businesses")
           .findOne({ _id: ObjectId(userId) }, { projection: { password: 0 } });
 
-         const { _id, role, email, fullName, businessName, verified, createdAt, phone, location } = results;
+         const { _id, role, email, fullName, businessName, verified, createdAt, phone, location, banner, updatedAt } = results;
 
         const jwt = createJwt(
           {
@@ -49,13 +49,15 @@ export default authenticate(async function read(req, res){
           email,
           fullName,
           businessName,
+          banner,
           location,
           id: _id,
           verified,
           phone,
-          createdAt
+          createdAt,
+          updatedAt
         };
-
+        console.log("data",data)
         res.status(200).json(data);
       } else {
         res.status(404).json({ msg: "Update failed" });

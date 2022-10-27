@@ -20,20 +20,27 @@ export default authenticate(async (req, res) => {
 
   const { id } = query;
 
-  const data = JSON.parse(body);
 
   try {
     const { db } = await connectToDatabase()
     
     switch (method) {
       case "GET":
+        const filter = {
+          'products.id': id
+        };
+
+        const projection = {
+          'products.$': 1
+        };
         const extra = await db.collection("products")
-          .findOne({ _id: ObjectId(userId), "extras.id": id })
+          .findOne(filter, { projection })
         
         res.status(200).json(extra)
         break;
       
       case "PUT":
+        const data = JSON.parse(body);
         const { name, price } = data;
         const updateData = {
           $set: {

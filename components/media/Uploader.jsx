@@ -5,8 +5,8 @@ function Uploader({ children, setImage }) {
   const handleUpload = () => {
     var myWidget = cloudinary.createUploadWidget(
       {
-        cloudName: "tiger86ss",
-        uploadPreset: "zokwfwvk",
+        cloudName: "alpha-digital-agency",
+        uploadPreset: "ewgxau4o",
       },
       (error, result) => {
         if (!error && result && result.event === "success") {

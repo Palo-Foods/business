@@ -3,11 +3,11 @@ import DashboardLayout from "../../components/layouts/DashboardLayout";
 import Link from "next/link";
 import { MdOutlineStore, MdRefresh } from "react-icons/md";
 import { useGet } from "../../hooks/useGet";
-import TableRow from "../../components/orders/OrderRow";
+import TableRow from "../../components/products/TableRow";
 import LoadingStatus from "../../components/LoadingStatus";
 
-function Productsage() {
- const {data, getItems, status}: any = useGet("/api/v1.1.1/products")
+function ProductsPage() {
+  const { data, getItems, status }: any = useGet("/api/v1.1.1/products")
   return (
     <DashboardLayout>
       <div className="d-flex justify-content-between align-items-center mt-2 mb-3">
@@ -61,4 +61,4 @@ function Productsage() {
   );
 }
 
-export default Productsage;
+export default ProductsPage;

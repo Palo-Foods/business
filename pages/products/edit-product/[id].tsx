@@ -16,7 +16,7 @@ function EditProductPage() {
     const [url, setUrl] = useState("")
   //get business in store
   const { data, getItems, status }: any = useGet(url);
-    
+    console.log(data)
     useEffect(() => {
         if (router?.isReady) { 
             setUrl("/api/v1.1.1/products/" + router.query.id);
@@ -37,7 +37,7 @@ function EditProductPage() {
 
       <LoadingStatus status={status} getItems={getItems} />
 
-      {data?._id && status == "success" &&
+      {data?.id && status == "success" &&
         <>
       <div className="card mt-2">
         <div className="card-body my-3">
@@ -45,9 +45,9 @@ function EditProductPage() {
         </div>
         </div>
       
-        <AddextraForm productId={data?._id}/>
+       {/*  <AddextraForm productId={data?.id}/> */}
       
-      <DeleteModal name={data?.name} url={`/api/products/${data?._id}`} getItems={getItems} router={router} />
+      <DeleteModal name={data?.name} url={`/api/v1.1.1/products/${data?.id}`} getItems={getItems} router={router} />
       </>}
       </DashboardLayout>
   );

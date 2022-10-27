@@ -18,21 +18,28 @@ export default authenticate(async (req, res) => {
   const { userId, role } = await verifyUser(req);
   const {query, body, method} = req
 
-
   const { id } = query;
-
-  const data = JSON.parse(body);
 
   try {
     const { db } = await connectToDatabase()
     
     switch (method) {
       case "GET":
-        const product = await db.collection("products").findOne({ _id: ObjectId(userId), "products.id": id })
-        res.status(200).json(product)
+        const filter = {
+          'products.id': id
+        };
+
+        const projection = {
+          'products.$': 1
+        };
+
+        const {products} = await db.collection("products").findOne(filter, { projection })
+       
+        products[0]?.id ? res.status(200).json(products[0]) : res.status(404).json({msg: "Product not found"}) 
         break;
       
       case "PUT":
+        const data = JSON.parse(body);
         const { name, price, discount, category, description, image } = data;
         const updateData = {
           $set: {
@@ -56,6 +63,7 @@ export default authenticate(async (req, res) => {
         break;
         
       case "DELETE":
+        console.log("delete", id)
         const deleteProduct = await db.collection("products")
           .updateOne({ _id: ObjectId(userId) }, { $pull: { products: { id: id } } })
         

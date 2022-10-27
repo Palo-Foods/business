@@ -3,7 +3,7 @@ type inputProps = {
   value: string,
   id: string,
   placeholder: string,
-  setChange: (value: string) => void
+  setChange: (value: string ) => void
 }
 
 function TextInput(props: inputProps) {
@@ -21,3 +21,4 @@ function TextInput(props: inputProps) {
 }
 
 export default TextInput;
+

@@ -1,6 +1,6 @@
 export const put = async (url, authToken, data) => {
   const config = {
-    method: "put",
+    method: "PUT",
     headers: {
       contentType: "application/json",
       Authorization: `Bearer ${authToken}`,

@@ -1,6 +1,6 @@
 export const post = async (url, authToken, data) => {
   const config = {
-    method: "post",
+    method: "POST",
     headers: {
       contentType: "application/json",
       Authorization: `Bearer ${authToken}`,

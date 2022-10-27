@@ -1,64 +1,50 @@
-import { useEffect, useState } from "react";
-import { usePlacesWidget } from "react-google-autocomplete";
-import SmallSpinner from "../ui/Spinner";
+import React from 'react'
+import usePlacesAutocomplete, { geoGeocode, getLatLng } from "use-places-autocomplete"
+import {
+  Combobox, ComboboxInput, ComboboxPopover,
+  ComboboxList, ComboboxOption
+} from "@reach/combobox"
+import "@reach/combobox/styles.css";
 
-const PlaceAutoComplete = ({ setLocation }) => {
-  const [loading, setLoading] = useState("");
-  const [result, setResult] = useState({});
-  const [error, setError] = useState("");
-   const [loc, setLoc] = useState("");
+function AutoComplete({ setSelected, loc }) {
+  console.log(loc)
+  const {
+    ready,
+    value,
+    setValue,
+    suggestions: { status, data },
+    clearSuggestions } = usePlacesAutocomplete()
+  
+   const handleSelect = async(address) => {
+    setValue(address, false);
+    clearSuggestions()
 
-  const { ref } = usePlacesWidget({
-    apiKey: process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY,
-    onPlaceSelected: async (place) => {
-      setLoading(true);
-      setResult(place);
-      setLoading(false);
-    },
-    options: {
-      types: [],
-      componentRestrictions: { country: "gh" },
-    },
-  });
-
-  useEffect(() => {
-    if (ref.current.value?.length > 6) {
-      setLoading(true);
-      if (result) {
-        console.log(result)
-        setLoading(false);
-        setLocation({
-          loc: ref.current.value,
-          info: result?.address_components,
-        });
-        setLoc(ref);
-        if (loc.length >= 4) {
-          setLoading(true);
-          setTimeout(() => {
-            setLoading(false);
-          }, 10000);
-        }
-      } else {
-        setLoading(false); //location not found
-        setError("Location not found");
-      }
-    }
-  }, [result, ref]);
+    const results = await geoGeocode({ address })
+    const { lat, lng } = getLatLng(results[0])
+    setSelected({lat, lng})
+  }
 
   return (
-    <>
-      <input
-        type="text"
-        ref={ref}
-        className="form-control w-100 mb-3"
-        placeholder="Location"
-      />
-      <small>
-        {loading && !error && <SmallSpinner />}
-        {error ? "Location not found" : ""}
-      </small>
-    </>
-  );
-};
+    <div>
+    <Combobox onSelect={handleSelect}>
+      <ComboboxInput
+        value={value}
+        onChange={(e) => setValue(e.target.value)}
+        disabled={!ready}
+          placeholder="Search an address"
+          className="combobox-input"
+        />
+        <ComboboxPopover>
+          <ComboboxList>
+            {status === "OK" && 
+              data.map((place_id, description) => {
+              <ComboboxOption key={place_id} value={description} />
+            })}
+          </ComboboxList>
+        </ComboboxPopover> 
+      </Combobox>
+      </div>
+  )
+}
 
-export default PlaceAutoComplete;
+export default AutoComplete

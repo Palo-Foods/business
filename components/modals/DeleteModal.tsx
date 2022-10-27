@@ -11,7 +11,6 @@ function DeleteModal({ name, url, getItems, router }) {
   useEffect(() => {
     if (message) {
       getItems()
-      router?.back()
     }
   }, [message])
 
@@ -19,13 +18,12 @@ function DeleteModal({ name, url, getItems, router }) {
     setLoading(false);
     setError("");
     setMessage("");
+      router?.back()
   };
 
   return (
     <div
       className="modal fade"
-      data-bs-backdrop="static"
-      data-bs-keyboard="false"
       id="deleteModal"
       tab-index="-1"
       aria-labelledby="deleteModalLabel"
@@ -73,8 +71,8 @@ function DeleteModal({ name, url, getItems, router }) {
               {message ? "Close" : "No"}
              </button>
        
-              <button
-                disabled={loading}
+            <button
+              disabled={loading}
                 type="button"
                 className="btn btn-primary px-4 mx-3"
                 onClick={deleteItem}>

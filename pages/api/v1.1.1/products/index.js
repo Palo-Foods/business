@@ -13,8 +13,22 @@ export default authenticate(async (req, res) => {
     switch (method) {
       case "GET":
         const {db} = await connectToDatabase()
-        const products = await db.collection("products").find({_id: ObjectId(userId)}, {projection: {products: 1}}).toArray()
-        products._id ? res.status(200).json(products?.products)
+       /*  const products = await db.collection("products").findOne({_id: ObjectId(userId)}, {projection: {products: 1}}) */
+        const filter = {
+            '_id': new ObjectId(userId)
+          };
+          const projection = {
+            'products': {
+              'id': 1, 
+              'name': 1, 
+              'amount': 1
+            }
+          };
+        const coll = await db.collection('products');
+        const cursor = coll.findOne(filter, { projection });
+        const result = await cursor
+          console.log(result)
+        result?._id ? res.status(200).json(result.products)
           : res.status(404).json([])
         break;
     
@@ -22,7 +36,7 @@ export default authenticate(async (req, res) => {
         break;
     }
   } catch (error) {
-    res.status(500).json({msg: "Invalid method"})
+    res.status(500).json({msg: error.message})
   } finally {
     res.end()
   }

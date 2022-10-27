@@ -3,7 +3,7 @@ import { useStates } from "./useStates";
 import { useStorage } from "./useStorage";
 
 export const useDelete = (url) => {
-  const { loading, setLoading, error, setError, message, setMessage, router } =
+  const { loading, setLoading, error, setError, message, setMessage } =
     useStates();
 
   const { sessionStorage } = useStorage("session");

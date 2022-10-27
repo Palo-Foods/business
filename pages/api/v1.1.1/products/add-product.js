@@ -34,8 +34,8 @@ export default authenticate(async (req, res) => {
 
         const response = await db.collection("products")
           .updateOne({ _id: ObjectId(userId) }, { $push: { products: item } }, { upsert: true })
-        
-        response.matchedCount ? res.status(201).json({ msg: "Product added successfully" })
+        console.log(response)
+        response.acknowledged ? res.status(201).json({ msg: "Product added successfully" })
           : res.status(404).json({ msg: "Adding product failed" }); 
         break;
     

@@ -7,6 +7,6 @@ export const authenticate = (fn) => async (req, res) => {
     if (!err && decoded) {
       return await fn(req, res);
     }
-    re.status(400).json({msg: "Sorry you are not authenticated"})
+    res.status(400).json({msg: "Sorry you are not authenticated"})
   });
 };

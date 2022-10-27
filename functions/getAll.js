@@ -1,6 +1,6 @@
 export const getAll = async (url, authToken) => {
   const config = {
-    method: "get",
+    method: "GET",
     headers: {
       contentType: "application/json",
       Authorization: `Bearer ${authToken}`,

@@ -8,26 +8,27 @@ import { usePut } from "../../hooks/usePut";
 import Image from "next/image";
 import { MdImage } from "react-icons/md";
 
-function AddProductForm({ product, getItems, user }) {
+function AddProductForm({ product, user, getItems }) {
+  console.log(product)
   const {
     name,
     setName,
     description,
     setDescription,
-    price,
-    setPrice,
+    amount,
+    setAmount,
     image,
     setImage
   } = useStates();
 
-  const { addItem, loading, error, message } = usePost("/api/v1.1.1/products")
+  const { addItem, loading, error, message } = usePost("/api/v1.1.1/products/add-product")
   const { updateItem, isLoading, isError, isMessage } = usePut("/api/v1.1.1/products/" + product?._id)
 
   useEffect(() => {
-    if (product?._id) {
+    if (product?.id) {
       setName(product?.name)
-      setPrice(product?.email)
-      setDescription(product?.phone)
+      setAmount(product?.amount)
+      setDescription(product?.description)
       setImage(product?.image)
     }
   }, [product])
@@ -38,13 +39,12 @@ function AddProductForm({ product, getItems, user }) {
 
     const data = {
       name,
-      price,
+      amount,
       description,
       image
     };
 
-    !product?._id ? addItem(data) : updateItem(data)
-    getItems()
+    !product?.id ? addItem(data) : updateItem(data)
   };
 
   let msg = message || isMessage
@@ -60,7 +60,7 @@ function AddProductForm({ product, getItems, user }) {
                         <div className="position-relative">
                           <div className="position-relative">
                             <Image
-                              src={image?.url || product?.image.url}
+                              src={image?.url}
                               width={80}
                               height={80}
                               alt={user?.businessName}
@@ -77,7 +77,7 @@ function AddProductForm({ product, getItems, user }) {
                               bottom: 0,
                             }}
                             className="d-flex justify-content-center align-items-center rounded">
-                            <MdImage size={25} color={user?.avatar?.url ? "white" : ""}  />
+                            <MdImage size={25} color={image?.url ? "white" : ""}  />
                           </div>
                         </div>
                       </Uploader>
@@ -89,10 +89,10 @@ function AddProductForm({ product, getItems, user }) {
           <TextInput type="text" value={name} setChange={setName} id="name" placeholder={""} />
         </div>
         <div className="col-md-6 form-group mb-4">
-          <label htmlFor="price" className="mb-2">
-            Enter product price
+          <label htmlFor="amount" className="mb-2">
+            Enter product amount
           </label>
-          <TextInput type="number" value={price} setChange={setPrice} id="price" placeholder={""} />
+          <TextInput type="number" value={amount} setChange={setAmount} id="amount" placeholder={""} />
         </div>
       <div className="col-md-6 form-group mb-4">
         <label htmlFor="description" className="mb-2">
@@ -101,16 +101,16 @@ function AddProductForm({ product, getItems, user }) {
         <TextInput type="text" value={description} setChange={setDescription} id="phone" placeholder={""} />
       </div>
         <div className="text-end">
-          {product?._id && <button type="button" className="btn btn-light" data-bs-toggle="modal" data-bs-target="#deleteModal">Delete</button>}
+          {product?.id && <button type="button" className="btn btn-light" data-bs-toggle="modal" data-bs-target="#deleteModal">Delete</button>}
           <button
             type="submit"
             className="btn btn-primary ms-3"
             disabled={
               !name ||
-              !price ||
+              !amount ||
               !description ||
               !image?.url ||
-             (product?._id ? isLoading : loading)
+             (product?.id ? isLoading : loading)
             }>
             {loading ? <Spinner /> : "Submit"}
           </button>     

@@ -3,9 +3,11 @@ import TextInput from "./TextInput";
 import { useStates } from "../../hooks/useStates";
 import Spinner from "../ui/Spinner";
 import DashboardLayout from "../layouts/DashboardLayout";
-import LocationModal from "../modals/LocationModal";
-import Autocomplete from "react-google-autocomplete";
 import { useUser } from "../../hooks/useUser";
+import EnterLocation from "../forms/Enterlocation"
+import Uploader from "../media/Uploader";
+import Image from "next/image";
+import { MdImage } from "react-icons/md";
 
 function AccountForm() {
   const {
@@ -18,20 +20,21 @@ function AccountForm() {
     setPassword,
     fullName,
     setFullName,
-    location, setLocation
-  } = useStates();
-  const [address, setaddress] = useState("")
+    location, setLocation,
+   image,
+    setImage} = useStates();
 
   const { loading, error, message, user, updateUser } = useUser("user");
 
   useEffect(() => {
+    console.log(user)
     if (user?.id) {
-      console.log(user)
       setName(user?.businessName)
       setFullName(user?.fullName)
       setEmail(user?.email)
       setPhone(user?.phone)
-      setaddress(user?.location?.formatted_address)
+      setLocation(user?.location)
+      setImage(user?.banner)
     }
   }, [user])
   
@@ -44,7 +47,8 @@ function AccountForm() {
       location,
       businessName: name,
       phone,
-      email
+      email,
+      banner: image
     };
 
     await updateUser(data)
@@ -55,6 +59,33 @@ function AccountForm() {
       {message && <p className="text-success">{message}</p>}
       {error && <p className="text-danger">{error}</p>}
       <form className="row" onSubmit={handleAddBusiness}>
+         <div className="mb-3">
+           <Uploader setImage={setImage}>
+                        <div className="position-relative">
+                          <div className="position-relative">
+                            <Image
+                              src={image?.url}
+                              width={200}
+                              height={150}
+                              alt={user?.businessName}
+                              className="rounded"
+                            />
+                          </div>
+                          <div
+                            style={{
+                              width: 200,
+                              height: 150,
+                              border: "1px dashed grey",
+                              position: "absolute",
+                              top: 0,
+                              bottom: 0,
+                            }}
+                            className="d-flex justify-content-center align-items-center rounded">
+                            <MdImage size={45} color={image?.url ? "white" : ""}  />
+                          </div>
+                        </div>
+                      </Uploader>
+        </div>
         <div className="col-md-6 form-group mb-4">
           <label htmlFor="fullName" className="mb-2">
             Enter full name
@@ -79,37 +110,9 @@ function AccountForm() {
         </label>
         <TextInput type="tel" value={phone} setChange={setPhone} id="phone" placeholder={""} />
         </div>
-        <div className="col-md-12 form-group mb-4">
-        <label htmlFor="text" className="mb-2">
-          Enter business location
-          </label>
-         
-          <Autocomplete
-            placeholder={"" || user?.location?.address}
-            className="form-control mb-3 autocomplete"
-              apiKey={ process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY}
-            onPlaceSelected={(place) => {
-              const loc = {
-                town: place?.address_components[0].long_name,
-                district: place?.address_components[1].long_name,
-                region: place?.address_components[2].long_name,
-                address: place?.formatted_address,
-                geometry: {
-                  lat: place?.geometry?.location?.lat(),
-                  lng: place?.geometry?.location?.lng()
-                }
-                }
-                //console.log(loc, place);
-                setLocation(loc)
-            }}
-             options={{
-              types: ["(regions)"],
-              componentRestrictions: { country: "gh" },
-            }}
-             
-          />
-           <a data-bs-toggle="modal" data-bs-target="#locationModal" className="text-decoration-none">Search on map</a>
-      </div>
+        <div className="col-md-6 form-group mb-4">
+          <EnterLocation location={location} setLocation={setLocation} />
+        </div>
       {!user?.id && (
         <div className="col-md-6 form-group mb-3">
           <label htmlFor="password" className="mb-2">
@@ -128,13 +131,13 @@ function AccountForm() {
               !name ||
               !email ||
               !phone ||
+              !location?.address ||
              loading
             }>
             {loading ? <Spinner /> : "Submit"}
           </button>     
       </div>
       </form>
-      <LocationModal />
     </DashboardLayout>
   );
 }

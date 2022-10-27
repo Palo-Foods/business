@@ -36,7 +36,7 @@ export const useStates = () => {
   const [isError, setIsError] = useState("");
   const [image, setImage] = useState({ url: "", public_id: "" });
   const [location, setLocation] = useState({
-    town: "", district: "", region: "", geometry: {}
+    town: "", district: "", region: "", geometry: {}, address: ""
   })
 
   const router = useRouter();
