@@ -38,6 +38,7 @@ export const useStates = () => {
   const [location, setLocation] = useState({
     town: "", district: "", region: "", geometry: {}, address: ""
   })
+  const [typeOfBusiness, setTypeOfBusiness] = useState("")
 
   const router = useRouter();
 
@@ -107,6 +108,7 @@ export const useStates = () => {
     setJoinedOn,
     image, setImage,
     location, setLocation,
-    fullName, setFullName
+    fullName, setFullName,
+    typeOfBusiness, setTypeOfBusiness
   };
 };

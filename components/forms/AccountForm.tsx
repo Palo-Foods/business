@@ -8,6 +8,7 @@ import EnterLocation from "../forms/Enterlocation"
 import Uploader from "../media/Uploader";
 import Image from "next/image";
 import { MdImage } from "react-icons/md";
+import Select from "./Select"
 
 function AccountForm() {
   const {
@@ -22,7 +23,7 @@ function AccountForm() {
     setFullName,
     location, setLocation,
    image,
-    setImage} = useStates();
+    setImage, typeOfBusiness, setTypeOfBusiness} = useStates();
 
   const { loading, error, message, user, updateUser } = useUser("user");
 
@@ -35,6 +36,7 @@ function AccountForm() {
       setPhone(user?.phone)
       setLocation(user?.location)
       setImage(user?.banner)
+      setTypeOfBusiness(user?.typeOfBusiness)
     }
   }, [user])
   
@@ -48,7 +50,8 @@ function AccountForm() {
       businessName: name,
       phone,
       email,
-      banner: image
+      banner: image,
+      typeOfBusiness
     };
 
     await updateUser(data)
@@ -109,6 +112,12 @@ function AccountForm() {
           Enter business phone
         </label>
         <TextInput type="tel" value={phone} setChange={setPhone} id="phone" placeholder={""} />
+        </div>
+        <div className="col-md-6 form-group mb-4">
+        <label htmlFor="phone" className="mb-2">
+          Enter business phone
+        </label>
+        <Select value={typeOfBusiness} setChange={setTypeOfBusiness} id="business type" options={["Restaurant", "Groceries", "Vegetables and fruits", "Pharmacy"]} />
         </div>
         <div className="col-md-6 form-group mb-4">
           <EnterLocation location={location} setLocation={setLocation} />
