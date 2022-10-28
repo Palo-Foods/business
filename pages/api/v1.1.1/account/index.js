@@ -32,7 +32,7 @@ export default authenticate(async function read(req, res){
           .collection("businesses")
           .findOne({ _id: ObjectId(userId) }, { projection: { password: 0 } });
 
-         const { _id, role, email, fullName, businessName, verified, createdAt, phone, location, banner, updatedAt } = results;
+         const { _id, role, email, fullName, businessName, verified, createdAt, phone, location, banner, updatedAt, businessType } = results;
 
         const jwt = createJwt(
           {
@@ -55,9 +55,9 @@ export default authenticate(async function read(req, res){
           verified,
           phone,
           createdAt,
-          updatedAt
+          updatedAt,
+          businessType
         };
-        console.log("data",data)
         res.status(200).json(data);
       } else {
         res.status(404).json({ msg: "Update failed" });
