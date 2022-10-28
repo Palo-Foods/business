@@ -24,7 +24,7 @@ export default async function login(req, res) {
             business?.password
           );
           if (match) {
-            const { _id, role, email, fullName, businessName, verified, createdAt, phone, location } = business;
+            const { _id, role, email, fullName, businessName, verified, createdAt, phone, location, banner, updatedAt, businessType } = business;
 
             const jwt = createJwt(
               {
@@ -45,7 +45,8 @@ export default async function login(req, res) {
               id: _id,
               verified,
               phone,
-              createdAt
+              createdAt,
+              banner, updatedAt, businessType
             };
 
             res.status(200).json(data);
