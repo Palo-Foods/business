@@ -30,21 +30,30 @@ export default function Map({ location, setLocation, type }) {
       const results = response?.results[0]
       const final = results?.address_components
 
+      let finalData;
       if (final[3]) {
-        if(final?.length === 5) final.pop()
-        const finalData = {
-          district: final[2]?.long_name,
-          region: final[3]?.long_name,
-          town: final[1]?.long_name,
-          address: results?.formatted_address,
-          geometry: { lat: loc?.lat, lng: loc?.lng }
+        if (final?.length >= 6) {
+          final.pop()
+           finalData = {
+            district: final[3]?.long_name,
+            region: final[4]?.long_name,
+            town: final[2]?.long_name,
+            address: results?.formatted_address,
+            geometry: { lat: loc?.lat, lng: loc?.lng }
+          }
+        } else {
+          finalData = {
+            district: final[2]?.long_name,
+            region: final[3]?.long_name,
+            town: final[1]?.long_name,
+            address: results?.formatted_address,
+            geometry: { lat: loc?.lat, lng: loc?.lng }
+          }
         }
-        console.log(final, finalData)
-        //finalData?.address && place.setLocation(finalData)
 
         setAddressForInput(results?.formatted_address)
         setLocation(finalData)
-      } 
+      }
     }
   }
 

@@ -29,23 +29,30 @@ const PlacesAutocomplete = ({ setSelected, addressForInput, setLocation, locatio
    const data = getLatLng(results[0]);
    const final = results[0]?.address_components
   
-   if (final) {
-     if(final?.length === 5) final.pop()
-     const finalData = {
-       region: final[3]?.long_name,
-       district: final[2]?.long_name,
-       town: final[1]?.long_name,
-       address: val,
-       geometry: { lat: data?.lat, lng: data?.lng }
-     }
+   let finalData;
+      if (final[3]) {
+        if (final?.length >= 6) {
+            final.pop()
+            finalData = {
+              district: final[3]?.long_name,
+              region: final[4]?.long_name,
+              town: final[2]?.long_name,
+              address: results?.formatted_address,
+              geometry: { lat: loc?.lat, lng: loc?.lng }
+            }
+        } else {
+          finalData = {
+            district: final[2]?.long_name,
+            region: final[3]?.long_name,
+            town: final[1]?.long_name,
+            address: results?.formatted_address,
+            geometry: { lat: loc?.lat, lng: loc?.lng }
+          }
+        }
 
-     console.log(results, final, finalData)
-
-    //finalData?.address && place.setLocation(finalData)
-
-     setSelected({ lat: data?.lat, lng: data?.lng });
-     setLocation(finalData)
-   }
+        setSelected({ lat: data?.lat, lng: data?.lng });
+        setLocation(finalData)
+      }
   };
 
   return (
