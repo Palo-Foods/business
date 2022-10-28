@@ -1,10 +1,12 @@
-import React from "react";
+import React, { useState } from "react";
 import Link from "next/link";
 import DashboardLayout from "../../components/layouts/DashboardLayout";
 import AddProductForm from "../../components/forms/AddProductForm";
 import { useUser } from "../../hooks/useUser";
+import Categories from "../../components/forms/Categories";
 
 function AddProductPage() {
+  const [selectedCategory, setSelectedCategory] = useState("")
   return (
     <DashboardLayout>
       <nav class="breadcrumb">
@@ -15,10 +17,16 @@ function AddProductPage() {
         </Link>
         <span class="breadcrumb-item active"> Add Product</span>
       </nav>
-
-      <div className="card mt-2">
-        <div className="card-body my-3">
-          <AddProductForm />
+      <div className="row">
+        <div className="col-md-8 mb-3">
+          <div className="card mt-2">
+            <div className="card-body my-3">
+              <AddProductForm selectedCategory={selectedCategory} />
+            </div>
+          </div>
+        </div>
+        <div className="col-md-4">
+          <Categories setSelectedCategory={setSelectedCategory} />
         </div>
       </div>
     </DashboardLayout>

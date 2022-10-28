@@ -8,8 +8,7 @@ import { usePut } from "../../hooks/usePut";
 import Image from "next/image";
 import { MdImage } from "react-icons/md";
 
-function AddProductForm({ product, user, getItems }) {
-  console.log(product)
+function AddProductForm({ product, user, getItems, selectedCategory }) {
   const {
     name,
     setName,
@@ -22,7 +21,7 @@ function AddProductForm({ product, user, getItems }) {
   } = useStates();
 
   const { addItem, loading, error, message } = usePost("/api/v1.1.1/products/add-product")
-  const { updateItem, isLoading, isError, isMessage } = usePut("/api/v1.1.1/products/" + product?._id)
+  const { updateItem, isLoading, isError, isMessage } = usePut("/api/v1.1.1/products/" + product?.id)
 
   useEffect(() => {
     if (product?.id) {
@@ -41,10 +40,11 @@ function AddProductForm({ product, user, getItems }) {
       name,
       amount,
       description,
-      image
+      image,
+      category: selectedCategory
     };
-
-    !product?.id ? addItem(data) : updateItem(data)
+    console.log(data)
+    !product?.id ? await addItem(data) : await updateItem(data)
   };
 
   let msg = message || isMessage
@@ -110,6 +110,7 @@ function AddProductForm({ product, user, getItems }) {
               !amount ||
               !description ||
               !image?.url ||
+              !selectedCategory ||
              (product?.id ? isLoading : loading)
             }>
             {loading ? <Spinner /> : "Submit"}

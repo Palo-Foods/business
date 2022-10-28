@@ -92,7 +92,7 @@ export const useUser = (type) => {
 
       //server error
       if (response.status != 200) {
-        setError("There was an error");
+        setError(result.msg.includes("query") ? "There was an error" : result.msg);
         return;
       }
 
@@ -124,15 +124,15 @@ export const useUser = (type) => {
     };
 
     try {
-       setError("")
+      setError("")
       setMessage("")
-       const response = await fetch(`/api/v1.1.1/account`, config);
-    const result = await response.json();
+      const response = await fetch(`/api/v1.1.1/account`, config);
+      const result = await response.json();
 
     setLoading(false);
 
     if (response.status == 500) {
-      setError("There was an internal server error");
+      setError(result.msg.includes("query") ? "There was an error" : result.msg);
       return;
     }
 

@@ -2,7 +2,7 @@ import React from 'react'
 import Link from "next/link"
 
 type DataProps = {
-    data: { id: string; amount: string, name: string }[],
+    data: { id: string; amount: string, name: string, category: string }[],
 }
 
 function TableRow(props: DataProps) {
@@ -15,6 +15,7 @@ function TableRow(props: DataProps) {
                     <td>{index + 1}</td>
                     <td className="text-nowrap">{item?.name}</td>
                     <td className="text-nowrap">{item?.amount}</td>
+                    <td className="text-nowrap">{item?.category}</td>
                     <td className="text-nowrap"><Link href={`/products/edit-product/${item?.id}`}>
                       <a className="text-decoration-none">View</a></Link></td>
                   </tr>

@@ -45,7 +45,8 @@ function ProductsPage() {
                   <tr className="text-start ps-0">
                     <th>#</th>
                      <th className="">Product name</th>
-                  <th className="">Price</th>
+                    <th className="">Price</th>
+                    <th className="">category</th>
                     <th></th>
                 </tr>
               </thead>

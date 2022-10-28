@@ -9,7 +9,8 @@ function Select({options, id, value, setChange}) {
           id={id}
           value={value}
           onChange={(e) => setChange(e.target.value)}>
-          <option value="">--Select {id} --</option>
+          {value ? <option value={value}>{value}</option> : 
+          <option value="">--Select {id} --</option>}
           {options?.map((option) => (
             <option key={option} value={option}>{option}</option>
           ))}
