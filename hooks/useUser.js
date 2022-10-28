@@ -92,7 +92,7 @@ export const useUser = (type) => {
 
       //server error
       if (response.status != 200) {
-        setError(result?.msg);
+        setError("There was an error");
         return;
       }
 

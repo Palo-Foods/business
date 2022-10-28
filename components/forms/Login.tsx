@@ -26,13 +26,13 @@ export default function LoginForm() {
         <label htmlFor="email" className="form-label fw-normal">
           Enter email address
         </label>
-        <TextInput type="email" value={email} setChange={setEmail} id={""} placeholder={""} />
+        <TextInput type="email" value={email} setChange={setEmail} id={"email"} placeholder={""} />
       </div>
       <div className="mb-4">
         <label htmlFor="password" className="form-label fw-normal">
           Enter a password
         </label>
-        <TextInput type="password" value={password} setChange={setPassword} id={""} placeholder={""} />
+        <TextInput type="password" value={password} setChange={setPassword} id={"password"} placeholder={""} />
       </div>
       <div className="d-grid">
         <button
