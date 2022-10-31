@@ -37,7 +37,7 @@ const PlacesAutocomplete = ({ setSelected, addressForInput, setLocation, locatio
               district: final[3]?.long_name,
               region: final[4]?.long_name,
               town: final[2]?.long_name,
-              address: results?.formatted_address,
+              address: results[0]?.formatted_address,
               geometry: { lat: loc?.lat, lng: loc?.lng }
             }
         } else {
@@ -45,7 +45,7 @@ const PlacesAutocomplete = ({ setSelected, addressForInput, setLocation, locatio
             district: final[2]?.long_name,
             region: final[3]?.long_name,
             town: final[1]?.long_name,
-            address: results?.formatted_address,
+            address: results[0]?.formatted_address,
             geometry: { lat: loc?.lat, lng: loc?.lng }
           }
         }
