@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import Link from "next/link";
-import DashboardLayout from "../../components/layouts/DashboardLayout";
-import AddProductForm from "../../components/forms/AddProductForm";
-import { useUser } from "../../hooks/useUser";
-import Categories from "../../components/forms/Categories";
+import DashboardLayout from "../../../components/layouts/DashboardLayout";
+import AddProductForm from "../../../components/forms/AddProductForm";
+import { useUser } from "../../../hooks/useUser";
+import Categories from "../../../components/forms/Categories";
 
 function AddProductPage() {
   const [selectedCategory, setSelectedCategory] = useState("")

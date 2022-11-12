@@ -9,6 +9,7 @@ import Image from "next/image";
 import { MdImage } from "react-icons/md";
 
 function AddProductForm({ product, user, getItems, selectedCategory }) {
+  
   const {
     name,
     setName,
@@ -38,12 +39,11 @@ function AddProductForm({ product, user, getItems, selectedCategory }) {
 
     const data = {
       name,
-      amount,
+      amount: parseInt(amount),
       description,
       image,
       category: selectedCategory
     };
-    console.log(data)
     !product?.id ? await addItem(data) : await updateItem(data)
   };
 
@@ -80,7 +80,7 @@ function AddProductForm({ product, user, getItems, selectedCategory }) {
                             <MdImage size={25} color={image?.url ? "white" : ""}  />
                           </div>
                         </div>
-                      </Uploader>
+           </Uploader>
         </div>
         <div className="col-md-6 form-group mb-4">
           <label htmlFor="name" className="mb-2">

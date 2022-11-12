@@ -1,10 +1,9 @@
-import { post } from "../functions/post";
+import { crud } from "../functions/crud";
 import { useStates } from "./useStates";
 import { useStorage } from "./useStorage";
 
 export const usePost = (url) => {
-  const { loading, setLoading, error, setError, message, setMessage } =
-    useStates();
+  const { loading, setLoading, error, setError, message, setMessage } = useStates();
 
   const { sessionStorage } = useStorage("session");
 
@@ -15,17 +14,17 @@ export const usePost = (url) => {
     //1. check if authToken
     const token = sessionStorage.getItem("user");
 
-    const response = await post(url, token?.authToken, data);
-    const result = await response.json();
+    const { response, error } = await crud("POST", url, data, token?.authToken);
 
     setLoading(false);
 
-    if (response.status != 201) {
-      setError(result?.msg);
-      return;
+    if (response.statusText != "Ok") {
+      setError(result?.msg || error);
+    } else {
+      const result = await response.json();
+      setMessage(result?.msg);
+      return
     }
-
-    setMessage(result?.msg);
   };
 
   return {

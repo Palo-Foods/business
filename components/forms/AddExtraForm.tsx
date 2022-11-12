@@ -37,7 +37,7 @@ function AddextraForm({ productId }) {
     const data = {
       productId,
       name,
-      price
+      price: parseInt(price)
     };
       
     const update = {
