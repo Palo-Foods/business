@@ -154,7 +154,7 @@ export const useUser = (type) => {
   };
 
   function signOut() {
-    sessionStorage.clearSession();
+    sessionStorage.clear()
     router?.push("/");
   }
 
