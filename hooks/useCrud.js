@@ -1,4 +1,4 @@
-import { useLayoutEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useStates } from "./useStates";
 
 export const useCrud = (url) => {
@@ -9,6 +9,7 @@ export const useCrud = (url) => {
     const handleCrud = async (method, url, body = null) => {
         const session = sessionStorage.getItem("user")
         const user = JSON.parse(session)
+        setError(null)
 
         const config = {
             method,
@@ -48,6 +49,7 @@ export const useCrud = (url) => {
     const handlefetchData = async (url) => {
         const session = sessionStorage.getItem("user")
         const user = JSON.parse(session)
+        setError(null)
 
         const config = {
             method: "GET",
@@ -61,11 +63,10 @@ export const useCrud = (url) => {
         try {
             setLoading(true);
             const response = await fetch(url, config);
-           
-            
+
             const result = await response.json();
 
-             console.log(result)
+            console.log(result)
 
             setLoading(false);
 
@@ -90,7 +91,7 @@ export const useCrud = (url) => {
         }  
     }
 
-    useLayoutEffect(() => {
+    useEffect(() => {
         const getData = async() => {
             await handlefetchData(url)
         }

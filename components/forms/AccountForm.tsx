@@ -1,21 +1,30 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Spinner from "../ui/Spinner";
 import DashboardLayout from "../layouts/DashboardLayout";
 import EnterLocation from "../forms/Enterlocation"
 import Uploader from "../media/Uploader";
 import Image from "next/image";
 import { MdImage } from "react-icons/md";
-import { useCrud } from '../../hooks/useCrud';
+import { useUser } from "../../hooks/useUser";
 
-function AccountForm({user}) {
- const {loading, error, message, handleCrud} = useCrud()
+function AccountForm({ user }) {
+  const {updateUser, loading, error, message} = useUser()
 
   const [image, setImage] = useState({ url: user?.banner?.url, public_id: user?.banner?.public_id })
   
   const [inputs, setinputs] = useState({
-    fullName: user?.fullName, businessName: user?.businessName, email: user?.email,
+    fullName: "" || user?.fullName, businessName: user?.businessName, email: user?.email,
     phone: user?.phone, password: ""
   })
+
+  useEffect(() => {
+  setinputs({
+    fullName: "" || user?.fullName, businessName: user?.businessName, email: user?.email,
+    phone: user?.phone, password: ""
+  })
+    setLocation(user?.location)
+  }, [user])
+  
   
   const [location, setLocation] = useState(user?.location)
 
@@ -27,10 +36,8 @@ function AccountForm({user}) {
 
   const handleSubmit = async(e) => {
     e.preventDefault()
-    
-    const url = "/api/v1.1.1/account" + user.id
 
-    await handleCrud("PUT", url, {...inputs, image});
+    await updateUser({...inputs, banner: image});
   }
 
   return (
@@ -72,7 +79,7 @@ function AccountForm({user}) {
           <input name="fullName" type="text" value={inputs.fullName} onChange={handleChange} className="form-control" placeholder="Name" />
         </div>
         <div className="col-md-6 form-group mb-4">
-          <label htmlFor="name" className="mb-2">
+          <label htmlFor="businessName" className="mb-2">
             Enter business name
           </label>
            <input name="businessName" type="text" value={inputs.businessName} onChange={handleChange} className="form-control" placeholder="Business name" />

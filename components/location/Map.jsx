@@ -82,7 +82,7 @@ export default function Map({ location, setLocation, type }) {
                         </div>
                     <div className="modal-footer">
                       <div className="w-100">
-                        <button className="btn btn-primary w-100" disabled={!location?.address} data-bs-dismiss="modal">Select {type} location</button>
+                        <button className="btn btn-primary w-100" disabled={!location?.address} data-bs-dismiss="modal">Select location</button>
                       </div>
                       </div>
                     </div>

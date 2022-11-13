@@ -29,7 +29,7 @@ function AddProductForm({ product, getItems }) {
 
     const url = !product.id ? "/api/v1.1.1/products" : "/api/v1.1.1/products/" + product.id
   
-    await handleCrud("POST", url, { ...inputs, price: parseInt(inputs?.price), image});
+    await handleCrud(!product.id ? "POST" : "PUT", url, { ...inputs, price: parseInt(inputs?.price), image});
   }
 
   return (

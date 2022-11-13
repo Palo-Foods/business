@@ -32,7 +32,7 @@ export default authenticate(async function read(req, res){
           .collection("businesses")
           .findOne({ _id: ObjectId(userId) }, { projection: { password: 0 } });
 
-         const { _id, role, email, fullName, businessName, verified, createdAt, phone, location, banner, updatedAt, typeOfBusiness } = results;
+         const { _id, role, email, verified } = results;
 
         const jwt = createJwt(
           {
@@ -45,18 +45,8 @@ export default authenticate(async function read(req, res){
 
         const data = {
           authToken: jwt,
-          role,
-          email,
-          fullName,
-          businessName,
-          banner,
-          location,
           id: _id,
-          verified,
-          phone,
-          createdAt,
-          updatedAt,
-          typeOfBusiness
+          ...results
         };
         res.status(200).json(data);
       } else {

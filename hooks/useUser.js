@@ -106,14 +106,15 @@ export const useUser = (type) => {
 
   async function updateUser(data) {
     //1. check if authToken
-    const token = sessionStorage.getItem("user");
+    const session = sessionStorage.getItem("user");
+    const user = JSON.parse(session)
 
     setLoading(true);
     const config = {
       method: "PUT",
       headers: {
         ContentType: "application/json",
-        Authorization: `Bearer ${token?.authToken}`,
+        Authorization: `Bearer ${user?.authToken}`,
       },
       body: JSON.stringify(data),
       timeout: 5000,
