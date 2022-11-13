@@ -1,16 +1,15 @@
 import React, { useEffect, useState } from "react";
 import Link from "next/link";
-import { useGet } from "../../../hooks/useGet";
 import DashboardLayout from "../../../components/layouts/DashboardLayout";
 import { useStates } from "../../../hooks/useStates";
-import LoadingStatus from '../../../components/LoadingStatus';
 import OrderDetail from "../../../components/orders/OrderDetail";
+import { useCrud } from "../../../hooks/useCrud";
 
 function EditRiderPage() {
     const {router} = useStates()
     const [url, setUrl] = useState("")
   //get rider in store
-    const {data, status, getItems} = useGet(url);
+    const {data, status, getItems} = useCrud(url);
     
     useEffect(() => {
         if (router?.isReady) { 
@@ -29,8 +28,6 @@ function EditRiderPage() {
         </Link>
         <span className="breadcrumb-item active"> Edit rider</span>
       </nav>
-
-      <LoadingStatus status={status} getItems={getItems} />
 
       {data &&
         <>

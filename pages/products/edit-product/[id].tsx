@@ -4,16 +4,15 @@ import Link from "next/link";
 import DashboardLayout from "../../../components/layouts/DashboardLayout";
 import AddProductForm from "../../../components/forms/AddProductForm";
 import { useStates } from "../../../hooks/useStates";
-import { useGet } from "../../../hooks/useGet";
-import LoadingStatus from '../../../components/LoadingStatus';
 import DeleteModal from '../../../components/modals/DeleteModal';
 import AddextraForm from '../../../components/forms/AddExtraForm';
+import { useCrud } from '../../../hooks/useCrud';
 
 function EditProductPage() {
   const {router} = useStates()
   const [url, setUrl] = useState("")
   //get business in store
-  const { data, getItems, status }: any = useGet(url);
+  const { data, handlefetchData, message, error }: any = useCrud(url);
 
     console.log(data)
     useEffect(() => {
@@ -34,15 +33,13 @@ function EditProductPage() {
         <span className="breadcrumb-item active"> Edit Product</span>
       </nav>
 
-      <LoadingStatus status={status} getItems={getItems} />
-
-      {data?.id && status == "success" &&
+      {data?.id &&
         <>
         <div className='row'>
           <div className="col-md-10 mb-3">
             <div className="card mt-2">
               <div className="card-body my-3">
-                <AddProductForm product={data} getItems={getItems} />
+                <AddProductForm product={data} getItems={handlefetchData} />
           </div>
         </div>
           </div>
@@ -50,7 +47,7 @@ function EditProductPage() {
       
        {/*  <AddextraForm productId={data?.id}/> */}
       
-      <DeleteModal name={data?.name} url={`/api/v1.1.1/products/${data?.id}`} getItems={getItems} router={router} />
+      <DeleteModal name={data?.name} url={`/api/v1.1.1/products/${data?.id}`} getItems={handlefetchData} />
       </>}
       </DashboardLayout>
   );

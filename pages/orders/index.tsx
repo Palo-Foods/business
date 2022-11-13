@@ -1,11 +1,11 @@
 import React from "react";
 import DashboardLayout from "../../components/layouts/DashboardLayout";
 import { MdFoodBank, MdRefresh } from "react-icons/md";
-import { useGet } from "../../hooks/useGet";
 import OrderRow from "../../components/orders/OrderRow";
 import Loader from "../../components/Loader";
 import Error from "../../components/Error";
 import NoData from "../../components/NoData";
+import { useCrud } from "../../hooks/useCrud";
 
 const Table = ({data}) => {
   return (
@@ -28,10 +28,10 @@ const Table = ({data}) => {
 }
 
 function OrdersPage() {
-  const { data, getItems, loading, error }: any = useGet("/api/v1.1.1/orders")
+  const { data, handlefetchData, error, loading }: any = useCrud("/api/v1.1.1/orders")
   let content;
 
-  if (error) content = <Error error={error} getData={getItems} />
+  if (error) content = <Error error={error} getData={handlefetchData} />
   
   if (loading) content = <Loader />
   
@@ -53,7 +53,7 @@ function OrdersPage() {
       <div className="d-flex justify-content-between align-items-center mb-3">
         <h6 className="text-muted mb-0">Orders</h6>
         <div>
-        <a type="button" onClick={getItems} className="btn btn-light">
+        <a type="button" onClick={handlefetchData} className="btn btn-light">
           <MdRefresh />
         </a>
         </div>

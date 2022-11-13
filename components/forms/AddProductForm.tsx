@@ -2,13 +2,12 @@ import Image from 'next/image'
 import React, { useState } from 'react'
 import { MdImage } from 'react-icons/md'
 import { useCrud } from '../../hooks/useCrud'
-import { useGet } from '../../hooks/useGet'
 import { useUser } from '../../hooks/useUser'
 import Uploader from '../media/Uploader'
 import Spinner from '../ui/Spinner'
 
 function AddProductForm({ product, getItems }) {
-  const { loading, error, message, handleCrud } = useCrud()
+  const { loading, error, message, handleCrud, data } = useCrud("/api/v1.1.1/products/categories")
   
   const { user } = useUser("user")
   
@@ -18,8 +17,6 @@ function AddProductForm({ product, getItems }) {
     name: product?.name, price: product?.amount,
     description: product?.description, category: product?.category
   })
-  
-  const { data } = useGet("/api/v1.1.1/products/categories");
 
   const handleChange = (e) => {
     const name = e.target.name;

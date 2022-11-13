@@ -2,11 +2,11 @@ import React from "react";
 import DashboardLayout from "../../components/layouts/DashboardLayout";
 import Link from "next/link";
 import { MdBusiness, MdOutlineStore, MdRefresh } from "react-icons/md";
-import { useGet } from "../../hooks/useGet";
 import TableRow from "../../components/products/TableRow";
 import Error from "../../components/Error"
 import Loader from "../../components/Loader";
 import NoData from "../../components/NoData"
+import { useCrud } from "../../hooks/useCrud";
 
 const Table = ({data}) => {
   return (
@@ -30,15 +30,14 @@ const Table = ({data}) => {
 }
 
 function ProductsPage() {
-  const { data, getItems, error, loading }: any = useGet("/api/v1.1.1/products")
+  const { data, handlefetchData, error, loading }: any = useCrud("/api/v1.1.1/products")
 
   let content;
 
-  if (error) content = <Error error={error} getData={getItems} />
+  if (error) content = <Error error={error} getData={handlefetchData} />
   
   if (loading) content = <Loader />
   
-   
   if (data?.length === 0) content = 
     (
     <NoData icon={<MdOutlineStore size={100} color="grey" />} content={"There are no products"} />
@@ -63,7 +62,7 @@ function ProductsPage() {
             <span className="d-none d-md-block ms-2"> Add Product</span>
           </a>
         </Link>
-          <a type="button" onClick={getItems} className="btn btn-light btn-sm">
+          <a type="button" onClick={handlefetchData} className="btn btn-light btn-sm">
             <MdRefresh />
           </a>
         </div>

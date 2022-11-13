@@ -3,7 +3,7 @@ import UploadLayout from '../layouts/UploadLayout';
 
 function Uploader({ children, setImage }) {
   const handleUpload = () => {
-    var myWidget = cloudinary.createUploadWidget(
+    var myWidget = cloudinary?.createUploadWidget(
       {
         cloudName: "alpha-digital-agency",
         uploadPreset: "ewgxau4o",

@@ -38,7 +38,7 @@ function AccountForm({user}) {
       {message && <p className="text-success">{message}</p>}
       {error && <p className="text-danger">{error}</p>}
       <form className="row" onSubmit={handleSubmit}>
-         <div className="mb-3">
+         <div className="my-4">
            <Uploader setImage={setImage}>
                         <div className="position-relative">
                           <div className="position-relative">
@@ -69,7 +69,7 @@ function AccountForm({user}) {
           <label htmlFor="fullName" className="mb-2">
             Enter full name
           </label>
-           <input name="fullName" type="text" value={inputs.fullName} onChange={handleChange} className="form-control" placeholder="Name" />
+          <input name="fullName" type="text" value={inputs.fullName} onChange={handleChange} className="form-control" placeholder="Name" />
         </div>
         <div className="col-md-6 form-group mb-4">
           <label htmlFor="name" className="mb-2">

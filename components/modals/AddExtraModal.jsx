@@ -1,25 +1,22 @@
 import React, { useEffect } from "react";
-import Image from "next/image";
-import Success from "../../public/images/icons/check-circle.svg";
-import { useSelector, useDispatch } from "react-redux";
-import { selectExtra, selectProduct, setExtras } from "../../slices/navSlice";
+import { selectProduct } from "../../slices/navSlice";
 import { useState } from "react";
 import Spinner from "../Spinner";
-import { create } from "../../functions/POST";
-import { update } from "../../functions/PUT";
 import { nanoid } from "nanoid";
+import { useCrud } from "../../hooks/useCrud";
+import { MdCheckCircle } from "react-icons/md";
 
-function AddExtraModal({ extras }) {
+function AddExtraModal({ extra }) {
+  const {loading, error, message, handleCrud} = useCrud()
   const product = useSelector(selectProduct);
-  const extra = useSelector(selectExtra);
-  const dispatch = useDispatch();
 
-  const [name, setName] = useState(extra?.name || "");
-  const [price, setPrice] = useState(extra?.price || "");
+  const [inputs, setinputs] = useState({ name: extra?.name, price: extra?.price || 0})
 
-  const [show, setShow] = useState(false);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(false);
+  const handleChange = (e) => {
+    const name = e.target.name;
+    const value = e.target.value;
+    setinputs(values => ({...values, [name]: value}))
+  }
 
   useEffect(() => {
     if (!extra?.name) {
@@ -30,62 +27,15 @@ function AddExtraModal({ extras }) {
 
   const handleExtraSubmit = async (e) => {
     e.preventDefault();
-    setError(false);
-    setLoading(true);
-
     const data = {
       extraId: nanoid(6),
-      name,
-      price,
+      ...inputs,
       productId: product?._id,
     };
 
-    console.log(data);
+    const url = product?._id ? `/api/v1.1.0/items/extras/${extraId}` : "/api/v1.1.0/items/extras/add-extra"
 
-    const response = await create("/api/v1.1.0/items/extras/add-extra", data);
-    setLoading(false);
-    if (response.msg === "extra added") {
-      setShow(true);
-      //update extras after adding on
-      dispatch(setExtras([...extras, data]));
-    } else {
-      setError(true);
-    }
-  };
-
-  const editExtra = async (e) => {
-    e.preventDefault();
-    setError(false);
-    setLoading(true);
-
-    const extraId = extra?.id;
-
-    const data = { name, price, productId: product?._id };
-
-    const response = await update(`/api/v1.1.0/items/extras/${extraId}`, data);
-
-    if (response.msg === "extra edited") {
-      setShow(true);
-
-      //update extras after adding on
-      const exist = extras?.find((x) => x.id === extraId);
-      if (exist) {
-        dispatch(
-          setExtras(
-            extras?.map((x) =>
-              x.id === extraId ? { ...exist, extraId, name, price } : x
-            )
-          )
-        );
-      }
-    } else {
-      setError(true);
-    }
-  };
-
-  //receive all input values and process them
-  const setInput = (setter) => (e) => {
-    setter(e.currentTarget.value);
+    await handleCrud(product?._id ? "PUT" : "POST", url, data)
   };
 
   return (
@@ -109,69 +59,30 @@ function AddExtraModal({ extras }) {
           </div>
           <form onSubmit={extra?.name ? editExtra : handleExtraSubmit}>
             <div className="modal-body">
-              {show && (
+              {error && <p className="text-danger">{error}</p>}
+              {message && (
                 <div className="my-4 text-center d-flex align-items-center">
                   <>
-                    <Image
-                      src={Success}
-                      width={50}
-                      alt="Success"
-                      className="mb-3"
-                    />
+                    <MdCheckCircle className="mb-3" size={50} />
                     <p>Extra added</p>
                   </>
                 </div>
               )}
-              {!show && (
+              {!message && (
                 <>
                   <div className="col-md-12 mb-3 form-group">
                     <label htmlFor="name" className="mb-1">
                       Item name
                     </label>
-                    <input
-                      value={name}
-                      onChange={setInput(setName)}
-                      type="text"
-                      className="form-control"
-                      name="name"
-                      id="name"
-                      aria-describedby="helpId"
-                      placeholder=""
-                    />
+                    <input name="name" type="text" value={inputs.name} onChange={handleChange} className="form-control" placeholder="Name" />
                   </div>
                   <div className="mb-3 form-group">
                     <label htmlFor="price" className="mb-1">
                       Price
                     </label>
-                    <input
-                      value={price}
-                      onChange={setInput(setPrice)}
-                      type="number"
-                      className="form-control"
-                      name="price"
-                      id="price"
-                      aria-describedby="helpId"
-                      placeholder=""
-                      maxLength="6"
-                    />
+                    <input name="price" type="text" value={inputs.price} onChange={handleChange} className="form-control" placeholder="Price" />
                   </div>
                 </>
-              )}
-
-              {loading && (
-                <div className="text-center">
-                  <Spinner />
-                </div>
-              )}
-              {show && (
-                <div className="text-center">
-                  <h5>{name} has been added</h5>
-                </div>
-              )}
-              {error && (
-                <p className="text-danger text-center small">
-                  There was an error adding extra
-                </p>
               )}
             </div>
             <div className="modal-footer d-flex justify-content-between">
@@ -180,25 +91,15 @@ function AddExtraModal({ extras }) {
                 className="btn btn-secondary px-4"
                 data-bs-dismiss="modal"
                 onClick={() => setError(false)}>
-                {show ? "Close" : "Cancel"}
+                {message ? "Close" : "Cancel"}
               </button>
-
-              {!extra && (
                 <button
-                  disabled={loading}
+                  disabled={loading || !inputs?.name || !inputs?.price}
                   type="submit"
                   className="btn btn-primary px-4">
-                  Submit
+                 {loading ? <Spinner /> : "Submit"}
                 </button>
-              )}
-              {extra && (
-                <button
-                  disabled={loading}
-                  type="submit"
-                  className="btn btn-primary px-4 mx-3">
-                  Edit Extra
-                </button>
-              )}
+              
             </div>
           </form>
         </div>

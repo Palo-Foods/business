@@ -10,7 +10,7 @@ export default function LoginForm() {
   const { user } = useUser("user");
   const { router } = useStates();
 
-   const [inputs, setinputs] = useState({email: "", password: ""})
+  const [inputs, setinputs] = useState({email: "", password: ""})
 
   const handleChange = (e) => {
     const name = e.target.name;

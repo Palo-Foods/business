@@ -10,7 +10,7 @@ export const useUser = (type) => {
     const session = sessionStorage.getItem("user");
     const user = JSON.parse(session)
     if (user?.id) {
-      setUser(data);
+      setUser(user);
     } else {
       if (router?.asPath?.includes("dashboard")) {
         router?.push("/login");

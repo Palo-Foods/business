@@ -26,7 +26,7 @@ function EnterLocation({location, setLocation}) {
                         <div className="mb-2 mb-md-3 position-relative">
                           <div className="input-group my-3" onClick={() => setType("Destination")} data-bs-toggle={!loadError && `dropdown`} data-bs-auto-close="true">
                             <span className="input-group-text bg-white px-2" id="basic-addon1"><MdLocationPin size={20} /></span>
-                              <input type="text" value={location?.address} className="form-control ps-0 border-start-0" name="destination" id="destination"
+                              <input type="text" value={location?.address} className="form-control bg-white ps-0 border-start-0" name="destination" id="destination"
                               aria-describedby="helpId" placeholder="Enter location" autoComplete="false" disabled={loadError}
                               />
                           </div>
