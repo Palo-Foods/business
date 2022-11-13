@@ -3,11 +3,11 @@ import AccountForm from "../../components/forms/AccountForm";
 import { useUser } from "../../hooks/useUser";
 
 function EditAccountPage() {
-  
+   const { user } = useUser("user")
 
   return (
     <>
-      <AccountForm />
+      <AccountForm user={user} />
     </>
   );
 }

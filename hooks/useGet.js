@@ -1,21 +1,20 @@
 import { useCallback, useEffect, useState } from "react";
 import { get } from "../functions/get";
 import { useStates } from "./useStates";
-import { useStorage } from "./useStorage";
 
 export const useGet = (url) => {
   const [data, setData] = useState(null);
   const [status, setStatus] = useState("")
   const { loading, error, setLoading, setError, message, setMessage } = useStates();
-  const { sessionStorage } = useStorage("session");
 
 
   const getItems = useCallback(async () => {
-    const token = sessionStorage.getItem("user");
+    const session = sessionStorage.getItem("user");
+    const user = JSON.parse(session)
 
     setStatus("loading")
 
-    const response = await get(url, token?.authToken);
+    const response = await get(url, user?.authToken);
 
     const result = await response.json();
 

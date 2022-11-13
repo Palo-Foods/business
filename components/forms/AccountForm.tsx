@@ -1,67 +1,43 @@
-import React, { useEffect, useState } from "react";
-import TextInput from "./TextInput";
-import { useStates } from "../../hooks/useStates";
+import React, { useState } from "react";
 import Spinner from "../ui/Spinner";
 import DashboardLayout from "../layouts/DashboardLayout";
-import { useUser } from "../../hooks/useUser";
 import EnterLocation from "../forms/Enterlocation"
 import Uploader from "../media/Uploader";
 import Image from "next/image";
 import { MdImage } from "react-icons/md";
-import Select from "./Select"
+import { useCrud } from '../../hooks/useCrud';
 
-function AccountForm() {
-  const {
-    name, setName,
-    phone,
-    setPhone,
-    email,
-    setEmail,
-    password,
-    setPassword,
-    fullName,
-    setFullName,
-    location, setLocation,
-   image,
-    setImage, typeOfBusiness, setTypeOfBusiness} = useStates();
+function AccountForm({user}) {
+ const {loading, error, message, handleCrud} = useCrud()
 
-  const { loading, error, message, user, updateUser } = useUser("user");
-
-  useEffect(() => {
-    console.log(user)
-    if (user?.id) {
-      setName(user?.businessName)
-      setFullName(user?.fullName)
-      setEmail(user?.email)
-      setPhone(user?.phone)
-      setLocation(user?.location)
-      setImage(user?.banner)
-      setTypeOfBusiness(user?.typeOfBusiness)
-    }
-  }, [user])
+  const [image, setImage] = useState({ url: user?.banner?.url, public_id: user?.banner?.public_id })
   
+  const [inputs, setinputs] = useState({
+    fullName: user?.fullName, businessName: user?.businessName, email: user?.email,
+    phone: user?.phone, password: ""
+  })
+  
+  const [location, setLocation] = useState(user?.location)
 
-  const handleAddBusiness = async (e: { preventDefault: () => void; }) => {
-    e.preventDefault();
+  const handleChange = (e) => {
+    const name = e.target.name;
+    const value = e.target.value;
+    setinputs(values => ({...values, [name]: value}))
+  }
 
-    const data = {
-      fullName,
-      location,
-      businessName: name,
-      phone,
-      email,
-      banner: image,
-      typeOfBusiness
-    };
+  const handleSubmit = async(e) => {
+    e.preventDefault()
+    
+    const url = "/api/v1.1.1/account" + user.id
 
-    await updateUser(data)
-  };
+    await handleCrud("POST", url, {...inputs, image});
+  }
 
   return (
   <DashboardLayout>
       {message && <p className="text-success">{message}</p>}
       {error && <p className="text-danger">{error}</p>}
-      <form className="row" onSubmit={handleAddBusiness}>
+      <form className="row" onSubmit={handleSubmit}>
          <div className="mb-3">
            <Uploader setImage={setImage}>
                         <div className="position-relative">
@@ -93,31 +69,25 @@ function AccountForm() {
           <label htmlFor="fullName" className="mb-2">
             Enter full name
           </label>
-          <TextInput type="text" value={fullName} setChange={setFullName} id="fullName" placeholder={""} />
+           <input name="fullName" type="text" value={inputs.fullName} onChange={handleChange} className="form-control" placeholder="Name" />
         </div>
         <div className="col-md-6 form-group mb-4">
           <label htmlFor="name" className="mb-2">
             Enter business name
           </label>
-          <TextInput type="text" value={name} setChange={setName} id="name" placeholder={""} />
+           <input name="businessName" type="text" value={inputs.businessName} onChange={handleChange} className="form-control" placeholder="Business name" />
         </div>
         <div className="col-md-6 form-group mb-4">
           <label htmlFor="email" className="mb-2">
             Enter business email
           </label>
-          <TextInput type="email" value={email} setChange={setEmail} id="email" placeholder={""} />
+           <input name="email" type="text" value={inputs.email} onChange={handleChange} className="form-control" placeholder="Business email" />
         </div>
       <div className="col-md-6 form-group mb-4">
         <label htmlFor="phone" className="mb-2">
           Enter business phone
         </label>
-        <TextInput type="tel" value={phone} setChange={setPhone} id="phone" placeholder={""} />
-        </div>
-        <div className="col-md-6 form-group mb-4">
-        <label htmlFor="phone" className="mb-2">
-          Enter business phone
-        </label>
-        <Select value={typeOfBusiness} setChange={setTypeOfBusiness} id="business type" options={["Restaurant", "Groceries", "Vegetables and fruits", "Pharmacy"]} />
+         <input name="phone" type="tel" value={inputs.phone} onChange={handleChange} className="form-control" placeholder="Phone" />
         </div>
         <div className="col-md-6 form-group mb-4">
           <EnterLocation location={location} setLocation={setLocation} />
@@ -127,7 +97,7 @@ function AccountForm() {
           <label htmlFor="password" className="mb-2">
             Enter password (keep it)
           </label>
-          <TextInput type="password" value={password} setChange={setPassword} id="password" placeholder={""} />
+           <input name="name" type="text" value={inputs?.password} onChange={handleChange} className="form-control" placeholder="Password" />
         </div>
       )}
         <div className="text-end">
@@ -136,10 +106,10 @@ function AccountForm() {
             type="submit"
             className="btn btn-primary ms-3"
             disabled={
-              !fullName ||
-              !name ||
-              !email ||
-              !phone ||
+              !inputs?.fullName ||
+              !inputs?.businessName ||
+              !inputs?.email ||
+              !inputs?.phone ||
               !location?.address ||
              loading
             }>

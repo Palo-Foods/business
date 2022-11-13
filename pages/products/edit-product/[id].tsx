@@ -7,17 +7,14 @@ import { useStates } from "../../../hooks/useStates";
 import { useGet } from "../../../hooks/useGet";
 import LoadingStatus from '../../../components/LoadingStatus';
 import DeleteModal from '../../../components/modals/DeleteModal';
-import { useUser } from '../../../hooks/useUser';
-import Categories from "../../../components/forms/Categories";
 import AddextraForm from '../../../components/forms/AddExtraForm';
 
 function EditProductPage() {
-  const {user} = useUser("user")
-    const {router} = useStates()
+  const {router} = useStates()
   const [url, setUrl] = useState("")
-   const [selectedCategory, setSelectedCategory] = useState("")
   //get business in store
   const { data, getItems, status }: any = useGet(url);
+
     console.log(data)
     useEffect(() => {
         if (router?.isReady) { 
@@ -31,7 +28,7 @@ function EditProductPage() {
       <nav className="breadcrumb">
          <Link href="/products">
           <a className="breadcrumb-item text-decoration-none">
-           Product
+           Products
           </a>
         </Link>
         <span className="breadcrumb-item active"> Edit Product</span>
@@ -42,16 +39,13 @@ function EditProductPage() {
       {data?.id && status == "success" &&
         <>
         <div className='row'>
-          <div className="col-md-8 mb-3">
+          <div className="col-md-10 mb-3">
             <div className="card mt-2">
               <div className="card-body my-3">
-                <AddProductForm product={data} getItems={getItems} user={user} selectedCategory={selectedCategory} />
+                <AddProductForm product={data} getItems={getItems} />
           </div>
         </div>
           </div>
-           <div className="col-md-4">
-          <Categories setSelectedCategory={setSelectedCategory} selectedCategory={selectedCategory} />
-        </div>
         </div>
       
        {/*  <AddextraForm productId={data?.id}/> */}

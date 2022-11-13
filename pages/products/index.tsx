@@ -1,13 +1,57 @@
 import React from "react";
 import DashboardLayout from "../../components/layouts/DashboardLayout";
 import Link from "next/link";
-import { MdOutlineStore, MdRefresh } from "react-icons/md";
+import { MdBusiness, MdOutlineStore, MdRefresh } from "react-icons/md";
 import { useGet } from "../../hooks/useGet";
 import TableRow from "../../components/products/TableRow";
-import LoadingStatus from "../../components/LoadingStatus";
+import Error from "../../components/Error"
+import Loader from "../../components/Loader";
+import NoData from "../../components/NoData"
+
+const Table = ({data}) => {
+  return (
+     <div className="table-responsive">
+              <table className="table">
+              <thead>
+                  <tr className="text-start ps-0">
+                    <th>#</th>
+                     <th className="">Product name</th>
+                    <th className="">Price</th>
+                    <th className="">category</th>
+                    <th></th>
+                </tr>
+              </thead>
+              <tbody>
+                <TableRow data={data} /> 
+              </tbody>
+              </table>
+            </div>
+  )
+}
 
 function ProductsPage() {
-  const { data, getItems, status }: any = useGet("/api/v1.1.1/products")
+  const { data, getItems, error, loading }: any = useGet("/api/v1.1.1/products")
+
+  let content;
+
+  if (error) content = <Error error={error} getData={getItems} />
+  
+  if (loading) content = <Loader />
+  
+   
+  if (data?.length === 0) content = 
+    (
+    <NoData icon={<MdOutlineStore size={100} color="grey" />} content={"There are no products"} />
+    )
+  
+  if (data?.length > 0) content = (
+    <div className="card my-2">
+          <div className="card-body p-4">
+           <Table data={data} />
+          </div>
+        </div>
+  )
+
   return (
     <DashboardLayout>
       <div className="d-flex justify-content-between align-items-center mt-2 mb-3">
@@ -24,40 +68,7 @@ function ProductsPage() {
           </a>
         </div>
       </div>
-
-      <LoadingStatus status={status} getItems={getItems} />
-
-      {data?.length == 0 &&
-        <div className="text-center">
-           <div className="my-4">
-              <MdOutlineStore size={100} color="grey" />
-            </div>
-          <p>There are no products</p>
-        </div>
-      }
-
-      {data?.length > 0 && (
-        <div className="card my-2">
-          <div className="card-body p-4">
-            <div className="table-responsive">
-              <table className="table">
-              <thead>
-                  <tr className="text-start ps-0">
-                    <th>#</th>
-                     <th className="">Product name</th>
-                    <th className="">Price</th>
-                    <th className="">category</th>
-                    <th></th>
-                </tr>
-              </thead>
-              <tbody>
-                <TableRow data={data} /> 
-              </tbody>
-              </table>
-            </div>
-          </div>
-        </div>
-      )}
+    {content}
     </DashboardLayout>
   );
 }

@@ -58,6 +58,7 @@ export default authenticate(async (req, res) => {
           { arrayFilters: [{ "elem.id": id }] },
           {upsert: true}
         );
+        console.log(results)
         results.modifiedCount ? res.status(200).json({ msg: "Product updated" })
           : res.status(404).json({ msg: "Product update failed" });
         break;

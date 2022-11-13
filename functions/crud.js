@@ -1,4 +1,5 @@
-export const crud = async(method, url, body = {}, authToken = "") => {
+export const crud = async (method, url, body = null, authToken = null) => {
+  console.log(url)
 const config = {
     method,
     headers: {

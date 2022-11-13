@@ -1,28 +1,26 @@
 import React, { useState } from 'react'
 import { MdClose } from 'react-icons/md';
-import { useDelete } from '../../hooks/useDelete';
+import { useCrud } from '../../hooks/useCrud';
 import { useGet } from '../../hooks/useGet';
-import { usePost } from '../../hooks/usePost';
 import TextInput from './TextInput';
 
-function Categories({setSelectedCategory, selectedCategory}) {
+function Categories() {
+    const {loading, error, message, handleCrud} = useCrud()
     const { data, getItems } = useGet("/api//v1.1.1/products/categories");
-    const { addItem, loading, error } = usePost("/api/v1.1.1/products/categories/create")
 
-    const [id, setId] = useState("")
-    const {deleteItem} = useDelete("/api/v1.1.1/products/categories/" + id)
     const [category, setCategory] = useState("")
 
     const handleAddCategory = async(e) => {
         e.preventDefault()
-        await addItem(category)
+        const url = "/api/v1.1.1/products/categories/create";
+        await handleCrud("POST", url, {category});
         await getItems()
     }
 
-    const handleDelete = async(id) => {
-        if (!id) { return }
-        setId(id)
-        await deleteItem()
+    const handleDelete = async (id) => {
+        e.preventDefault()
+        const url = "/api/v1.1.1/products/categories/" + id
+        await handleCrud("DELETE", url, {category});
         await getItems()
     }
 
@@ -33,14 +31,12 @@ function Categories({setSelectedCategory, selectedCategory}) {
               <div className="card">
                   <div className="card-body">
                       <div className='my-3'>
-                          {data?.length > 0 ? data?.map((item, index) => (
-                              <div key={index} className="form-check mb-3">
-                                <input className="form-check-input" type="radio" name="category" id={item?.id} value={item?.name || selectedCategory} onChange={(e) => setSelectedCategory(e.target.value)} />
-                                <label className="form-check-label d-flex justify-content-between" htmlFor={item?.id}>
-                                  <span>{item?.name}</span> <a onClick={() => handleDelete(item?.id)}><MdClose color="red" /></a>
-                                </label>
-                              </div>
-                          )) : <p>There are no categories</p>}
+                        {data?.length > 0 ? data?.map((item, index) => (
+                            <div key={index} className="form-check mb-3">
+                                <p>{item?.name}</p>
+                                <a onClick={() => handleDelete(item?.id)}><MdClose color="red" /></a>
+                            </div>
+                        )) : <p>There are no categories</p>}
                       </div>
                       <div className='border-top py-3'>
                           <form onSubmit={handleAddCategory}>

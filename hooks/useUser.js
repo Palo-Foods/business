@@ -1,24 +1,22 @@
 import { useCallback, useEffect, useState } from "react";
 import { useStates } from "./useStates";
-import { useStorage } from "./useStorage";
 
 export const useUser = (type) => {
   const [user, setUser] = useState(null);
-  const { sessionStorage } = useStorage("session");
 
-  const { loading, setLoading, error, setError, message, setMessage, router } =
-    useStates();
+  const { loading, setLoading, error, setError, message, setMessage, router } = useStates();
 
   const getUserInSession = useCallback(() => {
-    const data = sessionStorage.getItem("user");
-    if (data?.id) {
+    const session = sessionStorage.getItem("user");
+    const user = JSON.parse(session)
+    if (user?.id) {
       setUser(data);
     } else {
       if (router?.asPath?.includes("dashboard")) {
         router?.push("/login");
       }
     }
-  }, [router, sessionStorage]);
+  }, []);
 
   async function getCurrentUser() {
     setLoading(true);
@@ -36,7 +34,6 @@ export const useUser = (type) => {
 
     //create a new session object
     sessionStorage.setItem("user", response);
-    getUserInSession();
   }
 
   async function register(data) {
@@ -65,7 +62,7 @@ export const useUser = (type) => {
 
     //create a new session object
     sessionStorage.setItem("user", result);
-    getUserInSession();
+
     router?.push("/");
   }
 
@@ -90,6 +87,8 @@ export const useUser = (type) => {
 
       const result = await response.json();
 
+      setLoading(false);
+
       //server error
       if (response.status != 200) {
         setError(result.msg.includes("query") ? "There was an error" : result.msg);
@@ -98,13 +97,10 @@ export const useUser = (type) => {
 
       //create a new session object
       sessionStorage.setItem("user", result);
-      getUserInSession();
       router?.push("/dashboard")
         
     } catch (error) {
       setError(error.message);
-    } finally { 
-       setLoading(false);
     }
   }
 
@@ -129,22 +125,22 @@ export const useUser = (type) => {
       const response = await fetch(`/api/v1.1.1/account`, config);
       const result = await response.json();
 
-    setLoading(false);
+      setLoading(false);
 
-    if (response.status == 500) {
-      setError(result.msg.includes("query") ? "There was an error" : result.msg);
-      return;
-    }
+      if (response.status == 500) {
+        setError(result.msg.includes("query") ? "There was an error" : result.msg);
+        return;
+      }
 
-    //server error
-    if (response.status != 200) {
-      setError(result?.msg);
-      return;
-    }
+      //server error
+      if (response.status != 200) {
+        setError(result?.msg);
+        return;
+      }
 
       //create a new session object
       sessionStorage.setItem("user", result);
-      getUserInSession();
+
       setMessage("Account updated")
     } catch (error) {
        setError(error.message);
@@ -159,14 +155,14 @@ export const useUser = (type) => {
 
   function signOut() {
     sessionStorage.clearSession();
-      router?.push("/");
+    router?.push("/");
   }
 
   useEffect(() => {
     if (type == "user") {
       getUserInSession();
     }
-  }, [getUserInSession, type]);
+  }, [type]);
 
   return {
     user,

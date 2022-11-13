@@ -18,7 +18,7 @@ const menus = [
     icon: <MdOutlineStore size={14} />,
   },
   { name: "Orders", link: "orders", icon: <MdOutlineShoppingBag size={14} /> },
- /*  { name: "Payments", link: "payments", icon: <MdOutlinePayment size={14} /> }, */
+  { name: "Categories", link: "categories", icon: <MdList size={14} /> },
   { name: "Settings", link: "account", icon: <MdOutlineSettings size={14} /> },
 ];
 

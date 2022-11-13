@@ -1,38 +1,15 @@
 import React from "react";
 import DashboardLayout from "../../components/layouts/DashboardLayout";
-import { MdBikeScooter, MdRefresh } from "react-icons/md";
+import { MdFoodBank, MdRefresh } from "react-icons/md";
 import { useGet } from "../../hooks/useGet";
-import LoadingStatus from "../../components/LoadingStatus";
 import OrderRow from "../../components/orders/OrderRow";
+import Loader from "../../components/Loader";
+import Error from "../../components/Error";
+import NoData from "../../components/NoData";
 
-function OrdersPage() {
- const {data, getItems, status}: any = useGet("/api/v1.1.1/orders")
+const Table = ({data}) => {
   return (
-    <DashboardLayout>
-      <div className="d-flex justify-content-between align-items-center mb-3">
-        <h6 className="text-muted mb-0">Orders</h6>
-        <div>
-        <a type="button" onClick={getItems} className="btn btn-light">
-          <MdRefresh />
-        </a>
-        </div>
-      </div>
-
-      <LoadingStatus status={status} getItems={getItems} />
-      
-      {data?.length == 0 &&
-        <div className="text-center">
-            <div className="my-4">
-              <MdBikeScooter size={100} color="grey" />
-            </div>
-          <p>There are no orders</p>
-        </div>
-      }
-
-      {data?.length > 0 && (
-        <div className="card my-2">
-          <div className="card-body p-4">
-            <div className="table-responsive">
+     <div className="table-responsive">
               <table className="table">
               <thead>
                   <tr className="text-start ps-0">
@@ -47,9 +24,42 @@ function OrdersPage() {
               </tbody>
               </table>
             </div>
+  )
+}
+
+function OrdersPage() {
+  const { data, getItems, loading, error }: any = useGet("/api/v1.1.1/orders")
+  let content;
+
+  if (error) content = <Error error={error} getData={getItems} />
+  
+  if (loading) content = <Loader />
+  
+   
+  if (data?.length === 0) content = 
+    (
+    <NoData icon={<MdFoodBank size={100} color="grey" />} content={"There are no orders"} />
+    )
+  
+  if (data?.length > 0) content = (
+    <div className="card my-2">
+          <div className="card-body p-4">
+           <Table data={data} />
           </div>
         </div>
-      )}
+  )
+  return (
+    <DashboardLayout>
+      <div className="d-flex justify-content-between align-items-center mb-3">
+        <h6 className="text-muted mb-0">Orders</h6>
+        <div>
+        <a type="button" onClick={getItems} className="btn btn-light">
+          <MdRefresh />
+        </a>
+        </div>
+      </div>
+
+      {content}
     </DashboardLayout>
   );
 }
