@@ -96,7 +96,7 @@ export const useUser = (type) => {
       }
 
       //create a new session object
-      sessionStorage.setItem("user", result);
+      sessionStorage.setItem("user", JSON.stringify(result));
       router?.push("/dashboard")
         
     } catch (error) {
@@ -139,7 +139,7 @@ export const useUser = (type) => {
       }
 
       //create a new session object
-      sessionStorage.setItem("user", result);
+      sessionStorage.setItem("user", JSON.stringify(result));
 
       setMessage("Account updated")
     } catch (error) {

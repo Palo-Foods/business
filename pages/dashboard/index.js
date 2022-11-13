@@ -11,12 +11,10 @@ import {
   MdStarHalf,
   MdBikeScooter,
 } from "react-icons/md";
-import { useStates } from "../../hooks/useStates";
 
 function DashboardPage() {
-  const { router } = useStates();
-  return (<DashboardLayout>
-     
+  return (
+    <DashboardLayout>
       <div className="d-flex justify-content-between align-items-center mb-4">
         <h6 className="text-muted mb-0">Sales overview</h6>
         <div className="form-group">
@@ -123,7 +121,7 @@ function DashboardPage() {
                   <ul className="list-group list-group-flush">
                     <li className="list-group-item ps-0 d-flex justify-content-between pe-0 py-3">
                       <span className="">Simon</span>
-                      <span className=""> lorem</span>
+                      <span className="">lorem</span>
                     </li>
                   </ul>
                 </div>

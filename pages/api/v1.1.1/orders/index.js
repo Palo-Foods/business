@@ -23,7 +23,7 @@ export default authenticate(async (req, res) => {
     switch (method) {
       case "GET":
         const { db } = await connectToDatabase()
-        const orders = await db.collection("orders").find({ restaurantId: userId }).toarray()
+        const orders = await db.collection("orders").find({ restaurantId: userId }).toArray()
         orders?.length > 0 ? res.status(200).json(orders) : res.status(404).json([])
         break;
     

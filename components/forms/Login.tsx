@@ -2,12 +2,10 @@ import React, { useState } from "react";
 import { useStates } from "../../hooks/useStates";
 import Spinner from "../ui/Spinner";
 import { useUser } from "../../hooks/useUser";
-import { useCrud } from "../../hooks/useCrud";
 
 
 export default function LoginForm() {
-  const {loading, error, message, handleCrud} = useCrud()
-  const { user } = useUser("user");
+  const { user, loading, error, message, login } = useUser("user");
   const { router } = useStates();
 
   const [inputs, setinputs] = useState({email: "", password: ""})
@@ -21,18 +19,15 @@ export default function LoginForm() {
   //handle login
   const handleLogin = async (e) => {
     e.preventDefault();
-    const url = "/api/v1.1.1/account/login"
 
-    await handleCrud("POST", url, inputs);
+    await login(inputs);
   };
-
-  user?.email && router.push("/dashboard");
 
   return (
     <>
     {message && <p className="text-success">{message}</p>}
     {error && <p className="text-danger">{error}</p>}
-    <form className="my-3 mx-2" onSubmit={handleLogin}>
+    <form className="my-3" onSubmit={handleLogin}>
       <div className="mb-3">
         <label htmlFor="email" className="form-label fw-normal">
           Enter email address

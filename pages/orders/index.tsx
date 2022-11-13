@@ -30,6 +30,7 @@ const Table = ({data}) => {
 function OrdersPage() {
   const { data, handlefetchData, error, loading }: any = useCrud("/api/v1.1.1/orders")
   let content;
+  console.log(data)
 
   if (error) content = <Error error={error} getData={handlefetchData} />
   

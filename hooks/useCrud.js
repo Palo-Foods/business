@@ -25,13 +25,19 @@ export const useCrud = (url) => {
             const response = await fetch(url, config);
             
             const result = await response.json();
+            console.log(response)
 
             setLoading(false);
 
-            if (response.statusText != "ok") {
+            if (response.status === 500) {
+                setError(result?.msg);
+                return
+            }
+
+            if (!response.ok) {
                 setError(result?.msg);
             } else {
-                setMessage(result?.msg);
+                setMessage(result?.msg || "Success");
                 return
             }
         } catch (error) {
@@ -55,12 +61,25 @@ export const useCrud = (url) => {
         try {
             setLoading(true);
             const response = await fetch(url, config);
+           
             
             const result = await response.json();
 
+             console.log(result)
+
             setLoading(false);
 
-            if (response.statusText != "ok") {
+            if (response.status === 500) {
+                setError(result?.msg);
+                return
+            }
+
+            if (response.status === 404) {
+                setData(result);
+                return
+            }
+
+            if (!response.ok) {
                 setError(result?.msg);
             } else {
                 setData(result);
@@ -81,7 +100,7 @@ export const useCrud = (url) => {
                 getData()
             }
         }
-    }, [router])
+    }, [router, url])
 
     return {handleCrud, loading, message, error, data, handlefetchData}
 }

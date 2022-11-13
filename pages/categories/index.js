@@ -35,13 +35,16 @@ return (
         <div className='my-3'>
             <div className="card">
                 <div className="card-body">
-                    <div className='my-3'>
-                    {data?.length > 0 ? data?.map((item, index) => (
-                        <div key={index} className="form-check mb-3">
-                            <p>{item?.name}</p>
-                            <a onClick={() => handleDelete(item?.id)}><MdClose color="red" /></a>
-                        </div>
-                    )) : <p>There are no categories</p>}
+                        <div className='my-3 mx-0'>
+                            <ol className='mx-0'>
+                                {data?.length > 0 && data?.map((item, index) => (
+                                    <li key={index} className='d-flex justify-content-start'>
+                                        <p>{index + 1}. {item?.name}</p>
+                                        <a onClick={() => handleDelete(item?.id)} className="ms-5"><MdClose color="red" /></a>
+                                    </li>
+                                ))}
+                            </ol>
+                            {data?.length == 0 && <p>There are no categories</p>}
                     </div>
                     <div className='border-top py-3'>
                         <form onSubmit={handleAddCategory}>
