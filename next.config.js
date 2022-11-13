@@ -16,10 +16,6 @@ module.exports = {
     CLOUDINARY_API_SECRET: "Cc9w0mgYrq5616bnz3VLuT8ZPzg",
 
     NEXT_PUBLIC_GOOGLE_MAPS_API_KEY: "AIzaSyBGeHpwAD3ekyCtBEKUyzabCVVam7X-FJs",
-
-    PAYSTACK_PUBLISHED: "pk_test_12bd7c0fceff86968394c08f13bb7b955149dc2c",
-
-    SMS_API_KEY: "V1ZNVExweWp5em9qdGJRRG1rYmY=",
   },
   images: {
     domains: ["res.cloudinary.com"],
@@ -45,12 +41,4 @@ module.exports = {
       },
     ];
   },
-  /*   async rewrites() {
-    return [
-      {
-        source: "/api/:path*",
-        destination: "https://api.palofoods.com/:path*",
-      },
-    ];
-  } */
 };

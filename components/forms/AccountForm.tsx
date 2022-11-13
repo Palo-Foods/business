@@ -30,7 +30,7 @@ function AccountForm({user}) {
     
     const url = "/api/v1.1.1/account" + user.id
 
-    await handleCrud("POST", url, {...inputs, image});
+    await handleCrud("PUT", url, {...inputs, image});
   }
 
   return (

@@ -1,6 +1,6 @@
 import React from "react";
 import Link from "next/link";
-import { MdOutlineLogout } from "react-icons/md";
+import { MdList, MdOutlineLogout } from "react-icons/md";
 import {
   MdOutlineSettings,
   MdOutlineShoppingBag,
