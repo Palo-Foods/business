@@ -1,25 +1,15 @@
 import React from "react";
 import Spinner from "../ui/Spinner";
 import { MdClear, MdDelete, MdCheckCircle } from "react-icons/md";
-import { useEffect } from "react";
-import {useDelete} from "../../hooks/useDelete"
+import { useCrud } from "../../hooks/useCrud";
 
-function DeleteModal({ name, url, getItems, router }) {
-  const { deleteItem, message, setMessage, error, setError, loading, setLoading } = useDelete(url)
-  
-  //go back after deletion
-  useEffect(() => {
-    if (message) {
-      getItems()
-    }
-  }, [message])
+function DeleteModal({ name, url, getItems }) {
+  const {loading, error, message, handleCrud} = useCrud()
 
-  const clearAnything = () => {
-    setLoading(false);
-    setError("");
-    setMessage("");
-      router?.back()
-  };
+  const handleDelete = async() => {
+    await handleCrud("DELETE", url)
+    await getItems
+  }
 
   return (
     <div
@@ -36,7 +26,7 @@ function DeleteModal({ name, url, getItems, router }) {
               className="btn btn-default my-2 "
               data-bs-dismiss="modal">
               <span className="bg-light rounded-circle p-2">
-                <MdClear size={20} className="" onClick={clearAnything} />
+                <MdClear size={20} />
               </span>
             </button>
           </div>
@@ -66,8 +56,7 @@ function DeleteModal({ name, url, getItems, router }) {
             <button
               type="button"
               className="btn btn-light px-4 mx-3"
-              data-bs-dismiss="modal"
-              onClick={clearAnything}>
+              data-bs-dismiss="modal">
               {message ? "Close" : "No"}
              </button>
        
@@ -75,10 +64,9 @@ function DeleteModal({ name, url, getItems, router }) {
               disabled={loading}
                 type="button"
                 className="btn btn-primary px-4 mx-3"
-                onClick={deleteItem}>
-              {loading ? <Spinner /> : "Yes"}
+                onClick={handleDelete}>
+                {loading ? <Spinner /> : "Yes"}
               </button>
-            
           </div>
         </div>
       </div>
